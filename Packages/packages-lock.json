@@ -135,6 +135,34 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.vrmc.gltf": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.126.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.modules.animation": "1.0.0"
+      },
+      "hash": "14f3add22ff54a888f32b7ff7695ef8b5390f02b"
+    },
+    "com.vrmc.univrm": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.126.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.vrmc.gltf": "0.126.0",
+        "com.unity.ugui": "1.0.0"
+      },
+      "hash": "14f3add22ff54a888f32b7ff7695ef8b5390f02b"
+    },
+    "com.vrmc.vrm": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.126.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.vrmc.gltf": "0.126.0"
+      },
+      "hash": "14f3add22ff54a888f32b7ff7695ef8b5390f02b"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
