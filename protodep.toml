@@ -1,0 +1,5 @@
+proto_outdir = "./Assets/Scripts/LandmarkReceiver/proto"
+
+[[dependency]]
+    target = "https://github.com/ec-k/holistic-pose-sender"
+    branch = "main"
