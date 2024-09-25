@@ -1,2 +1,0 @@
-proto_outdir = "./Assets/Scripts/LandmarkReceiver/proto"
-dependencies = []
