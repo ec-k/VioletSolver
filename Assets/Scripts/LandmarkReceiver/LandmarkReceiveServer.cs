@@ -29,9 +29,8 @@ namespace VioletSolver.Network {
             {
                 byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
 
-                var message = Landmark.Parser.ParseFrom(getByte);
-                //var message = Encoding.UTF8.GetString(getByte);
-                Debug.Log(message);
+                var message = HolisticLandmarks.Parser.ParseFrom(getByte);
+                Debug.Log(message.PoseLandmarks.Landmark);
             }
             catch (SocketException e)
             {

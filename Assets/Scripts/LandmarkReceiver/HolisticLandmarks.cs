@@ -25,81 +25,111 @@ namespace HolisticPose {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ch5wcm90by9ob2xpc3RpY19sYW5kbWFya3MucHJvdG8SDGhvbGlzdGljUG9z",
-            "ZSJNCghMYW5kbWFyaxIMCgRuYW1lGAEgASgJEgkKAXgYAiABKAISCQoBeRgD",
-            "IAEoAhIJCgF6GAQgASgCEhIKCmNvbmZpZGVuY2UYBiABKAIirwsKDVBvc2VM",
-            "YW5kbWFya3MSJAoEbm9zZRgBIAEoCzIWLmhvbGlzdGljUG9zZS5MYW5kbWFy",
-            "axIsCgxsZWZ0RXllSW5uZXIYAiABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1h",
-            "cmsSJwoHbGVmdEV5ZRgDIAEoCzIWLmhvbGlzdGljUG9zZS5MYW5kbWFyaxIs",
-            "CgxsZWZ0RXllT3V0ZXIYBCABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsS",
-            "LQoNcmlnaHRFeWVJbm5lchgFIAEoCzIWLmhvbGlzdGljUG9zZS5MYW5kbWFy",
-            "axIoCghyaWdodEV5ZRgGIAEoCzIWLmhvbGlzdGljUG9zZS5MYW5kbWFyaxIt",
-            "Cg1yaWdodEV5ZU91dGVyGAcgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJr",
-            "EicKB2xlZnRFYXIYCCABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKAoI",
-            "cmlnaHRFYXIYCSABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKQoJbW91",
-            "dGhMZWZ0GAogASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEioKCm1vdXRo",
-            "UmlnaHQYCyABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSLAoMbGVmdFNo",
-            "b3VsZGVyGAwgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEi0KDXJpZ2h0",
-            "U2hvdWxkZXIYDSABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKQoJbGVm",
-            "dEVsYm93GA4gASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEioKCnJpZ2h0",
-            "RWxib3cYDyABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKQoJbGVmdFdy",
-            "aXN0GBAgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEioKCnJpZ2h0V3Jp",
-            "c3QYESABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKQoJbGVmdFBpbmt5",
-            "GBIgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEioKCnJpZ2h0UGlua3kY",
-            "EyABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKQoJbGVmdEluZGV4GBQg",
-            "ASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEioKCnJpZ2h0SW5kZXgYFSAB",
-            "KAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKQoJbGVmdFRodW1iGBYgASgL",
-            "MhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEioKCnJpZ2h0VGh1bWIYFyABKAsy",
-            "Fi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSJwoHbGVmdEhpcBgYIAEoCzIWLmhv",
-            "bGlzdGljUG9zZS5MYW5kbWFyaxIoCghyaWdodEhpcBgZIAEoCzIWLmhvbGlz",
-            "dGljUG9zZS5MYW5kbWFyaxIoCghsZWZ0S25lZRgaIAEoCzIWLmhvbGlzdGlj",
-            "UG9zZS5MYW5kbWFyaxIpCglyaWdodEtuZWUYGyABKAsyFi5ob2xpc3RpY1Bv",
-            "c2UuTGFuZG1hcmsSKQoJbGVmdEFua2xlGBwgASgLMhYuaG9saXN0aWNQb3Nl",
-            "LkxhbmRtYXJrEioKCnJpZ2h0QW5rbGUYHSABKAsyFi5ob2xpc3RpY1Bvc2Uu",
-            "TGFuZG1hcmsSKAoIbGVmdEhlZWwYHiABKAsyFi5ob2xpc3RpY1Bvc2UuTGFu",
-            "ZG1hcmsSKQoJcmlnaHRIZWVsGB8gASgLMhYuaG9saXN0aWNQb3NlLkxhbmRt",
-            "YXJrEi0KDWxlZnRGb290SW5kZXgYICABKAsyFi5ob2xpc3RpY1Bvc2UuTGFu",
-            "ZG1hcmsSLgoOcmlnaHRGb290SW5kZXgYISABKAsyFi5ob2xpc3RpY1Bvc2Uu",
-            "TGFuZG1hcmsi1QcKDUhhbmRMYW5kbWFya3MSDgoGaXNMZWZ0GAEgASgIEiUK",
-            "BXdyaXN0GAIgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEigKCHRodW1i",
-            "Q01DGAMgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEigKCHRodW1iTUNQ",
-            "GAQgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEicKB3RodW1iSVAYBSAB",
-            "KAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSKAoIdGh1bWJUSVAYBiABKAsy",
-            "Fi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSLgoOaW5kZXhGaW5nZXJNQ1AYByAB",
-            "KAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSLgoOaW5kZXhGaW5nZXJQSVAY",
-            "CCABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSLgoOaW5kZXhGaW5nZXJE",
-            "SVAYCSABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSLgoOaW5kZXhGaW5n",
-            "ZXJUSVAYCiABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmsSLwoPbWlkZGxl",
-            "RmluZ2VyTUNQGAsgASgLMhYuaG9saXN0aWNQb3NlLkxhbmRtYXJrEi8KD21p",
-            "ZGRsZUZpbmdlclBJUBgMIAEoCzIWLmhvbGlzdGljUG9zZS5MYW5kbWFyaxIv",
-            "Cg9taWRkbGVGaW5nZXJESVAYDSABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1h",
-            "cmsSLwoPbWlkZGxlRmluZ2VyVElQGA4gASgLMhYuaG9saXN0aWNQb3NlLkxh",
-            "bmRtYXJrEi0KDXJpbmdGaW5nZXJNQ1AYDyABKAsyFi5ob2xpc3RpY1Bvc2Uu",
-            "TGFuZG1hcmsSLQoNcmluZ0ZpbmdlclBJUBgQIAEoCzIWLmhvbGlzdGljUG9z",
-            "ZS5MYW5kbWFyaxItCg1yaW5nRmluZ2VyRElQGBEgASgLMhYuaG9saXN0aWNQ",
-            "b3NlLkxhbmRtYXJrEi0KDXJpbmdGaW5nZXJUSVAYEiABKAsyFi5ob2xpc3Rp",
-            "Y1Bvc2UuTGFuZG1hcmsSKAoIcGlua3lNQ1AYEyABKAsyFi5ob2xpc3RpY1Bv",
-            "c2UuTGFuZG1hcmsSKAoIcGlua3lQSVAYFCABKAsyFi5ob2xpc3RpY1Bvc2Uu",
-            "TGFuZG1hcmsSKAoIcGlua3lESVAYFSABKAsyFi5ob2xpc3RpY1Bvc2UuTGFu",
-            "ZG1hcmsSKAoIcGlua3lUSVAYFiABKAsyFi5ob2xpc3RpY1Bvc2UuTGFuZG1h",
-            "cmsiDwoNRmFjZUxhbmRtYXJrcyLsAQoRSG9saXN0aWNMYW5nbWFya3MSMgoN",
-            "cG9zZUxhbmRtYXJrcxgBIAEoCzIbLmhvbGlzdGljUG9zZS5Qb3NlTGFuZG1h",
-            "cmtzEjYKEWxlZnRIYW5kTGFuZG1hcmtzGAIgASgLMhsuaG9saXN0aWNQb3Nl",
-            "LkhhbmRMYW5kbWFya3MSNwoScmlnaHRIYW5kTGFuZG1hcmtzGAMgASgLMhsu",
-            "aG9saXN0aWNQb3NlLkhhbmRMYW5kbWFya3MSMgoNZmFjZUxhbmRtYXJrcxgE",
-            "IAEoCzIbLmhvbGlzdGljUG9zZS5GYWNlTGFuZG1hcmtzYgZwcm90bzM="));
+            "ZSI/CghMYW5kbWFyaxIJCgF4GAIgASgCEgkKAXkYAyABKAISCQoBehgEIAEo",
+            "AhISCgpjb25maWRlbmNlGAYgASgCIjgKDExhbmRtYXJrTGlzdBIoCghsYW5k",
+            "bWFyaxgBIAMoCzIWLmhvbGlzdGljUG9zZS5MYW5kbWFyayLoAQoRSG9saXN0",
+            "aWNMYW5kbWFya3MSMQoNcG9zZUxhbmRtYXJrcxgBIAEoCzIaLmhvbGlzdGlj",
+            "UG9zZS5MYW5kbWFya0xpc3QSNQoRbGVmdEhhbmRMYW5kbWFya3MYAiABKAsy",
+            "Gi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmtMaXN0EjYKEnJpZ2h0SGFuZExhbmRt",
+            "YXJrcxgDIAEoCzIaLmhvbGlzdGljUG9zZS5MYW5kbWFya0xpc3QSMQoNZmFj",
+            "ZUxhbmRtYXJrcxgEIAEoCzIaLmhvbGlzdGljUG9zZS5MYW5kbWFya0xpc3Qq",
+            "nwQKDFBvc2VMYW5kbWFyaxIICgRub3NlEAASEAoMbGVmdEV5ZUlubmVyEAES",
+            "CwoHbGVmdEV5ZRACEhAKDGxlZnRFeWVPdXRlchADEhEKDXJpZ2h0RXllSW5u",
+            "ZXIQBBIMCghyaWdodEV5ZRAFEhEKDXJpZ2h0RXllT3V0ZXIQBhILCgdsZWZ0",
+            "RWFyEAcSDAoIcmlnaHRFYXIQCBINCgltb3V0aExlZnQQCRIOCgptb3V0aFJp",
+            "Z2h0EAoSEAoMbGVmdFNob3VsZGVyEAsSEQoNcmlnaHRTaG91bGRlchAMEg0K",
+            "CWxlZnRFbGJvdxANEg4KCnJpZ2h0RWxib3cQDhINCglsZWZ0V3Jpc3QQDxIO",
+            "CgpyaWdodFdyaXN0EBASDQoJbGVmdFBpbmt5EBESDgoKcmlnaHRQaW5reRAS",
+            "Eg0KCWxlZnRJbmRleBATEg4KCnJpZ2h0SW5kZXgQFBINCglsZWZ0VGh1bWIQ",
+            "FRIOCgpyaWdodFRodW1iEBYSCwoHbGVmdEhpcBAXEgwKCHJpZ2h0SGlwEBgS",
+            "DAoIbGVmdEtuZWUQGRINCglyaWdodEtuZWUQGhINCglsZWZ0QW5rbGUQGxIO",
+            "CgpyaWdodEFua2xlEBwSDAoIbGVmdEhlZWwQHRINCglyaWdodEhlZWwQHhIR",
+            "Cg1sZWZ0Rm9vdEluZGV4EB8SEgoOcmlnaHRGb290SW5kZXgQIBILCgdwb3Nl",
+            "RW5kECEqhQMKDEhhbmRMYW5kbWFyaxIJCgV3cmlzdBAAEgwKCHRodW1iQ01D",
+            "EAESDAoIdGh1bWJNQ1AQAhILCgd0aHVtYklQEAMSDAoIdGh1bWJUSVAQBBIS",
+            "Cg5pbmRleEZpbmdlck1DUBAFEhIKDmluZGV4RmluZ2VyUElQEAYSEgoOaW5k",
+            "ZXhGaW5nZXJESVAQBxISCg5pbmRleEZpbmdlclRJUBAIEhMKD21pZGRsZUZp",
+            "bmdlck1DUBAJEhMKD21pZGRsZUZpbmdlclBJUBAKEhMKD21pZGRsZUZpbmdl",
+            "ckRJUBALEhMKD21pZGRsZUZpbmdlclRJUBAMEhEKDXJpbmdGaW5nZXJNQ1AQ",
+            "DRIRCg1yaW5nRmluZ2VyUElQEA4SEQoNcmluZ0ZpbmdlckRJUBAPEhEKDXJp",
+            "bmdGaW5nZXJUSVAQEBIMCghwaW5reU1DUBAREgwKCHBpbmt5UElQEBISDAoI",
+            "cGlua3lESVAQExIMCghwaW5reVRJUBAUEgsKB2hhbmRFbmQQFWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.Landmark), global::HolisticPose.Landmark.Parser, new[]{ "Name", "X", "Y", "Z", "Confidence" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.PoseLandmarks), global::HolisticPose.PoseLandmarks.Parser, new[]{ "Nose", "LeftEyeInner", "LeftEye", "LeftEyeOuter", "RightEyeInner", "RightEye", "RightEyeOuter", "LeftEar", "RightEar", "MouthLeft", "MouthRight", "LeftShoulder", "RightShoulder", "LeftElbow", "RightElbow", "LeftWrist", "RightWrist", "LeftPinky", "RightPinky", "LeftIndex", "RightIndex", "LeftThumb", "RightThumb", "LeftHip", "RightHip", "LeftKnee", "RightKnee", "LeftAnkle", "RightAnkle", "LeftHeel", "RightHeel", "LeftFootIndex", "RightFootIndex" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.HandLandmarks), global::HolisticPose.HandLandmarks.Parser, new[]{ "IsLeft", "Wrist", "ThumbCMC", "ThumbMCP", "ThumbIP", "ThumbTIP", "IndexFingerMCP", "IndexFingerPIP", "IndexFingerDIP", "IndexFingerTIP", "MiddleFingerMCP", "MiddleFingerPIP", "MiddleFingerDIP", "MiddleFingerTIP", "RingFingerMCP", "RingFingerPIP", "RingFingerDIP", "RingFingerTIP", "PinkyMCP", "PinkyPIP", "PinkyDIP", "PinkyTIP" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.FaceLandmarks), global::HolisticPose.FaceLandmarks.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.HolisticLangmarks), global::HolisticPose.HolisticLangmarks.Parser, new[]{ "PoseLandmarks", "LeftHandLandmarks", "RightHandLandmarks", "FaceLandmarks" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::HolisticPose.PoseLandmark), typeof(global::HolisticPose.HandLandmark), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.Landmark), global::HolisticPose.Landmark.Parser, new[]{ "X", "Y", "Z", "Confidence" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.LandmarkList), global::HolisticPose.LandmarkList.Parser, new[]{ "Landmark" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::HolisticPose.HolisticLandmarks), global::HolisticPose.HolisticLandmarks.Parser, new[]{ "PoseLandmarks", "LeftHandLandmarks", "RightHandLandmarks", "FaceLandmarks" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
+  #region Enums
+  public enum PoseLandmark {
+    [pbr::OriginalName("nose")] Nose = 0,
+    [pbr::OriginalName("leftEyeInner")] LeftEyeInner = 1,
+    [pbr::OriginalName("leftEye")] LeftEye = 2,
+    [pbr::OriginalName("leftEyeOuter")] LeftEyeOuter = 3,
+    [pbr::OriginalName("rightEyeInner")] RightEyeInner = 4,
+    [pbr::OriginalName("rightEye")] RightEye = 5,
+    [pbr::OriginalName("rightEyeOuter")] RightEyeOuter = 6,
+    [pbr::OriginalName("leftEar")] LeftEar = 7,
+    [pbr::OriginalName("rightEar")] RightEar = 8,
+    [pbr::OriginalName("mouthLeft")] MouthLeft = 9,
+    [pbr::OriginalName("mouthRight")] MouthRight = 10,
+    [pbr::OriginalName("leftShoulder")] LeftShoulder = 11,
+    [pbr::OriginalName("rightShoulder")] RightShoulder = 12,
+    [pbr::OriginalName("leftElbow")] LeftElbow = 13,
+    [pbr::OriginalName("rightElbow")] RightElbow = 14,
+    [pbr::OriginalName("leftWrist")] LeftWrist = 15,
+    [pbr::OriginalName("rightWrist")] RightWrist = 16,
+    [pbr::OriginalName("leftPinky")] LeftPinky = 17,
+    [pbr::OriginalName("rightPinky")] RightPinky = 18,
+    [pbr::OriginalName("leftIndex")] LeftIndex = 19,
+    [pbr::OriginalName("rightIndex")] RightIndex = 20,
+    [pbr::OriginalName("leftThumb")] LeftThumb = 21,
+    [pbr::OriginalName("rightThumb")] RightThumb = 22,
+    [pbr::OriginalName("leftHip")] LeftHip = 23,
+    [pbr::OriginalName("rightHip")] RightHip = 24,
+    [pbr::OriginalName("leftKnee")] LeftKnee = 25,
+    [pbr::OriginalName("rightKnee")] RightKnee = 26,
+    [pbr::OriginalName("leftAnkle")] LeftAnkle = 27,
+    [pbr::OriginalName("rightAnkle")] RightAnkle = 28,
+    [pbr::OriginalName("leftHeel")] LeftHeel = 29,
+    [pbr::OriginalName("rightHeel")] RightHeel = 30,
+    [pbr::OriginalName("leftFootIndex")] LeftFootIndex = 31,
+    [pbr::OriginalName("rightFootIndex")] RightFootIndex = 32,
+    [pbr::OriginalName("poseEnd")] PoseEnd = 33,
+  }
+
+  public enum HandLandmark {
+    [pbr::OriginalName("wrist")] Wrist = 0,
+    [pbr::OriginalName("thumbCMC")] ThumbCmc = 1,
+    [pbr::OriginalName("thumbMCP")] ThumbMcp = 2,
+    [pbr::OriginalName("thumbIP")] ThumbIp = 3,
+    [pbr::OriginalName("thumbTIP")] ThumbTip = 4,
+    [pbr::OriginalName("indexFingerMCP")] IndexFingerMcp = 5,
+    [pbr::OriginalName("indexFingerPIP")] IndexFingerPip = 6,
+    [pbr::OriginalName("indexFingerDIP")] IndexFingerDip = 7,
+    [pbr::OriginalName("indexFingerTIP")] IndexFingerTip = 8,
+    [pbr::OriginalName("middleFingerMCP")] MiddleFingerMcp = 9,
+    [pbr::OriginalName("middleFingerPIP")] MiddleFingerPip = 10,
+    [pbr::OriginalName("middleFingerDIP")] MiddleFingerDip = 11,
+    [pbr::OriginalName("middleFingerTIP")] MiddleFingerTip = 12,
+    [pbr::OriginalName("ringFingerMCP")] RingFingerMcp = 13,
+    [pbr::OriginalName("ringFingerPIP")] RingFingerPip = 14,
+    [pbr::OriginalName("ringFingerDIP")] RingFingerDip = 15,
+    [pbr::OriginalName("ringFingerTIP")] RingFingerTip = 16,
+    [pbr::OriginalName("pinkyMCP")] PinkyMcp = 17,
+    [pbr::OriginalName("pinkyPIP")] PinkyPip = 18,
+    [pbr::OriginalName("pinkyDIP")] PinkyDip = 19,
+    [pbr::OriginalName("pinkyTIP")] PinkyTip = 20,
+    [pbr::OriginalName("handEnd")] HandEnd = 21,
+  }
+
+  #endregion
+
   #region Messages
   public sealed partial class Landmark : pb::IMessage<Landmark>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -135,7 +165,6 @@ namespace HolisticPose {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Landmark(Landmark other) : this() {
-      name_ = other.name_;
       x_ = other.x_;
       y_ = other.y_;
       z_ = other.z_;
@@ -149,21 +178,12 @@ namespace HolisticPose {
       return new Landmark(this);
     }
 
-    /// <summary>Field number for the "name" field.</summary>
-    public const int NameFieldNumber = 1;
-    private string name_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Name {
-      get { return name_; }
-      set {
-        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "x" field.</summary>
     public const int XFieldNumber = 2;
     private float x_;
+    /// <summary>
+    /// string name = 1;
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float X {
@@ -224,7 +244,6 @@ namespace HolisticPose {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Name != other.Name) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Z, other.Z)) return false;
@@ -236,7 +255,6 @@ namespace HolisticPose {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
       if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
       if (Z != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Z);
@@ -259,10 +277,6 @@ namespace HolisticPose {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Name.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Name);
-      }
       if (X != 0F) {
         output.WriteRawTag(21);
         output.WriteFloat(X);
@@ -289,10 +303,6 @@ namespace HolisticPose {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Name.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Name);
-      }
       if (X != 0F) {
         output.WriteRawTag(21);
         output.WriteFloat(X);
@@ -319,9 +329,6 @@ namespace HolisticPose {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
-      }
       if (X != 0F) {
         size += 1 + 4;
       }
@@ -345,9 +352,6 @@ namespace HolisticPose {
     public void MergeFrom(Landmark other) {
       if (other == null) {
         return;
-      }
-      if (other.Name.Length != 0) {
-        Name = other.Name;
       }
       if (other.X != 0F) {
         X = other.X;
@@ -376,10 +380,6 @@ namespace HolisticPose {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            Name = input.ReadString();
-            break;
-          }
           case 21: {
             X = input.ReadFloat();
             break;
@@ -411,10 +411,6 @@ namespace HolisticPose {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
-            Name = input.ReadString();
-            break;
-          }
           case 21: {
             X = input.ReadFloat();
             break;
@@ -438,16 +434,16 @@ namespace HolisticPose {
 
   }
 
-  public sealed partial class PoseLandmarks : pb::IMessage<PoseLandmarks>
+  public sealed partial class LandmarkList : pb::IMessage<LandmarkList>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<PoseLandmarks> _parser = new pb::MessageParser<PoseLandmarks>(() => new PoseLandmarks());
+    private static readonly pb::MessageParser<LandmarkList> _parser = new pb::MessageParser<LandmarkList>(() => new LandmarkList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<PoseLandmarks> Parser { get { return _parser; } }
+    public static pb::MessageParser<LandmarkList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -463,7 +459,7 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PoseLandmarks() {
+    public LandmarkList() {
       OnConstruction();
     }
 
@@ -471,493 +467,44 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PoseLandmarks(PoseLandmarks other) : this() {
-      nose_ = other.nose_ != null ? other.nose_.Clone() : null;
-      leftEyeInner_ = other.leftEyeInner_ != null ? other.leftEyeInner_.Clone() : null;
-      leftEye_ = other.leftEye_ != null ? other.leftEye_.Clone() : null;
-      leftEyeOuter_ = other.leftEyeOuter_ != null ? other.leftEyeOuter_.Clone() : null;
-      rightEyeInner_ = other.rightEyeInner_ != null ? other.rightEyeInner_.Clone() : null;
-      rightEye_ = other.rightEye_ != null ? other.rightEye_.Clone() : null;
-      rightEyeOuter_ = other.rightEyeOuter_ != null ? other.rightEyeOuter_.Clone() : null;
-      leftEar_ = other.leftEar_ != null ? other.leftEar_.Clone() : null;
-      rightEar_ = other.rightEar_ != null ? other.rightEar_.Clone() : null;
-      mouthLeft_ = other.mouthLeft_ != null ? other.mouthLeft_.Clone() : null;
-      mouthRight_ = other.mouthRight_ != null ? other.mouthRight_.Clone() : null;
-      leftShoulder_ = other.leftShoulder_ != null ? other.leftShoulder_.Clone() : null;
-      rightShoulder_ = other.rightShoulder_ != null ? other.rightShoulder_.Clone() : null;
-      leftElbow_ = other.leftElbow_ != null ? other.leftElbow_.Clone() : null;
-      rightElbow_ = other.rightElbow_ != null ? other.rightElbow_.Clone() : null;
-      leftWrist_ = other.leftWrist_ != null ? other.leftWrist_.Clone() : null;
-      rightWrist_ = other.rightWrist_ != null ? other.rightWrist_.Clone() : null;
-      leftPinky_ = other.leftPinky_ != null ? other.leftPinky_.Clone() : null;
-      rightPinky_ = other.rightPinky_ != null ? other.rightPinky_.Clone() : null;
-      leftIndex_ = other.leftIndex_ != null ? other.leftIndex_.Clone() : null;
-      rightIndex_ = other.rightIndex_ != null ? other.rightIndex_.Clone() : null;
-      leftThumb_ = other.leftThumb_ != null ? other.leftThumb_.Clone() : null;
-      rightThumb_ = other.rightThumb_ != null ? other.rightThumb_.Clone() : null;
-      leftHip_ = other.leftHip_ != null ? other.leftHip_.Clone() : null;
-      rightHip_ = other.rightHip_ != null ? other.rightHip_.Clone() : null;
-      leftKnee_ = other.leftKnee_ != null ? other.leftKnee_.Clone() : null;
-      rightKnee_ = other.rightKnee_ != null ? other.rightKnee_.Clone() : null;
-      leftAnkle_ = other.leftAnkle_ != null ? other.leftAnkle_.Clone() : null;
-      rightAnkle_ = other.rightAnkle_ != null ? other.rightAnkle_.Clone() : null;
-      leftHeel_ = other.leftHeel_ != null ? other.leftHeel_.Clone() : null;
-      rightHeel_ = other.rightHeel_ != null ? other.rightHeel_.Clone() : null;
-      leftFootIndex_ = other.leftFootIndex_ != null ? other.leftFootIndex_.Clone() : null;
-      rightFootIndex_ = other.rightFootIndex_ != null ? other.rightFootIndex_.Clone() : null;
+    public LandmarkList(LandmarkList other) : this() {
+      landmark_ = other.landmark_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PoseLandmarks Clone() {
-      return new PoseLandmarks(this);
+    public LandmarkList Clone() {
+      return new LandmarkList(this);
     }
 
-    /// <summary>Field number for the "nose" field.</summary>
-    public const int NoseFieldNumber = 1;
-    private global::HolisticPose.Landmark nose_;
+    /// <summary>Field number for the "landmark" field.</summary>
+    public const int LandmarkFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::HolisticPose.Landmark> _repeated_landmark_codec
+        = pb::FieldCodec.ForMessage(10, global::HolisticPose.Landmark.Parser);
+    private readonly pbc::RepeatedField<global::HolisticPose.Landmark> landmark_ = new pbc::RepeatedField<global::HolisticPose.Landmark>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark Nose {
-      get { return nose_; }
-      set {
-        nose_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftEyeInner" field.</summary>
-    public const int LeftEyeInnerFieldNumber = 2;
-    private global::HolisticPose.Landmark leftEyeInner_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftEyeInner {
-      get { return leftEyeInner_; }
-      set {
-        leftEyeInner_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftEye" field.</summary>
-    public const int LeftEyeFieldNumber = 3;
-    private global::HolisticPose.Landmark leftEye_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftEye {
-      get { return leftEye_; }
-      set {
-        leftEye_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftEyeOuter" field.</summary>
-    public const int LeftEyeOuterFieldNumber = 4;
-    private global::HolisticPose.Landmark leftEyeOuter_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftEyeOuter {
-      get { return leftEyeOuter_; }
-      set {
-        leftEyeOuter_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightEyeInner" field.</summary>
-    public const int RightEyeInnerFieldNumber = 5;
-    private global::HolisticPose.Landmark rightEyeInner_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightEyeInner {
-      get { return rightEyeInner_; }
-      set {
-        rightEyeInner_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightEye" field.</summary>
-    public const int RightEyeFieldNumber = 6;
-    private global::HolisticPose.Landmark rightEye_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightEye {
-      get { return rightEye_; }
-      set {
-        rightEye_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightEyeOuter" field.</summary>
-    public const int RightEyeOuterFieldNumber = 7;
-    private global::HolisticPose.Landmark rightEyeOuter_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightEyeOuter {
-      get { return rightEyeOuter_; }
-      set {
-        rightEyeOuter_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftEar" field.</summary>
-    public const int LeftEarFieldNumber = 8;
-    private global::HolisticPose.Landmark leftEar_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftEar {
-      get { return leftEar_; }
-      set {
-        leftEar_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightEar" field.</summary>
-    public const int RightEarFieldNumber = 9;
-    private global::HolisticPose.Landmark rightEar_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightEar {
-      get { return rightEar_; }
-      set {
-        rightEar_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "mouthLeft" field.</summary>
-    public const int MouthLeftFieldNumber = 10;
-    private global::HolisticPose.Landmark mouthLeft_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark MouthLeft {
-      get { return mouthLeft_; }
-      set {
-        mouthLeft_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "mouthRight" field.</summary>
-    public const int MouthRightFieldNumber = 11;
-    private global::HolisticPose.Landmark mouthRight_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark MouthRight {
-      get { return mouthRight_; }
-      set {
-        mouthRight_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftShoulder" field.</summary>
-    public const int LeftShoulderFieldNumber = 12;
-    private global::HolisticPose.Landmark leftShoulder_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftShoulder {
-      get { return leftShoulder_; }
-      set {
-        leftShoulder_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightShoulder" field.</summary>
-    public const int RightShoulderFieldNumber = 13;
-    private global::HolisticPose.Landmark rightShoulder_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightShoulder {
-      get { return rightShoulder_; }
-      set {
-        rightShoulder_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftElbow" field.</summary>
-    public const int LeftElbowFieldNumber = 14;
-    private global::HolisticPose.Landmark leftElbow_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftElbow {
-      get { return leftElbow_; }
-      set {
-        leftElbow_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightElbow" field.</summary>
-    public const int RightElbowFieldNumber = 15;
-    private global::HolisticPose.Landmark rightElbow_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightElbow {
-      get { return rightElbow_; }
-      set {
-        rightElbow_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftWrist" field.</summary>
-    public const int LeftWristFieldNumber = 16;
-    private global::HolisticPose.Landmark leftWrist_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftWrist {
-      get { return leftWrist_; }
-      set {
-        leftWrist_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightWrist" field.</summary>
-    public const int RightWristFieldNumber = 17;
-    private global::HolisticPose.Landmark rightWrist_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightWrist {
-      get { return rightWrist_; }
-      set {
-        rightWrist_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftPinky" field.</summary>
-    public const int LeftPinkyFieldNumber = 18;
-    private global::HolisticPose.Landmark leftPinky_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftPinky {
-      get { return leftPinky_; }
-      set {
-        leftPinky_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightPinky" field.</summary>
-    public const int RightPinkyFieldNumber = 19;
-    private global::HolisticPose.Landmark rightPinky_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightPinky {
-      get { return rightPinky_; }
-      set {
-        rightPinky_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftIndex" field.</summary>
-    public const int LeftIndexFieldNumber = 20;
-    private global::HolisticPose.Landmark leftIndex_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftIndex {
-      get { return leftIndex_; }
-      set {
-        leftIndex_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightIndex" field.</summary>
-    public const int RightIndexFieldNumber = 21;
-    private global::HolisticPose.Landmark rightIndex_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightIndex {
-      get { return rightIndex_; }
-      set {
-        rightIndex_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftThumb" field.</summary>
-    public const int LeftThumbFieldNumber = 22;
-    private global::HolisticPose.Landmark leftThumb_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftThumb {
-      get { return leftThumb_; }
-      set {
-        leftThumb_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightThumb" field.</summary>
-    public const int RightThumbFieldNumber = 23;
-    private global::HolisticPose.Landmark rightThumb_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightThumb {
-      get { return rightThumb_; }
-      set {
-        rightThumb_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftHip" field.</summary>
-    public const int LeftHipFieldNumber = 24;
-    private global::HolisticPose.Landmark leftHip_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftHip {
-      get { return leftHip_; }
-      set {
-        leftHip_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightHip" field.</summary>
-    public const int RightHipFieldNumber = 25;
-    private global::HolisticPose.Landmark rightHip_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightHip {
-      get { return rightHip_; }
-      set {
-        rightHip_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftKnee" field.</summary>
-    public const int LeftKneeFieldNumber = 26;
-    private global::HolisticPose.Landmark leftKnee_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftKnee {
-      get { return leftKnee_; }
-      set {
-        leftKnee_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightKnee" field.</summary>
-    public const int RightKneeFieldNumber = 27;
-    private global::HolisticPose.Landmark rightKnee_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightKnee {
-      get { return rightKnee_; }
-      set {
-        rightKnee_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftAnkle" field.</summary>
-    public const int LeftAnkleFieldNumber = 28;
-    private global::HolisticPose.Landmark leftAnkle_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftAnkle {
-      get { return leftAnkle_; }
-      set {
-        leftAnkle_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightAnkle" field.</summary>
-    public const int RightAnkleFieldNumber = 29;
-    private global::HolisticPose.Landmark rightAnkle_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightAnkle {
-      get { return rightAnkle_; }
-      set {
-        rightAnkle_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftHeel" field.</summary>
-    public const int LeftHeelFieldNumber = 30;
-    private global::HolisticPose.Landmark leftHeel_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftHeel {
-      get { return leftHeel_; }
-      set {
-        leftHeel_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightHeel" field.</summary>
-    public const int RightHeelFieldNumber = 31;
-    private global::HolisticPose.Landmark rightHeel_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightHeel {
-      get { return rightHeel_; }
-      set {
-        rightHeel_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "leftFootIndex" field.</summary>
-    public const int LeftFootIndexFieldNumber = 32;
-    private global::HolisticPose.Landmark leftFootIndex_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark LeftFootIndex {
-      get { return leftFootIndex_; }
-      set {
-        leftFootIndex_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "rightFootIndex" field.</summary>
-    public const int RightFootIndexFieldNumber = 33;
-    private global::HolisticPose.Landmark rightFootIndex_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RightFootIndex {
-      get { return rightFootIndex_; }
-      set {
-        rightFootIndex_ = value;
-      }
+    public pbc::RepeatedField<global::HolisticPose.Landmark> Landmark {
+      get { return landmark_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as PoseLandmarks);
+      return Equals(other as LandmarkList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PoseLandmarks other) {
+    public bool Equals(LandmarkList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Nose, other.Nose)) return false;
-      if (!object.Equals(LeftEyeInner, other.LeftEyeInner)) return false;
-      if (!object.Equals(LeftEye, other.LeftEye)) return false;
-      if (!object.Equals(LeftEyeOuter, other.LeftEyeOuter)) return false;
-      if (!object.Equals(RightEyeInner, other.RightEyeInner)) return false;
-      if (!object.Equals(RightEye, other.RightEye)) return false;
-      if (!object.Equals(RightEyeOuter, other.RightEyeOuter)) return false;
-      if (!object.Equals(LeftEar, other.LeftEar)) return false;
-      if (!object.Equals(RightEar, other.RightEar)) return false;
-      if (!object.Equals(MouthLeft, other.MouthLeft)) return false;
-      if (!object.Equals(MouthRight, other.MouthRight)) return false;
-      if (!object.Equals(LeftShoulder, other.LeftShoulder)) return false;
-      if (!object.Equals(RightShoulder, other.RightShoulder)) return false;
-      if (!object.Equals(LeftElbow, other.LeftElbow)) return false;
-      if (!object.Equals(RightElbow, other.RightElbow)) return false;
-      if (!object.Equals(LeftWrist, other.LeftWrist)) return false;
-      if (!object.Equals(RightWrist, other.RightWrist)) return false;
-      if (!object.Equals(LeftPinky, other.LeftPinky)) return false;
-      if (!object.Equals(RightPinky, other.RightPinky)) return false;
-      if (!object.Equals(LeftIndex, other.LeftIndex)) return false;
-      if (!object.Equals(RightIndex, other.RightIndex)) return false;
-      if (!object.Equals(LeftThumb, other.LeftThumb)) return false;
-      if (!object.Equals(RightThumb, other.RightThumb)) return false;
-      if (!object.Equals(LeftHip, other.LeftHip)) return false;
-      if (!object.Equals(RightHip, other.RightHip)) return false;
-      if (!object.Equals(LeftKnee, other.LeftKnee)) return false;
-      if (!object.Equals(RightKnee, other.RightKnee)) return false;
-      if (!object.Equals(LeftAnkle, other.LeftAnkle)) return false;
-      if (!object.Equals(RightAnkle, other.RightAnkle)) return false;
-      if (!object.Equals(LeftHeel, other.LeftHeel)) return false;
-      if (!object.Equals(RightHeel, other.RightHeel)) return false;
-      if (!object.Equals(LeftFootIndex, other.LeftFootIndex)) return false;
-      if (!object.Equals(RightFootIndex, other.RightFootIndex)) return false;
+      if(!landmark_.Equals(other.landmark_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -965,39 +512,7 @@ namespace HolisticPose {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (nose_ != null) hash ^= Nose.GetHashCode();
-      if (leftEyeInner_ != null) hash ^= LeftEyeInner.GetHashCode();
-      if (leftEye_ != null) hash ^= LeftEye.GetHashCode();
-      if (leftEyeOuter_ != null) hash ^= LeftEyeOuter.GetHashCode();
-      if (rightEyeInner_ != null) hash ^= RightEyeInner.GetHashCode();
-      if (rightEye_ != null) hash ^= RightEye.GetHashCode();
-      if (rightEyeOuter_ != null) hash ^= RightEyeOuter.GetHashCode();
-      if (leftEar_ != null) hash ^= LeftEar.GetHashCode();
-      if (rightEar_ != null) hash ^= RightEar.GetHashCode();
-      if (mouthLeft_ != null) hash ^= MouthLeft.GetHashCode();
-      if (mouthRight_ != null) hash ^= MouthRight.GetHashCode();
-      if (leftShoulder_ != null) hash ^= LeftShoulder.GetHashCode();
-      if (rightShoulder_ != null) hash ^= RightShoulder.GetHashCode();
-      if (leftElbow_ != null) hash ^= LeftElbow.GetHashCode();
-      if (rightElbow_ != null) hash ^= RightElbow.GetHashCode();
-      if (leftWrist_ != null) hash ^= LeftWrist.GetHashCode();
-      if (rightWrist_ != null) hash ^= RightWrist.GetHashCode();
-      if (leftPinky_ != null) hash ^= LeftPinky.GetHashCode();
-      if (rightPinky_ != null) hash ^= RightPinky.GetHashCode();
-      if (leftIndex_ != null) hash ^= LeftIndex.GetHashCode();
-      if (rightIndex_ != null) hash ^= RightIndex.GetHashCode();
-      if (leftThumb_ != null) hash ^= LeftThumb.GetHashCode();
-      if (rightThumb_ != null) hash ^= RightThumb.GetHashCode();
-      if (leftHip_ != null) hash ^= LeftHip.GetHashCode();
-      if (rightHip_ != null) hash ^= RightHip.GetHashCode();
-      if (leftKnee_ != null) hash ^= LeftKnee.GetHashCode();
-      if (rightKnee_ != null) hash ^= RightKnee.GetHashCode();
-      if (leftAnkle_ != null) hash ^= LeftAnkle.GetHashCode();
-      if (rightAnkle_ != null) hash ^= RightAnkle.GetHashCode();
-      if (leftHeel_ != null) hash ^= LeftHeel.GetHashCode();
-      if (rightHeel_ != null) hash ^= RightHeel.GetHashCode();
-      if (leftFootIndex_ != null) hash ^= LeftFootIndex.GetHashCode();
-      if (rightFootIndex_ != null) hash ^= RightFootIndex.GetHashCode();
+      hash ^= landmark_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1016,138 +531,7 @@ namespace HolisticPose {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (nose_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Nose);
-      }
-      if (leftEyeInner_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(LeftEyeInner);
-      }
-      if (leftEye_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(LeftEye);
-      }
-      if (leftEyeOuter_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(LeftEyeOuter);
-      }
-      if (rightEyeInner_ != null) {
-        output.WriteRawTag(42);
-        output.WriteMessage(RightEyeInner);
-      }
-      if (rightEye_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(RightEye);
-      }
-      if (rightEyeOuter_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(RightEyeOuter);
-      }
-      if (leftEar_ != null) {
-        output.WriteRawTag(66);
-        output.WriteMessage(LeftEar);
-      }
-      if (rightEar_ != null) {
-        output.WriteRawTag(74);
-        output.WriteMessage(RightEar);
-      }
-      if (mouthLeft_ != null) {
-        output.WriteRawTag(82);
-        output.WriteMessage(MouthLeft);
-      }
-      if (mouthRight_ != null) {
-        output.WriteRawTag(90);
-        output.WriteMessage(MouthRight);
-      }
-      if (leftShoulder_ != null) {
-        output.WriteRawTag(98);
-        output.WriteMessage(LeftShoulder);
-      }
-      if (rightShoulder_ != null) {
-        output.WriteRawTag(106);
-        output.WriteMessage(RightShoulder);
-      }
-      if (leftElbow_ != null) {
-        output.WriteRawTag(114);
-        output.WriteMessage(LeftElbow);
-      }
-      if (rightElbow_ != null) {
-        output.WriteRawTag(122);
-        output.WriteMessage(RightElbow);
-      }
-      if (leftWrist_ != null) {
-        output.WriteRawTag(130, 1);
-        output.WriteMessage(LeftWrist);
-      }
-      if (rightWrist_ != null) {
-        output.WriteRawTag(138, 1);
-        output.WriteMessage(RightWrist);
-      }
-      if (leftPinky_ != null) {
-        output.WriteRawTag(146, 1);
-        output.WriteMessage(LeftPinky);
-      }
-      if (rightPinky_ != null) {
-        output.WriteRawTag(154, 1);
-        output.WriteMessage(RightPinky);
-      }
-      if (leftIndex_ != null) {
-        output.WriteRawTag(162, 1);
-        output.WriteMessage(LeftIndex);
-      }
-      if (rightIndex_ != null) {
-        output.WriteRawTag(170, 1);
-        output.WriteMessage(RightIndex);
-      }
-      if (leftThumb_ != null) {
-        output.WriteRawTag(178, 1);
-        output.WriteMessage(LeftThumb);
-      }
-      if (rightThumb_ != null) {
-        output.WriteRawTag(186, 1);
-        output.WriteMessage(RightThumb);
-      }
-      if (leftHip_ != null) {
-        output.WriteRawTag(194, 1);
-        output.WriteMessage(LeftHip);
-      }
-      if (rightHip_ != null) {
-        output.WriteRawTag(202, 1);
-        output.WriteMessage(RightHip);
-      }
-      if (leftKnee_ != null) {
-        output.WriteRawTag(210, 1);
-        output.WriteMessage(LeftKnee);
-      }
-      if (rightKnee_ != null) {
-        output.WriteRawTag(218, 1);
-        output.WriteMessage(RightKnee);
-      }
-      if (leftAnkle_ != null) {
-        output.WriteRawTag(226, 1);
-        output.WriteMessage(LeftAnkle);
-      }
-      if (rightAnkle_ != null) {
-        output.WriteRawTag(234, 1);
-        output.WriteMessage(RightAnkle);
-      }
-      if (leftHeel_ != null) {
-        output.WriteRawTag(242, 1);
-        output.WriteMessage(LeftHeel);
-      }
-      if (rightHeel_ != null) {
-        output.WriteRawTag(250, 1);
-        output.WriteMessage(RightHeel);
-      }
-      if (leftFootIndex_ != null) {
-        output.WriteRawTag(130, 2);
-        output.WriteMessage(LeftFootIndex);
-      }
-      if (rightFootIndex_ != null) {
-        output.WriteRawTag(138, 2);
-        output.WriteMessage(RightFootIndex);
-      }
+      landmark_.WriteTo(output, _repeated_landmark_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1158,138 +542,7 @@ namespace HolisticPose {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (nose_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Nose);
-      }
-      if (leftEyeInner_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(LeftEyeInner);
-      }
-      if (leftEye_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(LeftEye);
-      }
-      if (leftEyeOuter_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(LeftEyeOuter);
-      }
-      if (rightEyeInner_ != null) {
-        output.WriteRawTag(42);
-        output.WriteMessage(RightEyeInner);
-      }
-      if (rightEye_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(RightEye);
-      }
-      if (rightEyeOuter_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(RightEyeOuter);
-      }
-      if (leftEar_ != null) {
-        output.WriteRawTag(66);
-        output.WriteMessage(LeftEar);
-      }
-      if (rightEar_ != null) {
-        output.WriteRawTag(74);
-        output.WriteMessage(RightEar);
-      }
-      if (mouthLeft_ != null) {
-        output.WriteRawTag(82);
-        output.WriteMessage(MouthLeft);
-      }
-      if (mouthRight_ != null) {
-        output.WriteRawTag(90);
-        output.WriteMessage(MouthRight);
-      }
-      if (leftShoulder_ != null) {
-        output.WriteRawTag(98);
-        output.WriteMessage(LeftShoulder);
-      }
-      if (rightShoulder_ != null) {
-        output.WriteRawTag(106);
-        output.WriteMessage(RightShoulder);
-      }
-      if (leftElbow_ != null) {
-        output.WriteRawTag(114);
-        output.WriteMessage(LeftElbow);
-      }
-      if (rightElbow_ != null) {
-        output.WriteRawTag(122);
-        output.WriteMessage(RightElbow);
-      }
-      if (leftWrist_ != null) {
-        output.WriteRawTag(130, 1);
-        output.WriteMessage(LeftWrist);
-      }
-      if (rightWrist_ != null) {
-        output.WriteRawTag(138, 1);
-        output.WriteMessage(RightWrist);
-      }
-      if (leftPinky_ != null) {
-        output.WriteRawTag(146, 1);
-        output.WriteMessage(LeftPinky);
-      }
-      if (rightPinky_ != null) {
-        output.WriteRawTag(154, 1);
-        output.WriteMessage(RightPinky);
-      }
-      if (leftIndex_ != null) {
-        output.WriteRawTag(162, 1);
-        output.WriteMessage(LeftIndex);
-      }
-      if (rightIndex_ != null) {
-        output.WriteRawTag(170, 1);
-        output.WriteMessage(RightIndex);
-      }
-      if (leftThumb_ != null) {
-        output.WriteRawTag(178, 1);
-        output.WriteMessage(LeftThumb);
-      }
-      if (rightThumb_ != null) {
-        output.WriteRawTag(186, 1);
-        output.WriteMessage(RightThumb);
-      }
-      if (leftHip_ != null) {
-        output.WriteRawTag(194, 1);
-        output.WriteMessage(LeftHip);
-      }
-      if (rightHip_ != null) {
-        output.WriteRawTag(202, 1);
-        output.WriteMessage(RightHip);
-      }
-      if (leftKnee_ != null) {
-        output.WriteRawTag(210, 1);
-        output.WriteMessage(LeftKnee);
-      }
-      if (rightKnee_ != null) {
-        output.WriteRawTag(218, 1);
-        output.WriteMessage(RightKnee);
-      }
-      if (leftAnkle_ != null) {
-        output.WriteRawTag(226, 1);
-        output.WriteMessage(LeftAnkle);
-      }
-      if (rightAnkle_ != null) {
-        output.WriteRawTag(234, 1);
-        output.WriteMessage(RightAnkle);
-      }
-      if (leftHeel_ != null) {
-        output.WriteRawTag(242, 1);
-        output.WriteMessage(LeftHeel);
-      }
-      if (rightHeel_ != null) {
-        output.WriteRawTag(250, 1);
-        output.WriteMessage(RightHeel);
-      }
-      if (leftFootIndex_ != null) {
-        output.WriteRawTag(130, 2);
-        output.WriteMessage(LeftFootIndex);
-      }
-      if (rightFootIndex_ != null) {
-        output.WriteRawTag(138, 2);
-        output.WriteMessage(RightFootIndex);
-      }
+      landmark_.WriteTo(ref output, _repeated_landmark_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1300,105 +553,7 @@ namespace HolisticPose {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (nose_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Nose);
-      }
-      if (leftEyeInner_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftEyeInner);
-      }
-      if (leftEye_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftEye);
-      }
-      if (leftEyeOuter_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftEyeOuter);
-      }
-      if (rightEyeInner_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightEyeInner);
-      }
-      if (rightEye_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightEye);
-      }
-      if (rightEyeOuter_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightEyeOuter);
-      }
-      if (leftEar_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftEar);
-      }
-      if (rightEar_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightEar);
-      }
-      if (mouthLeft_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MouthLeft);
-      }
-      if (mouthRight_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MouthRight);
-      }
-      if (leftShoulder_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftShoulder);
-      }
-      if (rightShoulder_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightShoulder);
-      }
-      if (leftElbow_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftElbow);
-      }
-      if (rightElbow_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightElbow);
-      }
-      if (leftWrist_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftWrist);
-      }
-      if (rightWrist_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightWrist);
-      }
-      if (leftPinky_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftPinky);
-      }
-      if (rightPinky_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightPinky);
-      }
-      if (leftIndex_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftIndex);
-      }
-      if (rightIndex_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightIndex);
-      }
-      if (leftThumb_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftThumb);
-      }
-      if (rightThumb_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightThumb);
-      }
-      if (leftHip_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftHip);
-      }
-      if (rightHip_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightHip);
-      }
-      if (leftKnee_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftKnee);
-      }
-      if (rightKnee_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightKnee);
-      }
-      if (leftAnkle_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftAnkle);
-      }
-      if (rightAnkle_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightAnkle);
-      }
-      if (leftHeel_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftHeel);
-      }
-      if (rightHeel_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightHeel);
-      }
-      if (leftFootIndex_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(LeftFootIndex);
-      }
-      if (rightFootIndex_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightFootIndex);
-      }
+      size += landmark_.CalculateSize(_repeated_landmark_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1407,208 +562,11 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PoseLandmarks other) {
+    public void MergeFrom(LandmarkList other) {
       if (other == null) {
         return;
       }
-      if (other.nose_ != null) {
-        if (nose_ == null) {
-          Nose = new global::HolisticPose.Landmark();
-        }
-        Nose.MergeFrom(other.Nose);
-      }
-      if (other.leftEyeInner_ != null) {
-        if (leftEyeInner_ == null) {
-          LeftEyeInner = new global::HolisticPose.Landmark();
-        }
-        LeftEyeInner.MergeFrom(other.LeftEyeInner);
-      }
-      if (other.leftEye_ != null) {
-        if (leftEye_ == null) {
-          LeftEye = new global::HolisticPose.Landmark();
-        }
-        LeftEye.MergeFrom(other.LeftEye);
-      }
-      if (other.leftEyeOuter_ != null) {
-        if (leftEyeOuter_ == null) {
-          LeftEyeOuter = new global::HolisticPose.Landmark();
-        }
-        LeftEyeOuter.MergeFrom(other.LeftEyeOuter);
-      }
-      if (other.rightEyeInner_ != null) {
-        if (rightEyeInner_ == null) {
-          RightEyeInner = new global::HolisticPose.Landmark();
-        }
-        RightEyeInner.MergeFrom(other.RightEyeInner);
-      }
-      if (other.rightEye_ != null) {
-        if (rightEye_ == null) {
-          RightEye = new global::HolisticPose.Landmark();
-        }
-        RightEye.MergeFrom(other.RightEye);
-      }
-      if (other.rightEyeOuter_ != null) {
-        if (rightEyeOuter_ == null) {
-          RightEyeOuter = new global::HolisticPose.Landmark();
-        }
-        RightEyeOuter.MergeFrom(other.RightEyeOuter);
-      }
-      if (other.leftEar_ != null) {
-        if (leftEar_ == null) {
-          LeftEar = new global::HolisticPose.Landmark();
-        }
-        LeftEar.MergeFrom(other.LeftEar);
-      }
-      if (other.rightEar_ != null) {
-        if (rightEar_ == null) {
-          RightEar = new global::HolisticPose.Landmark();
-        }
-        RightEar.MergeFrom(other.RightEar);
-      }
-      if (other.mouthLeft_ != null) {
-        if (mouthLeft_ == null) {
-          MouthLeft = new global::HolisticPose.Landmark();
-        }
-        MouthLeft.MergeFrom(other.MouthLeft);
-      }
-      if (other.mouthRight_ != null) {
-        if (mouthRight_ == null) {
-          MouthRight = new global::HolisticPose.Landmark();
-        }
-        MouthRight.MergeFrom(other.MouthRight);
-      }
-      if (other.leftShoulder_ != null) {
-        if (leftShoulder_ == null) {
-          LeftShoulder = new global::HolisticPose.Landmark();
-        }
-        LeftShoulder.MergeFrom(other.LeftShoulder);
-      }
-      if (other.rightShoulder_ != null) {
-        if (rightShoulder_ == null) {
-          RightShoulder = new global::HolisticPose.Landmark();
-        }
-        RightShoulder.MergeFrom(other.RightShoulder);
-      }
-      if (other.leftElbow_ != null) {
-        if (leftElbow_ == null) {
-          LeftElbow = new global::HolisticPose.Landmark();
-        }
-        LeftElbow.MergeFrom(other.LeftElbow);
-      }
-      if (other.rightElbow_ != null) {
-        if (rightElbow_ == null) {
-          RightElbow = new global::HolisticPose.Landmark();
-        }
-        RightElbow.MergeFrom(other.RightElbow);
-      }
-      if (other.leftWrist_ != null) {
-        if (leftWrist_ == null) {
-          LeftWrist = new global::HolisticPose.Landmark();
-        }
-        LeftWrist.MergeFrom(other.LeftWrist);
-      }
-      if (other.rightWrist_ != null) {
-        if (rightWrist_ == null) {
-          RightWrist = new global::HolisticPose.Landmark();
-        }
-        RightWrist.MergeFrom(other.RightWrist);
-      }
-      if (other.leftPinky_ != null) {
-        if (leftPinky_ == null) {
-          LeftPinky = new global::HolisticPose.Landmark();
-        }
-        LeftPinky.MergeFrom(other.LeftPinky);
-      }
-      if (other.rightPinky_ != null) {
-        if (rightPinky_ == null) {
-          RightPinky = new global::HolisticPose.Landmark();
-        }
-        RightPinky.MergeFrom(other.RightPinky);
-      }
-      if (other.leftIndex_ != null) {
-        if (leftIndex_ == null) {
-          LeftIndex = new global::HolisticPose.Landmark();
-        }
-        LeftIndex.MergeFrom(other.LeftIndex);
-      }
-      if (other.rightIndex_ != null) {
-        if (rightIndex_ == null) {
-          RightIndex = new global::HolisticPose.Landmark();
-        }
-        RightIndex.MergeFrom(other.RightIndex);
-      }
-      if (other.leftThumb_ != null) {
-        if (leftThumb_ == null) {
-          LeftThumb = new global::HolisticPose.Landmark();
-        }
-        LeftThumb.MergeFrom(other.LeftThumb);
-      }
-      if (other.rightThumb_ != null) {
-        if (rightThumb_ == null) {
-          RightThumb = new global::HolisticPose.Landmark();
-        }
-        RightThumb.MergeFrom(other.RightThumb);
-      }
-      if (other.leftHip_ != null) {
-        if (leftHip_ == null) {
-          LeftHip = new global::HolisticPose.Landmark();
-        }
-        LeftHip.MergeFrom(other.LeftHip);
-      }
-      if (other.rightHip_ != null) {
-        if (rightHip_ == null) {
-          RightHip = new global::HolisticPose.Landmark();
-        }
-        RightHip.MergeFrom(other.RightHip);
-      }
-      if (other.leftKnee_ != null) {
-        if (leftKnee_ == null) {
-          LeftKnee = new global::HolisticPose.Landmark();
-        }
-        LeftKnee.MergeFrom(other.LeftKnee);
-      }
-      if (other.rightKnee_ != null) {
-        if (rightKnee_ == null) {
-          RightKnee = new global::HolisticPose.Landmark();
-        }
-        RightKnee.MergeFrom(other.RightKnee);
-      }
-      if (other.leftAnkle_ != null) {
-        if (leftAnkle_ == null) {
-          LeftAnkle = new global::HolisticPose.Landmark();
-        }
-        LeftAnkle.MergeFrom(other.LeftAnkle);
-      }
-      if (other.rightAnkle_ != null) {
-        if (rightAnkle_ == null) {
-          RightAnkle = new global::HolisticPose.Landmark();
-        }
-        RightAnkle.MergeFrom(other.RightAnkle);
-      }
-      if (other.leftHeel_ != null) {
-        if (leftHeel_ == null) {
-          LeftHeel = new global::HolisticPose.Landmark();
-        }
-        LeftHeel.MergeFrom(other.LeftHeel);
-      }
-      if (other.rightHeel_ != null) {
-        if (rightHeel_ == null) {
-          RightHeel = new global::HolisticPose.Landmark();
-        }
-        RightHeel.MergeFrom(other.RightHeel);
-      }
-      if (other.leftFootIndex_ != null) {
-        if (leftFootIndex_ == null) {
-          LeftFootIndex = new global::HolisticPose.Landmark();
-        }
-        LeftFootIndex.MergeFrom(other.LeftFootIndex);
-      }
-      if (other.rightFootIndex_ != null) {
-        if (rightFootIndex_ == null) {
-          RightFootIndex = new global::HolisticPose.Landmark();
-        }
-        RightFootIndex.MergeFrom(other.RightFootIndex);
-      }
+      landmark_.Add(other.landmark_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1625,234 +583,7 @@ namespace HolisticPose {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (nose_ == null) {
-              Nose = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(Nose);
-            break;
-          }
-          case 18: {
-            if (leftEyeInner_ == null) {
-              LeftEyeInner = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEyeInner);
-            break;
-          }
-          case 26: {
-            if (leftEye_ == null) {
-              LeftEye = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEye);
-            break;
-          }
-          case 34: {
-            if (leftEyeOuter_ == null) {
-              LeftEyeOuter = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEyeOuter);
-            break;
-          }
-          case 42: {
-            if (rightEyeInner_ == null) {
-              RightEyeInner = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEyeInner);
-            break;
-          }
-          case 50: {
-            if (rightEye_ == null) {
-              RightEye = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEye);
-            break;
-          }
-          case 58: {
-            if (rightEyeOuter_ == null) {
-              RightEyeOuter = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEyeOuter);
-            break;
-          }
-          case 66: {
-            if (leftEar_ == null) {
-              LeftEar = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEar);
-            break;
-          }
-          case 74: {
-            if (rightEar_ == null) {
-              RightEar = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEar);
-            break;
-          }
-          case 82: {
-            if (mouthLeft_ == null) {
-              MouthLeft = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MouthLeft);
-            break;
-          }
-          case 90: {
-            if (mouthRight_ == null) {
-              MouthRight = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MouthRight);
-            break;
-          }
-          case 98: {
-            if (leftShoulder_ == null) {
-              LeftShoulder = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftShoulder);
-            break;
-          }
-          case 106: {
-            if (rightShoulder_ == null) {
-              RightShoulder = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightShoulder);
-            break;
-          }
-          case 114: {
-            if (leftElbow_ == null) {
-              LeftElbow = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftElbow);
-            break;
-          }
-          case 122: {
-            if (rightElbow_ == null) {
-              RightElbow = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightElbow);
-            break;
-          }
-          case 130: {
-            if (leftWrist_ == null) {
-              LeftWrist = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftWrist);
-            break;
-          }
-          case 138: {
-            if (rightWrist_ == null) {
-              RightWrist = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightWrist);
-            break;
-          }
-          case 146: {
-            if (leftPinky_ == null) {
-              LeftPinky = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftPinky);
-            break;
-          }
-          case 154: {
-            if (rightPinky_ == null) {
-              RightPinky = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightPinky);
-            break;
-          }
-          case 162: {
-            if (leftIndex_ == null) {
-              LeftIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftIndex);
-            break;
-          }
-          case 170: {
-            if (rightIndex_ == null) {
-              RightIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightIndex);
-            break;
-          }
-          case 178: {
-            if (leftThumb_ == null) {
-              LeftThumb = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftThumb);
-            break;
-          }
-          case 186: {
-            if (rightThumb_ == null) {
-              RightThumb = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightThumb);
-            break;
-          }
-          case 194: {
-            if (leftHip_ == null) {
-              LeftHip = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftHip);
-            break;
-          }
-          case 202: {
-            if (rightHip_ == null) {
-              RightHip = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightHip);
-            break;
-          }
-          case 210: {
-            if (leftKnee_ == null) {
-              LeftKnee = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftKnee);
-            break;
-          }
-          case 218: {
-            if (rightKnee_ == null) {
-              RightKnee = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightKnee);
-            break;
-          }
-          case 226: {
-            if (leftAnkle_ == null) {
-              LeftAnkle = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftAnkle);
-            break;
-          }
-          case 234: {
-            if (rightAnkle_ == null) {
-              RightAnkle = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightAnkle);
-            break;
-          }
-          case 242: {
-            if (leftHeel_ == null) {
-              LeftHeel = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftHeel);
-            break;
-          }
-          case 250: {
-            if (rightHeel_ == null) {
-              RightHeel = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightHeel);
-            break;
-          }
-          case 258: {
-            if (leftFootIndex_ == null) {
-              LeftFootIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftFootIndex);
-            break;
-          }
-          case 266: {
-            if (rightFootIndex_ == null) {
-              RightFootIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightFootIndex);
+            landmark_.AddEntriesFrom(input, _repeated_landmark_codec);
             break;
           }
         }
@@ -1871,234 +602,7 @@ namespace HolisticPose {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (nose_ == null) {
-              Nose = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(Nose);
-            break;
-          }
-          case 18: {
-            if (leftEyeInner_ == null) {
-              LeftEyeInner = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEyeInner);
-            break;
-          }
-          case 26: {
-            if (leftEye_ == null) {
-              LeftEye = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEye);
-            break;
-          }
-          case 34: {
-            if (leftEyeOuter_ == null) {
-              LeftEyeOuter = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEyeOuter);
-            break;
-          }
-          case 42: {
-            if (rightEyeInner_ == null) {
-              RightEyeInner = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEyeInner);
-            break;
-          }
-          case 50: {
-            if (rightEye_ == null) {
-              RightEye = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEye);
-            break;
-          }
-          case 58: {
-            if (rightEyeOuter_ == null) {
-              RightEyeOuter = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEyeOuter);
-            break;
-          }
-          case 66: {
-            if (leftEar_ == null) {
-              LeftEar = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftEar);
-            break;
-          }
-          case 74: {
-            if (rightEar_ == null) {
-              RightEar = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightEar);
-            break;
-          }
-          case 82: {
-            if (mouthLeft_ == null) {
-              MouthLeft = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MouthLeft);
-            break;
-          }
-          case 90: {
-            if (mouthRight_ == null) {
-              MouthRight = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MouthRight);
-            break;
-          }
-          case 98: {
-            if (leftShoulder_ == null) {
-              LeftShoulder = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftShoulder);
-            break;
-          }
-          case 106: {
-            if (rightShoulder_ == null) {
-              RightShoulder = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightShoulder);
-            break;
-          }
-          case 114: {
-            if (leftElbow_ == null) {
-              LeftElbow = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftElbow);
-            break;
-          }
-          case 122: {
-            if (rightElbow_ == null) {
-              RightElbow = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightElbow);
-            break;
-          }
-          case 130: {
-            if (leftWrist_ == null) {
-              LeftWrist = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftWrist);
-            break;
-          }
-          case 138: {
-            if (rightWrist_ == null) {
-              RightWrist = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightWrist);
-            break;
-          }
-          case 146: {
-            if (leftPinky_ == null) {
-              LeftPinky = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftPinky);
-            break;
-          }
-          case 154: {
-            if (rightPinky_ == null) {
-              RightPinky = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightPinky);
-            break;
-          }
-          case 162: {
-            if (leftIndex_ == null) {
-              LeftIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftIndex);
-            break;
-          }
-          case 170: {
-            if (rightIndex_ == null) {
-              RightIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightIndex);
-            break;
-          }
-          case 178: {
-            if (leftThumb_ == null) {
-              LeftThumb = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftThumb);
-            break;
-          }
-          case 186: {
-            if (rightThumb_ == null) {
-              RightThumb = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightThumb);
-            break;
-          }
-          case 194: {
-            if (leftHip_ == null) {
-              LeftHip = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftHip);
-            break;
-          }
-          case 202: {
-            if (rightHip_ == null) {
-              RightHip = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightHip);
-            break;
-          }
-          case 210: {
-            if (leftKnee_ == null) {
-              LeftKnee = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftKnee);
-            break;
-          }
-          case 218: {
-            if (rightKnee_ == null) {
-              RightKnee = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightKnee);
-            break;
-          }
-          case 226: {
-            if (leftAnkle_ == null) {
-              LeftAnkle = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftAnkle);
-            break;
-          }
-          case 234: {
-            if (rightAnkle_ == null) {
-              RightAnkle = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightAnkle);
-            break;
-          }
-          case 242: {
-            if (leftHeel_ == null) {
-              LeftHeel = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftHeel);
-            break;
-          }
-          case 250: {
-            if (rightHeel_ == null) {
-              RightHeel = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightHeel);
-            break;
-          }
-          case 258: {
-            if (leftFootIndex_ == null) {
-              LeftFootIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(LeftFootIndex);
-            break;
-          }
-          case 266: {
-            if (rightFootIndex_ == null) {
-              RightFootIndex = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RightFootIndex);
+            landmark_.AddEntriesFrom(ref input, _repeated_landmark_codec);
             break;
           }
         }
@@ -2108,16 +612,16 @@ namespace HolisticPose {
 
   }
 
-  public sealed partial class HandLandmarks : pb::IMessage<HandLandmarks>
+  public sealed partial class HolisticLandmarks : pb::IMessage<HolisticLandmarks>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<HandLandmarks> _parser = new pb::MessageParser<HandLandmarks>(() => new HandLandmarks());
+    private static readonly pb::MessageParser<HolisticLandmarks> _parser = new pb::MessageParser<HolisticLandmarks>(() => new HolisticLandmarks());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<HandLandmarks> Parser { get { return _parser; } }
+    public static pb::MessageParser<HolisticLandmarks> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2133,7 +637,7 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandLandmarks() {
+    public HolisticLandmarks() {
       OnConstruction();
     }
 
@@ -2141,1314 +645,7 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandLandmarks(HandLandmarks other) : this() {
-      isLeft_ = other.isLeft_;
-      wrist_ = other.wrist_ != null ? other.wrist_.Clone() : null;
-      thumbCMC_ = other.thumbCMC_ != null ? other.thumbCMC_.Clone() : null;
-      thumbMCP_ = other.thumbMCP_ != null ? other.thumbMCP_.Clone() : null;
-      thumbIP_ = other.thumbIP_ != null ? other.thumbIP_.Clone() : null;
-      thumbTIP_ = other.thumbTIP_ != null ? other.thumbTIP_.Clone() : null;
-      indexFingerMCP_ = other.indexFingerMCP_ != null ? other.indexFingerMCP_.Clone() : null;
-      indexFingerPIP_ = other.indexFingerPIP_ != null ? other.indexFingerPIP_.Clone() : null;
-      indexFingerDIP_ = other.indexFingerDIP_ != null ? other.indexFingerDIP_.Clone() : null;
-      indexFingerTIP_ = other.indexFingerTIP_ != null ? other.indexFingerTIP_.Clone() : null;
-      middleFingerMCP_ = other.middleFingerMCP_ != null ? other.middleFingerMCP_.Clone() : null;
-      middleFingerPIP_ = other.middleFingerPIP_ != null ? other.middleFingerPIP_.Clone() : null;
-      middleFingerDIP_ = other.middleFingerDIP_ != null ? other.middleFingerDIP_.Clone() : null;
-      middleFingerTIP_ = other.middleFingerTIP_ != null ? other.middleFingerTIP_.Clone() : null;
-      ringFingerMCP_ = other.ringFingerMCP_ != null ? other.ringFingerMCP_.Clone() : null;
-      ringFingerPIP_ = other.ringFingerPIP_ != null ? other.ringFingerPIP_.Clone() : null;
-      ringFingerDIP_ = other.ringFingerDIP_ != null ? other.ringFingerDIP_.Clone() : null;
-      ringFingerTIP_ = other.ringFingerTIP_ != null ? other.ringFingerTIP_.Clone() : null;
-      pinkyMCP_ = other.pinkyMCP_ != null ? other.pinkyMCP_.Clone() : null;
-      pinkyPIP_ = other.pinkyPIP_ != null ? other.pinkyPIP_.Clone() : null;
-      pinkyDIP_ = other.pinkyDIP_ != null ? other.pinkyDIP_.Clone() : null;
-      pinkyTIP_ = other.pinkyTIP_ != null ? other.pinkyTIP_.Clone() : null;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HandLandmarks Clone() {
-      return new HandLandmarks(this);
-    }
-
-    /// <summary>Field number for the "isLeft" field.</summary>
-    public const int IsLeftFieldNumber = 1;
-    private bool isLeft_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool IsLeft {
-      get { return isLeft_; }
-      set {
-        isLeft_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "wrist" field.</summary>
-    public const int WristFieldNumber = 2;
-    private global::HolisticPose.Landmark wrist_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark Wrist {
-      get { return wrist_; }
-      set {
-        wrist_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "thumbCMC" field.</summary>
-    public const int ThumbCMCFieldNumber = 3;
-    private global::HolisticPose.Landmark thumbCMC_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark ThumbCMC {
-      get { return thumbCMC_; }
-      set {
-        thumbCMC_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "thumbMCP" field.</summary>
-    public const int ThumbMCPFieldNumber = 4;
-    private global::HolisticPose.Landmark thumbMCP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark ThumbMCP {
-      get { return thumbMCP_; }
-      set {
-        thumbMCP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "thumbIP" field.</summary>
-    public const int ThumbIPFieldNumber = 5;
-    private global::HolisticPose.Landmark thumbIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark ThumbIP {
-      get { return thumbIP_; }
-      set {
-        thumbIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "thumbTIP" field.</summary>
-    public const int ThumbTIPFieldNumber = 6;
-    private global::HolisticPose.Landmark thumbTIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark ThumbTIP {
-      get { return thumbTIP_; }
-      set {
-        thumbTIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "indexFingerMCP" field.</summary>
-    public const int IndexFingerMCPFieldNumber = 7;
-    private global::HolisticPose.Landmark indexFingerMCP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark IndexFingerMCP {
-      get { return indexFingerMCP_; }
-      set {
-        indexFingerMCP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "indexFingerPIP" field.</summary>
-    public const int IndexFingerPIPFieldNumber = 8;
-    private global::HolisticPose.Landmark indexFingerPIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark IndexFingerPIP {
-      get { return indexFingerPIP_; }
-      set {
-        indexFingerPIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "indexFingerDIP" field.</summary>
-    public const int IndexFingerDIPFieldNumber = 9;
-    private global::HolisticPose.Landmark indexFingerDIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark IndexFingerDIP {
-      get { return indexFingerDIP_; }
-      set {
-        indexFingerDIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "indexFingerTIP" field.</summary>
-    public const int IndexFingerTIPFieldNumber = 10;
-    private global::HolisticPose.Landmark indexFingerTIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark IndexFingerTIP {
-      get { return indexFingerTIP_; }
-      set {
-        indexFingerTIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "middleFingerMCP" field.</summary>
-    public const int MiddleFingerMCPFieldNumber = 11;
-    private global::HolisticPose.Landmark middleFingerMCP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark MiddleFingerMCP {
-      get { return middleFingerMCP_; }
-      set {
-        middleFingerMCP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "middleFingerPIP" field.</summary>
-    public const int MiddleFingerPIPFieldNumber = 12;
-    private global::HolisticPose.Landmark middleFingerPIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark MiddleFingerPIP {
-      get { return middleFingerPIP_; }
-      set {
-        middleFingerPIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "middleFingerDIP" field.</summary>
-    public const int MiddleFingerDIPFieldNumber = 13;
-    private global::HolisticPose.Landmark middleFingerDIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark MiddleFingerDIP {
-      get { return middleFingerDIP_; }
-      set {
-        middleFingerDIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "middleFingerTIP" field.</summary>
-    public const int MiddleFingerTIPFieldNumber = 14;
-    private global::HolisticPose.Landmark middleFingerTIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark MiddleFingerTIP {
-      get { return middleFingerTIP_; }
-      set {
-        middleFingerTIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "ringFingerMCP" field.</summary>
-    public const int RingFingerMCPFieldNumber = 15;
-    private global::HolisticPose.Landmark ringFingerMCP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RingFingerMCP {
-      get { return ringFingerMCP_; }
-      set {
-        ringFingerMCP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "ringFingerPIP" field.</summary>
-    public const int RingFingerPIPFieldNumber = 16;
-    private global::HolisticPose.Landmark ringFingerPIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RingFingerPIP {
-      get { return ringFingerPIP_; }
-      set {
-        ringFingerPIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "ringFingerDIP" field.</summary>
-    public const int RingFingerDIPFieldNumber = 17;
-    private global::HolisticPose.Landmark ringFingerDIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RingFingerDIP {
-      get { return ringFingerDIP_; }
-      set {
-        ringFingerDIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "ringFingerTIP" field.</summary>
-    public const int RingFingerTIPFieldNumber = 18;
-    private global::HolisticPose.Landmark ringFingerTIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark RingFingerTIP {
-      get { return ringFingerTIP_; }
-      set {
-        ringFingerTIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "pinkyMCP" field.</summary>
-    public const int PinkyMCPFieldNumber = 19;
-    private global::HolisticPose.Landmark pinkyMCP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark PinkyMCP {
-      get { return pinkyMCP_; }
-      set {
-        pinkyMCP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "pinkyPIP" field.</summary>
-    public const int PinkyPIPFieldNumber = 20;
-    private global::HolisticPose.Landmark pinkyPIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark PinkyPIP {
-      get { return pinkyPIP_; }
-      set {
-        pinkyPIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "pinkyDIP" field.</summary>
-    public const int PinkyDIPFieldNumber = 21;
-    private global::HolisticPose.Landmark pinkyDIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark PinkyDIP {
-      get { return pinkyDIP_; }
-      set {
-        pinkyDIP_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "pinkyTIP" field.</summary>
-    public const int PinkyTIPFieldNumber = 22;
-    private global::HolisticPose.Landmark pinkyTIP_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.Landmark PinkyTIP {
-      get { return pinkyTIP_; }
-      set {
-        pinkyTIP_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as HandLandmarks);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(HandLandmarks other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (IsLeft != other.IsLeft) return false;
-      if (!object.Equals(Wrist, other.Wrist)) return false;
-      if (!object.Equals(ThumbCMC, other.ThumbCMC)) return false;
-      if (!object.Equals(ThumbMCP, other.ThumbMCP)) return false;
-      if (!object.Equals(ThumbIP, other.ThumbIP)) return false;
-      if (!object.Equals(ThumbTIP, other.ThumbTIP)) return false;
-      if (!object.Equals(IndexFingerMCP, other.IndexFingerMCP)) return false;
-      if (!object.Equals(IndexFingerPIP, other.IndexFingerPIP)) return false;
-      if (!object.Equals(IndexFingerDIP, other.IndexFingerDIP)) return false;
-      if (!object.Equals(IndexFingerTIP, other.IndexFingerTIP)) return false;
-      if (!object.Equals(MiddleFingerMCP, other.MiddleFingerMCP)) return false;
-      if (!object.Equals(MiddleFingerPIP, other.MiddleFingerPIP)) return false;
-      if (!object.Equals(MiddleFingerDIP, other.MiddleFingerDIP)) return false;
-      if (!object.Equals(MiddleFingerTIP, other.MiddleFingerTIP)) return false;
-      if (!object.Equals(RingFingerMCP, other.RingFingerMCP)) return false;
-      if (!object.Equals(RingFingerPIP, other.RingFingerPIP)) return false;
-      if (!object.Equals(RingFingerDIP, other.RingFingerDIP)) return false;
-      if (!object.Equals(RingFingerTIP, other.RingFingerTIP)) return false;
-      if (!object.Equals(PinkyMCP, other.PinkyMCP)) return false;
-      if (!object.Equals(PinkyPIP, other.PinkyPIP)) return false;
-      if (!object.Equals(PinkyDIP, other.PinkyDIP)) return false;
-      if (!object.Equals(PinkyTIP, other.PinkyTIP)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (IsLeft != false) hash ^= IsLeft.GetHashCode();
-      if (wrist_ != null) hash ^= Wrist.GetHashCode();
-      if (thumbCMC_ != null) hash ^= ThumbCMC.GetHashCode();
-      if (thumbMCP_ != null) hash ^= ThumbMCP.GetHashCode();
-      if (thumbIP_ != null) hash ^= ThumbIP.GetHashCode();
-      if (thumbTIP_ != null) hash ^= ThumbTIP.GetHashCode();
-      if (indexFingerMCP_ != null) hash ^= IndexFingerMCP.GetHashCode();
-      if (indexFingerPIP_ != null) hash ^= IndexFingerPIP.GetHashCode();
-      if (indexFingerDIP_ != null) hash ^= IndexFingerDIP.GetHashCode();
-      if (indexFingerTIP_ != null) hash ^= IndexFingerTIP.GetHashCode();
-      if (middleFingerMCP_ != null) hash ^= MiddleFingerMCP.GetHashCode();
-      if (middleFingerPIP_ != null) hash ^= MiddleFingerPIP.GetHashCode();
-      if (middleFingerDIP_ != null) hash ^= MiddleFingerDIP.GetHashCode();
-      if (middleFingerTIP_ != null) hash ^= MiddleFingerTIP.GetHashCode();
-      if (ringFingerMCP_ != null) hash ^= RingFingerMCP.GetHashCode();
-      if (ringFingerPIP_ != null) hash ^= RingFingerPIP.GetHashCode();
-      if (ringFingerDIP_ != null) hash ^= RingFingerDIP.GetHashCode();
-      if (ringFingerTIP_ != null) hash ^= RingFingerTIP.GetHashCode();
-      if (pinkyMCP_ != null) hash ^= PinkyMCP.GetHashCode();
-      if (pinkyPIP_ != null) hash ^= PinkyPIP.GetHashCode();
-      if (pinkyDIP_ != null) hash ^= PinkyDIP.GetHashCode();
-      if (pinkyTIP_ != null) hash ^= PinkyTIP.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (IsLeft != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(IsLeft);
-      }
-      if (wrist_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Wrist);
-      }
-      if (thumbCMC_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(ThumbCMC);
-      }
-      if (thumbMCP_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(ThumbMCP);
-      }
-      if (thumbIP_ != null) {
-        output.WriteRawTag(42);
-        output.WriteMessage(ThumbIP);
-      }
-      if (thumbTIP_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(ThumbTIP);
-      }
-      if (indexFingerMCP_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(IndexFingerMCP);
-      }
-      if (indexFingerPIP_ != null) {
-        output.WriteRawTag(66);
-        output.WriteMessage(IndexFingerPIP);
-      }
-      if (indexFingerDIP_ != null) {
-        output.WriteRawTag(74);
-        output.WriteMessage(IndexFingerDIP);
-      }
-      if (indexFingerTIP_ != null) {
-        output.WriteRawTag(82);
-        output.WriteMessage(IndexFingerTIP);
-      }
-      if (middleFingerMCP_ != null) {
-        output.WriteRawTag(90);
-        output.WriteMessage(MiddleFingerMCP);
-      }
-      if (middleFingerPIP_ != null) {
-        output.WriteRawTag(98);
-        output.WriteMessage(MiddleFingerPIP);
-      }
-      if (middleFingerDIP_ != null) {
-        output.WriteRawTag(106);
-        output.WriteMessage(MiddleFingerDIP);
-      }
-      if (middleFingerTIP_ != null) {
-        output.WriteRawTag(114);
-        output.WriteMessage(MiddleFingerTIP);
-      }
-      if (ringFingerMCP_ != null) {
-        output.WriteRawTag(122);
-        output.WriteMessage(RingFingerMCP);
-      }
-      if (ringFingerPIP_ != null) {
-        output.WriteRawTag(130, 1);
-        output.WriteMessage(RingFingerPIP);
-      }
-      if (ringFingerDIP_ != null) {
-        output.WriteRawTag(138, 1);
-        output.WriteMessage(RingFingerDIP);
-      }
-      if (ringFingerTIP_ != null) {
-        output.WriteRawTag(146, 1);
-        output.WriteMessage(RingFingerTIP);
-      }
-      if (pinkyMCP_ != null) {
-        output.WriteRawTag(154, 1);
-        output.WriteMessage(PinkyMCP);
-      }
-      if (pinkyPIP_ != null) {
-        output.WriteRawTag(162, 1);
-        output.WriteMessage(PinkyPIP);
-      }
-      if (pinkyDIP_ != null) {
-        output.WriteRawTag(170, 1);
-        output.WriteMessage(PinkyDIP);
-      }
-      if (pinkyTIP_ != null) {
-        output.WriteRawTag(178, 1);
-        output.WriteMessage(PinkyTIP);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (IsLeft != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(IsLeft);
-      }
-      if (wrist_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Wrist);
-      }
-      if (thumbCMC_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(ThumbCMC);
-      }
-      if (thumbMCP_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(ThumbMCP);
-      }
-      if (thumbIP_ != null) {
-        output.WriteRawTag(42);
-        output.WriteMessage(ThumbIP);
-      }
-      if (thumbTIP_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(ThumbTIP);
-      }
-      if (indexFingerMCP_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(IndexFingerMCP);
-      }
-      if (indexFingerPIP_ != null) {
-        output.WriteRawTag(66);
-        output.WriteMessage(IndexFingerPIP);
-      }
-      if (indexFingerDIP_ != null) {
-        output.WriteRawTag(74);
-        output.WriteMessage(IndexFingerDIP);
-      }
-      if (indexFingerTIP_ != null) {
-        output.WriteRawTag(82);
-        output.WriteMessage(IndexFingerTIP);
-      }
-      if (middleFingerMCP_ != null) {
-        output.WriteRawTag(90);
-        output.WriteMessage(MiddleFingerMCP);
-      }
-      if (middleFingerPIP_ != null) {
-        output.WriteRawTag(98);
-        output.WriteMessage(MiddleFingerPIP);
-      }
-      if (middleFingerDIP_ != null) {
-        output.WriteRawTag(106);
-        output.WriteMessage(MiddleFingerDIP);
-      }
-      if (middleFingerTIP_ != null) {
-        output.WriteRawTag(114);
-        output.WriteMessage(MiddleFingerTIP);
-      }
-      if (ringFingerMCP_ != null) {
-        output.WriteRawTag(122);
-        output.WriteMessage(RingFingerMCP);
-      }
-      if (ringFingerPIP_ != null) {
-        output.WriteRawTag(130, 1);
-        output.WriteMessage(RingFingerPIP);
-      }
-      if (ringFingerDIP_ != null) {
-        output.WriteRawTag(138, 1);
-        output.WriteMessage(RingFingerDIP);
-      }
-      if (ringFingerTIP_ != null) {
-        output.WriteRawTag(146, 1);
-        output.WriteMessage(RingFingerTIP);
-      }
-      if (pinkyMCP_ != null) {
-        output.WriteRawTag(154, 1);
-        output.WriteMessage(PinkyMCP);
-      }
-      if (pinkyPIP_ != null) {
-        output.WriteRawTag(162, 1);
-        output.WriteMessage(PinkyPIP);
-      }
-      if (pinkyDIP_ != null) {
-        output.WriteRawTag(170, 1);
-        output.WriteMessage(PinkyDIP);
-      }
-      if (pinkyTIP_ != null) {
-        output.WriteRawTag(178, 1);
-        output.WriteMessage(PinkyTIP);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (IsLeft != false) {
-        size += 1 + 1;
-      }
-      if (wrist_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Wrist);
-      }
-      if (thumbCMC_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ThumbCMC);
-      }
-      if (thumbMCP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ThumbMCP);
-      }
-      if (thumbIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ThumbIP);
-      }
-      if (thumbTIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ThumbTIP);
-      }
-      if (indexFingerMCP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IndexFingerMCP);
-      }
-      if (indexFingerPIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IndexFingerPIP);
-      }
-      if (indexFingerDIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IndexFingerDIP);
-      }
-      if (indexFingerTIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IndexFingerTIP);
-      }
-      if (middleFingerMCP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MiddleFingerMCP);
-      }
-      if (middleFingerPIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MiddleFingerPIP);
-      }
-      if (middleFingerDIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MiddleFingerDIP);
-      }
-      if (middleFingerTIP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MiddleFingerTIP);
-      }
-      if (ringFingerMCP_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RingFingerMCP);
-      }
-      if (ringFingerPIP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RingFingerPIP);
-      }
-      if (ringFingerDIP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RingFingerDIP);
-      }
-      if (ringFingerTIP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RingFingerTIP);
-      }
-      if (pinkyMCP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(PinkyMCP);
-      }
-      if (pinkyPIP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(PinkyPIP);
-      }
-      if (pinkyDIP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(PinkyDIP);
-      }
-      if (pinkyTIP_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(PinkyTIP);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(HandLandmarks other) {
-      if (other == null) {
-        return;
-      }
-      if (other.IsLeft != false) {
-        IsLeft = other.IsLeft;
-      }
-      if (other.wrist_ != null) {
-        if (wrist_ == null) {
-          Wrist = new global::HolisticPose.Landmark();
-        }
-        Wrist.MergeFrom(other.Wrist);
-      }
-      if (other.thumbCMC_ != null) {
-        if (thumbCMC_ == null) {
-          ThumbCMC = new global::HolisticPose.Landmark();
-        }
-        ThumbCMC.MergeFrom(other.ThumbCMC);
-      }
-      if (other.thumbMCP_ != null) {
-        if (thumbMCP_ == null) {
-          ThumbMCP = new global::HolisticPose.Landmark();
-        }
-        ThumbMCP.MergeFrom(other.ThumbMCP);
-      }
-      if (other.thumbIP_ != null) {
-        if (thumbIP_ == null) {
-          ThumbIP = new global::HolisticPose.Landmark();
-        }
-        ThumbIP.MergeFrom(other.ThumbIP);
-      }
-      if (other.thumbTIP_ != null) {
-        if (thumbTIP_ == null) {
-          ThumbTIP = new global::HolisticPose.Landmark();
-        }
-        ThumbTIP.MergeFrom(other.ThumbTIP);
-      }
-      if (other.indexFingerMCP_ != null) {
-        if (indexFingerMCP_ == null) {
-          IndexFingerMCP = new global::HolisticPose.Landmark();
-        }
-        IndexFingerMCP.MergeFrom(other.IndexFingerMCP);
-      }
-      if (other.indexFingerPIP_ != null) {
-        if (indexFingerPIP_ == null) {
-          IndexFingerPIP = new global::HolisticPose.Landmark();
-        }
-        IndexFingerPIP.MergeFrom(other.IndexFingerPIP);
-      }
-      if (other.indexFingerDIP_ != null) {
-        if (indexFingerDIP_ == null) {
-          IndexFingerDIP = new global::HolisticPose.Landmark();
-        }
-        IndexFingerDIP.MergeFrom(other.IndexFingerDIP);
-      }
-      if (other.indexFingerTIP_ != null) {
-        if (indexFingerTIP_ == null) {
-          IndexFingerTIP = new global::HolisticPose.Landmark();
-        }
-        IndexFingerTIP.MergeFrom(other.IndexFingerTIP);
-      }
-      if (other.middleFingerMCP_ != null) {
-        if (middleFingerMCP_ == null) {
-          MiddleFingerMCP = new global::HolisticPose.Landmark();
-        }
-        MiddleFingerMCP.MergeFrom(other.MiddleFingerMCP);
-      }
-      if (other.middleFingerPIP_ != null) {
-        if (middleFingerPIP_ == null) {
-          MiddleFingerPIP = new global::HolisticPose.Landmark();
-        }
-        MiddleFingerPIP.MergeFrom(other.MiddleFingerPIP);
-      }
-      if (other.middleFingerDIP_ != null) {
-        if (middleFingerDIP_ == null) {
-          MiddleFingerDIP = new global::HolisticPose.Landmark();
-        }
-        MiddleFingerDIP.MergeFrom(other.MiddleFingerDIP);
-      }
-      if (other.middleFingerTIP_ != null) {
-        if (middleFingerTIP_ == null) {
-          MiddleFingerTIP = new global::HolisticPose.Landmark();
-        }
-        MiddleFingerTIP.MergeFrom(other.MiddleFingerTIP);
-      }
-      if (other.ringFingerMCP_ != null) {
-        if (ringFingerMCP_ == null) {
-          RingFingerMCP = new global::HolisticPose.Landmark();
-        }
-        RingFingerMCP.MergeFrom(other.RingFingerMCP);
-      }
-      if (other.ringFingerPIP_ != null) {
-        if (ringFingerPIP_ == null) {
-          RingFingerPIP = new global::HolisticPose.Landmark();
-        }
-        RingFingerPIP.MergeFrom(other.RingFingerPIP);
-      }
-      if (other.ringFingerDIP_ != null) {
-        if (ringFingerDIP_ == null) {
-          RingFingerDIP = new global::HolisticPose.Landmark();
-        }
-        RingFingerDIP.MergeFrom(other.RingFingerDIP);
-      }
-      if (other.ringFingerTIP_ != null) {
-        if (ringFingerTIP_ == null) {
-          RingFingerTIP = new global::HolisticPose.Landmark();
-        }
-        RingFingerTIP.MergeFrom(other.RingFingerTIP);
-      }
-      if (other.pinkyMCP_ != null) {
-        if (pinkyMCP_ == null) {
-          PinkyMCP = new global::HolisticPose.Landmark();
-        }
-        PinkyMCP.MergeFrom(other.PinkyMCP);
-      }
-      if (other.pinkyPIP_ != null) {
-        if (pinkyPIP_ == null) {
-          PinkyPIP = new global::HolisticPose.Landmark();
-        }
-        PinkyPIP.MergeFrom(other.PinkyPIP);
-      }
-      if (other.pinkyDIP_ != null) {
-        if (pinkyDIP_ == null) {
-          PinkyDIP = new global::HolisticPose.Landmark();
-        }
-        PinkyDIP.MergeFrom(other.PinkyDIP);
-      }
-      if (other.pinkyTIP_ != null) {
-        if (pinkyTIP_ == null) {
-          PinkyTIP = new global::HolisticPose.Landmark();
-        }
-        PinkyTIP.MergeFrom(other.PinkyTIP);
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            IsLeft = input.ReadBool();
-            break;
-          }
-          case 18: {
-            if (wrist_ == null) {
-              Wrist = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(Wrist);
-            break;
-          }
-          case 26: {
-            if (thumbCMC_ == null) {
-              ThumbCMC = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbCMC);
-            break;
-          }
-          case 34: {
-            if (thumbMCP_ == null) {
-              ThumbMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbMCP);
-            break;
-          }
-          case 42: {
-            if (thumbIP_ == null) {
-              ThumbIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbIP);
-            break;
-          }
-          case 50: {
-            if (thumbTIP_ == null) {
-              ThumbTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbTIP);
-            break;
-          }
-          case 58: {
-            if (indexFingerMCP_ == null) {
-              IndexFingerMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerMCP);
-            break;
-          }
-          case 66: {
-            if (indexFingerPIP_ == null) {
-              IndexFingerPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerPIP);
-            break;
-          }
-          case 74: {
-            if (indexFingerDIP_ == null) {
-              IndexFingerDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerDIP);
-            break;
-          }
-          case 82: {
-            if (indexFingerTIP_ == null) {
-              IndexFingerTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerTIP);
-            break;
-          }
-          case 90: {
-            if (middleFingerMCP_ == null) {
-              MiddleFingerMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerMCP);
-            break;
-          }
-          case 98: {
-            if (middleFingerPIP_ == null) {
-              MiddleFingerPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerPIP);
-            break;
-          }
-          case 106: {
-            if (middleFingerDIP_ == null) {
-              MiddleFingerDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerDIP);
-            break;
-          }
-          case 114: {
-            if (middleFingerTIP_ == null) {
-              MiddleFingerTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerTIP);
-            break;
-          }
-          case 122: {
-            if (ringFingerMCP_ == null) {
-              RingFingerMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerMCP);
-            break;
-          }
-          case 130: {
-            if (ringFingerPIP_ == null) {
-              RingFingerPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerPIP);
-            break;
-          }
-          case 138: {
-            if (ringFingerDIP_ == null) {
-              RingFingerDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerDIP);
-            break;
-          }
-          case 146: {
-            if (ringFingerTIP_ == null) {
-              RingFingerTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerTIP);
-            break;
-          }
-          case 154: {
-            if (pinkyMCP_ == null) {
-              PinkyMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyMCP);
-            break;
-          }
-          case 162: {
-            if (pinkyPIP_ == null) {
-              PinkyPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyPIP);
-            break;
-          }
-          case 170: {
-            if (pinkyDIP_ == null) {
-              PinkyDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyDIP);
-            break;
-          }
-          case 178: {
-            if (pinkyTIP_ == null) {
-              PinkyTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyTIP);
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            IsLeft = input.ReadBool();
-            break;
-          }
-          case 18: {
-            if (wrist_ == null) {
-              Wrist = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(Wrist);
-            break;
-          }
-          case 26: {
-            if (thumbCMC_ == null) {
-              ThumbCMC = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbCMC);
-            break;
-          }
-          case 34: {
-            if (thumbMCP_ == null) {
-              ThumbMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbMCP);
-            break;
-          }
-          case 42: {
-            if (thumbIP_ == null) {
-              ThumbIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbIP);
-            break;
-          }
-          case 50: {
-            if (thumbTIP_ == null) {
-              ThumbTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(ThumbTIP);
-            break;
-          }
-          case 58: {
-            if (indexFingerMCP_ == null) {
-              IndexFingerMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerMCP);
-            break;
-          }
-          case 66: {
-            if (indexFingerPIP_ == null) {
-              IndexFingerPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerPIP);
-            break;
-          }
-          case 74: {
-            if (indexFingerDIP_ == null) {
-              IndexFingerDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerDIP);
-            break;
-          }
-          case 82: {
-            if (indexFingerTIP_ == null) {
-              IndexFingerTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(IndexFingerTIP);
-            break;
-          }
-          case 90: {
-            if (middleFingerMCP_ == null) {
-              MiddleFingerMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerMCP);
-            break;
-          }
-          case 98: {
-            if (middleFingerPIP_ == null) {
-              MiddleFingerPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerPIP);
-            break;
-          }
-          case 106: {
-            if (middleFingerDIP_ == null) {
-              MiddleFingerDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerDIP);
-            break;
-          }
-          case 114: {
-            if (middleFingerTIP_ == null) {
-              MiddleFingerTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(MiddleFingerTIP);
-            break;
-          }
-          case 122: {
-            if (ringFingerMCP_ == null) {
-              RingFingerMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerMCP);
-            break;
-          }
-          case 130: {
-            if (ringFingerPIP_ == null) {
-              RingFingerPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerPIP);
-            break;
-          }
-          case 138: {
-            if (ringFingerDIP_ == null) {
-              RingFingerDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerDIP);
-            break;
-          }
-          case 146: {
-            if (ringFingerTIP_ == null) {
-              RingFingerTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(RingFingerTIP);
-            break;
-          }
-          case 154: {
-            if (pinkyMCP_ == null) {
-              PinkyMCP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyMCP);
-            break;
-          }
-          case 162: {
-            if (pinkyPIP_ == null) {
-              PinkyPIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyPIP);
-            break;
-          }
-          case 170: {
-            if (pinkyDIP_ == null) {
-              PinkyDIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyDIP);
-            break;
-          }
-          case 178: {
-            if (pinkyTIP_ == null) {
-              PinkyTIP = new global::HolisticPose.Landmark();
-            }
-            input.ReadMessage(PinkyTIP);
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class FaceLandmarks : pb::IMessage<FaceLandmarks>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<FaceLandmarks> _parser = new pb::MessageParser<FaceLandmarks>(() => new FaceLandmarks());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<FaceLandmarks> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::HolisticPose.HolisticLandmarksReflection.Descriptor.MessageTypes[3]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FaceLandmarks() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FaceLandmarks(FaceLandmarks other) : this() {
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FaceLandmarks Clone() {
-      return new FaceLandmarks(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as FaceLandmarks);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(FaceLandmarks other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(FaceLandmarks other) {
-      if (other == null) {
-        return;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class HolisticLangmarks : pb::IMessage<HolisticLangmarks>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<HolisticLangmarks> _parser = new pb::MessageParser<HolisticLangmarks>(() => new HolisticLangmarks());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<HolisticLangmarks> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::HolisticPose.HolisticLandmarksReflection.Descriptor.MessageTypes[4]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HolisticLangmarks() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HolisticLangmarks(HolisticLangmarks other) : this() {
+    public HolisticLandmarks(HolisticLandmarks other) : this() {
       poseLandmarks_ = other.poseLandmarks_ != null ? other.poseLandmarks_.Clone() : null;
       leftHandLandmarks_ = other.leftHandLandmarks_ != null ? other.leftHandLandmarks_.Clone() : null;
       rightHandLandmarks_ = other.rightHandLandmarks_ != null ? other.rightHandLandmarks_.Clone() : null;
@@ -3458,16 +655,16 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HolisticLangmarks Clone() {
-      return new HolisticLangmarks(this);
+    public HolisticLandmarks Clone() {
+      return new HolisticLandmarks(this);
     }
 
     /// <summary>Field number for the "poseLandmarks" field.</summary>
     public const int PoseLandmarksFieldNumber = 1;
-    private global::HolisticPose.PoseLandmarks poseLandmarks_;
+    private global::HolisticPose.LandmarkList poseLandmarks_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.PoseLandmarks PoseLandmarks {
+    public global::HolisticPose.LandmarkList PoseLandmarks {
       get { return poseLandmarks_; }
       set {
         poseLandmarks_ = value;
@@ -3476,10 +673,10 @@ namespace HolisticPose {
 
     /// <summary>Field number for the "leftHandLandmarks" field.</summary>
     public const int LeftHandLandmarksFieldNumber = 2;
-    private global::HolisticPose.HandLandmarks leftHandLandmarks_;
+    private global::HolisticPose.LandmarkList leftHandLandmarks_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.HandLandmarks LeftHandLandmarks {
+    public global::HolisticPose.LandmarkList LeftHandLandmarks {
       get { return leftHandLandmarks_; }
       set {
         leftHandLandmarks_ = value;
@@ -3488,10 +685,10 @@ namespace HolisticPose {
 
     /// <summary>Field number for the "rightHandLandmarks" field.</summary>
     public const int RightHandLandmarksFieldNumber = 3;
-    private global::HolisticPose.HandLandmarks rightHandLandmarks_;
+    private global::HolisticPose.LandmarkList rightHandLandmarks_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.HandLandmarks RightHandLandmarks {
+    public global::HolisticPose.LandmarkList RightHandLandmarks {
       get { return rightHandLandmarks_; }
       set {
         rightHandLandmarks_ = value;
@@ -3500,10 +697,10 @@ namespace HolisticPose {
 
     /// <summary>Field number for the "faceLandmarks" field.</summary>
     public const int FaceLandmarksFieldNumber = 4;
-    private global::HolisticPose.FaceLandmarks faceLandmarks_;
+    private global::HolisticPose.LandmarkList faceLandmarks_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HolisticPose.FaceLandmarks FaceLandmarks {
+    public global::HolisticPose.LandmarkList FaceLandmarks {
       get { return faceLandmarks_; }
       set {
         faceLandmarks_ = value;
@@ -3513,12 +710,12 @@ namespace HolisticPose {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as HolisticLangmarks);
+      return Equals(other as HolisticLandmarks);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(HolisticLangmarks other) {
+    public bool Equals(HolisticLandmarks other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -3630,31 +827,31 @@ namespace HolisticPose {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(HolisticLangmarks other) {
+    public void MergeFrom(HolisticLandmarks other) {
       if (other == null) {
         return;
       }
       if (other.poseLandmarks_ != null) {
         if (poseLandmarks_ == null) {
-          PoseLandmarks = new global::HolisticPose.PoseLandmarks();
+          PoseLandmarks = new global::HolisticPose.LandmarkList();
         }
         PoseLandmarks.MergeFrom(other.PoseLandmarks);
       }
       if (other.leftHandLandmarks_ != null) {
         if (leftHandLandmarks_ == null) {
-          LeftHandLandmarks = new global::HolisticPose.HandLandmarks();
+          LeftHandLandmarks = new global::HolisticPose.LandmarkList();
         }
         LeftHandLandmarks.MergeFrom(other.LeftHandLandmarks);
       }
       if (other.rightHandLandmarks_ != null) {
         if (rightHandLandmarks_ == null) {
-          RightHandLandmarks = new global::HolisticPose.HandLandmarks();
+          RightHandLandmarks = new global::HolisticPose.LandmarkList();
         }
         RightHandLandmarks.MergeFrom(other.RightHandLandmarks);
       }
       if (other.faceLandmarks_ != null) {
         if (faceLandmarks_ == null) {
-          FaceLandmarks = new global::HolisticPose.FaceLandmarks();
+          FaceLandmarks = new global::HolisticPose.LandmarkList();
         }
         FaceLandmarks.MergeFrom(other.FaceLandmarks);
       }
@@ -3675,28 +872,28 @@ namespace HolisticPose {
             break;
           case 10: {
             if (poseLandmarks_ == null) {
-              PoseLandmarks = new global::HolisticPose.PoseLandmarks();
+              PoseLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(PoseLandmarks);
             break;
           }
           case 18: {
             if (leftHandLandmarks_ == null) {
-              LeftHandLandmarks = new global::HolisticPose.HandLandmarks();
+              LeftHandLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(LeftHandLandmarks);
             break;
           }
           case 26: {
             if (rightHandLandmarks_ == null) {
-              RightHandLandmarks = new global::HolisticPose.HandLandmarks();
+              RightHandLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(RightHandLandmarks);
             break;
           }
           case 34: {
             if (faceLandmarks_ == null) {
-              FaceLandmarks = new global::HolisticPose.FaceLandmarks();
+              FaceLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(FaceLandmarks);
             break;
@@ -3718,28 +915,28 @@ namespace HolisticPose {
             break;
           case 10: {
             if (poseLandmarks_ == null) {
-              PoseLandmarks = new global::HolisticPose.PoseLandmarks();
+              PoseLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(PoseLandmarks);
             break;
           }
           case 18: {
             if (leftHandLandmarks_ == null) {
-              LeftHandLandmarks = new global::HolisticPose.HandLandmarks();
+              LeftHandLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(LeftHandLandmarks);
             break;
           }
           case 26: {
             if (rightHandLandmarks_ == null) {
-              RightHandLandmarks = new global::HolisticPose.HandLandmarks();
+              RightHandLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(RightHandLandmarks);
             break;
           }
           case 34: {
             if (faceLandmarks_ == null) {
-              FaceLandmarks = new global::HolisticPose.FaceLandmarks();
+              FaceLandmarks = new global::HolisticPose.LandmarkList();
             }
             input.ReadMessage(FaceLandmarks);
             break;
