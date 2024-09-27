@@ -47,7 +47,13 @@ namespace VioletSolver.Network {
 
         public void Dispose()
         {
+            _udpClient?.Close();
             _udpClient?.Dispose();
+        }
+
+        public void OnApplicationQuit()
+        {
+            Dispose();
         }
     }
 }
