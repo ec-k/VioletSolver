@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using System.Net;
 using System.Net.Sockets;
-using HolisticPose;
 
 namespace VioletSolver.Network {
     public class LandmarkReceiveServer : MonoBehaviour
@@ -12,6 +11,9 @@ namespace VioletSolver.Network {
 
         readonly Action<SocketException> _SocketEcxeptionCallback;
         readonly Action<ObjectDisposedException> _ObjectDisposedExceptionCallback;
+
+        HolisticPose.HolisticLandmarks _results;
+        public HolisticPose.HolisticLandmarks Results => _results;
 
         // Start is called before the first frame update
         void Start()
@@ -28,9 +30,7 @@ namespace VioletSolver.Network {
             try
             {
                 byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
-
-                var message = HolisticLandmarks.Parser.ParseFrom(getByte);
-                Debug.Log(message.PoseLandmarks.Landmark);
+                var _results = HolisticPose.HolisticLandmarks.Parser.ParseFrom(getByte);
             }
             catch (SocketException e)
             {
