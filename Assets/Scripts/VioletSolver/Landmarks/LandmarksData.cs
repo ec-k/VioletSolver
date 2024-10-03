@@ -56,5 +56,11 @@ namespace VioletSolver
             Confidence = landmark.Confidence;
         }
 
+        public static Landmark Lerp(Landmark l1,  Landmark l2, float amount)
+        =>  new Landmark(
+                Mathf.Lerp(l1.X, l2.X, amount),
+                Mathf.Lerp(l1.Y, l2.Y, amount),
+                Mathf.Lerp(l1.Z, l2.Z, amount),
+                Mathf.Lerp(l1.Confidence, l2.Confidence, amount));
     }
 }
