@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace VioletSolver
@@ -14,9 +15,9 @@ namespace VioletSolver
 
     public interface ILandmarks
     {
-        public Landmark[] Landmarks { get; set; }
-        public int Count => Landmarks.Length;
-        public void UpdateLandmark(HolisticPose.LandmarkList landmarks);
+        public List<Landmark> Landmarks { get; }
+        public int Count => Landmarks.Count;
+        public void UpdateLandmarks(HolisticPose.LandmarkList landmarks);
     }
 
     public struct Landmark
@@ -47,13 +48,13 @@ namespace VioletSolver
             Confidence = confidence;
         }
 
-        public void SetFromHolisticLandmark(HolisticPose.Landmark landmark)
+        public static Landmark SetFromHolisticLandmark(HolisticPose.Landmark landmark)
         {
-            _position = new Vector3(
+            return new Landmark(
                 landmark.X,
                 landmark.Y,
-                landmark.Z);
-            Confidence = landmark.Confidence;
+                landmark.Z,
+                landmark.Confidence);
         }
 
         public static Landmark Lerp(Landmark l1,  Landmark l2, float amount)
@@ -62,5 +63,8 @@ namespace VioletSolver
                 Mathf.Lerp(l1.Y, l2.Y, amount),
                 Mathf.Lerp(l1.Z, l2.Z, amount),
                 Mathf.Lerp(l1.Confidence, l2.Confidence, amount));
+
+        public static implicit operator Vector3 (Landmark l) => new Vector3(l.X, l.Y, l.Z);
+        public static implicit operator Vector4 (Landmark l) => new Vector4(l.X, l.Y, l.Z, l.Confidence);
     }
 }

@@ -2,71 +2,61 @@ using UnityEngine;
 
 namespace VioletSolver
 {
+    // TODO: This class must have operator.
     public struct AvatarPoseData
     {
+        // I think this must be remade as a get property.
         public Quaternion BodyBones(HumanBodyBones boneName) => boneName switch
         {
-            HumanBodyBones.Hips => Hips.Rotation,
-            HumanBodyBones.Spine => Spine.Rotation,
-            HumanBodyBones.Chest => Chest.Rotation,
-            HumanBodyBones.UpperChest => UpperChest.Rotation,
-            HumanBodyBones.Neck => Neck.Rotation,
-            HumanBodyBones.Head => Head.Rotation,
+            HumanBodyBones.Hips => Hips,
+            HumanBodyBones.Spine => Spine,
+            HumanBodyBones.Chest => Chest,
+            HumanBodyBones.UpperChest => UpperChest,
+            HumanBodyBones.Neck => Neck,
+            HumanBodyBones.Head => Head,
 
-            HumanBodyBones.LeftUpperLeg => LeftUpperLeg.Rotation,
-            HumanBodyBones.RightUpperLeg => RightUpperLeg.Rotation,
-            HumanBodyBones.LeftLowerLeg => LeftLowerLeg.Rotation,
-            HumanBodyBones.RightLowerLeg => RightLowerLeg.Rotation,
-            HumanBodyBones.LeftFoot => LeftFoot.Rotation,
-            HumanBodyBones.RightFoot => RightFoot.Rotation,
+            HumanBodyBones.LeftUpperLeg => LeftUpperLeg,
+            HumanBodyBones.RightUpperLeg => RightUpperLeg,
+            HumanBodyBones.LeftLowerLeg => LeftLowerLeg,
+            HumanBodyBones.RightLowerLeg => RightLowerLeg,
+            HumanBodyBones.LeftFoot => LeftFoot,
+            HumanBodyBones.RightFoot => RightFoot,
 
-            HumanBodyBones.LeftShoulder => LeftShoulder.Rotation,
-            HumanBodyBones.RightShoulder => RightShoulder.Rotation,
-            HumanBodyBones.LeftUpperArm => LeftUpperArm.Rotation,
-            HumanBodyBones.RightUpperArm => RightUpperArm.Rotation,
-            HumanBodyBones.LeftLowerArm => LeftLowerArm.Rotation,
-            HumanBodyBones.RightLowerArm => RightLowerArm.Rotation,
-            HumanBodyBones.LeftHand => LeftHand.Rotation,
-            HumanBodyBones.RightHand => RightHand.Rotation,
+            HumanBodyBones.LeftShoulder => LeftShoulder,
+            HumanBodyBones.RightShoulder => RightShoulder,
+            HumanBodyBones.LeftUpperArm => LeftUpperArm,
+            HumanBodyBones.RightUpperArm => RightUpperArm,
+            HumanBodyBones.LeftLowerArm => LeftLowerArm,
+            HumanBodyBones.RightLowerArm => RightLowerArm,
+            HumanBodyBones.LeftHand => LeftHand,
+            HumanBodyBones.RightHand => RightHand,
 
             _ => Quaternion.identity
         };
 
-        public BoneRotation Hips;
-        public BoneRotation Spine;
-        public BoneRotation Chest;
-        public BoneRotation UpperChest;
-        public BoneRotation Neck;
-        public BoneRotation Head;
+        public Vector3 HipsPosition;
 
-        public BoneRotation LeftUpperLeg;
-        public BoneRotation RightUpperLeg;
-        public BoneRotation LeftLowerLeg;
-        public BoneRotation RightLowerLeg;
-        public BoneRotation LeftFoot;
-        public BoneRotation RightFoot;
+        public Quaternion Hips;
+        public Quaternion Spine;
+        public Quaternion Chest;
+        public Quaternion UpperChest;
+        public Quaternion Neck;
+        public Quaternion Head;
 
-        public BoneRotation LeftShoulder;
-        public BoneRotation RightShoulder;
-        public BoneRotation LeftUpperArm;
-        public BoneRotation RightUpperArm;
-        public BoneRotation LeftLowerArm;
-        public BoneRotation RightLowerArm;
-        public BoneRotation LeftHand;
-        public BoneRotation RightHand;
-    }
+        public Quaternion LeftUpperLeg;
+        public Quaternion RightUpperLeg;
+        public Quaternion LeftLowerLeg;
+        public Quaternion RightLowerLeg;
+        public Quaternion LeftFoot;
+        public Quaternion RightFoot;
 
-    public struct BoneRotation
-    {
-        Quaternion _rotation;
-        HumanBodyBones _boneName;
-
-        public Quaternion Rotation => _rotation;
-        public HumanBodyBones BoneName => _boneName;
-
-        void Update(Quaternion rotation)
-        {
-            _rotation = rotation;
-        }
+        public Quaternion LeftShoulder;
+        public Quaternion RightShoulder;
+        public Quaternion LeftUpperArm;
+        public Quaternion RightUpperArm;
+        public Quaternion LeftLowerArm;
+        public Quaternion RightLowerArm;
+        public Quaternion LeftHand;
+        public Quaternion RightHand;
     }
 }

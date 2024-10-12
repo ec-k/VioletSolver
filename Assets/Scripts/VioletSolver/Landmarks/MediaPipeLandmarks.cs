@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace VioletSolver
 {
     public struct HolisticLandmarks
@@ -17,73 +20,79 @@ namespace VioletSolver
 
     }
 
-    public struct PoseLandmarks : ILandmarks
+    public class PoseLandmarks : ILandmarks
     {
-        public Landmark[] Landmarks { get; set; }
-        public int Count => Landmarks.Length;
-        public PoseLandmarks(HolisticPose.LandmarkList rowLandmakrs)
+        List<Landmark> _landmarks;
+        public List<Landmark> Landmarks => _landmarks;
+        public int Count => Landmarks.Count;
+        public PoseLandmarks(int size)
         {
-            var length = (int)HolisticPose.PoseLandmark.PoseEnd;
-            Landmarks = new Landmark[length];
-            for(var i=0;i< length; i++)
+            _landmarks = new Landmark[size].ToList();
+        }
+        public PoseLandmarks(HolisticPose.LandmarkList rawLandmakrs)
+        {
+            var count = rawLandmakrs.Landmark.Count;
+            _landmarks = new(count);
+            for(var i=0;i< count; i++)
             {
-                Landmarks[i].SetFromHolisticLandmark(rowLandmakrs.Landmark[i]);
+                Landmarks[i] = Landmark.SetFromHolisticLandmark(rawLandmakrs.Landmark[i]);
             }
         }
-        public void UpdateLandmark(HolisticPose.LandmarkList landmarks) 
+        public void UpdateLandmarks(HolisticPose.LandmarkList rawLandmarks) 
         {
-            var length = (int)HolisticPose.PoseLandmark.PoseEnd;
-            for (var i = 0; i < length; i++)
+            var count = rawLandmarks.Landmark.Count;
+            Utils<Landmark>.ExpandList(count, ref _landmarks);
+            for (var i = 0; i < count; i++)
             {
-                Landmarks[i].SetFromHolisticLandmark(landmarks.Landmark[i]);
+                _landmarks[i] = Landmark.SetFromHolisticLandmark(rawLandmarks.Landmark[i]);
             }
         }
     }
     public struct HandLandmarks : ILandmarks
     {
-        public Landmark[] Landmarks { get; set; }
-        public int Count => Landmarks.Length;
+        public List<Landmark> Landmarks { get; set; }
+        public int Count => Landmarks.Count;
 
         public HandLandmarks(HolisticPose.LandmarkList rowLandmakrs)
         {
-            var length = (int)HolisticPose.HandLandmark.HandEnd;
-            Landmarks = new Landmark[length];
-            for (var i = 0; i < length; i++)
+            var count = rowLandmakrs.Landmark.Count;
+            Landmarks = new(count);
+            for (var i = 0; i < count; i++)
             {
-                Landmarks[i].SetFromHolisticLandmark(rowLandmakrs.Landmark[i]);
+                Landmarks[i] = Landmark.SetFromHolisticLandmark(rowLandmakrs.Landmark[i]);
             }
         }
-        public void UpdateLandmark(HolisticPose.LandmarkList landmarks)
+        public void UpdateLandmarks(HolisticPose.LandmarkList landmarks)
         {
-            var length = (int)HolisticPose.HandLandmark.HandEnd;
-            for (var i = 0; i < length; i++)
+            var count = landmarks.Landmark.Count;
+            for (var i = 0; i < count; i++)
             {
-                Landmarks[i].SetFromHolisticLandmark(landmarks.Landmark[i]);
+                Landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks.Landmark[i]);
             }
         }
     }
     public struct FaceLandmarks : ILandmarks
     {
-        public Landmark[] Landmarks { get; set; }
-        public int Count => Landmarks.Length;
+        public List<Landmark> Landmarks { get; set; }
+        public int Count => Landmarks.Count;
 
         // FIXME: functions below are not implement properly because HolisticPose.FaceLandmarks is not defined.
         public FaceLandmarks(HolisticPose.LandmarkList rowLandmakrs)
         {
             //var length = (int)HolisticPose.FasceLandmark.FaceEnd;
-            var length = 1; // KILL ERROR NOTIFICATION (implement this lately)
-            Landmarks = new Landmark[length];
-            for (var i = 0; i < length; i++)
+            var count = 1; // KILL ERROR NOTIFICATION (implement this lately)
+            Landmarks = new(count);
+            for (var i = 0; i < count; i++)
             {
-                Landmarks[i].SetFromHolisticLandmark(rowLandmakrs.Landmark[i]);
+                Landmarks[i] = Landmark.SetFromHolisticLandmark(rowLandmakrs.Landmark[i]);
             }
         }
-        public void UpdateLandmark(HolisticPose.LandmarkList landmarks)
+        public void UpdateLandmarks(HolisticPose.LandmarkList landmarks)
         {
-            var length = (int)HolisticPose.PoseLandmark.PoseEnd;
-            for (var i = 0; i < length; i++)
+            var count = landmarks.Landmark.Count;
+            for (var i = 0; i < count; i++)
             {
-                Landmarks[i].SetFromHolisticLandmark(landmarks.Landmark[i]);
+                Landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks.Landmark[i]);
             }
         }
     }

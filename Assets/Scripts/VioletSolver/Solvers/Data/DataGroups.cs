@@ -137,13 +137,20 @@ namespace VioletSolver
 			public Quaternion lUpperLeg;
 			public Quaternion lLowerLeg;
 
-			// IK Positions
-			public Vector4 rShoulder;
-			public Vector4 rElbow;
-			public Vector4 rHand;
-			public Vector4 lShoulder;
-			public Vector4 lElbow;
-			public Vector4 lHand;
+            //// IK Positions
+            //public Vector4 rShoulder;
+            //public Vector4 rElbow;
+            //public Vector4 rHand;
+            //public Vector4 lShoulder;
+            //public Vector4 lElbow;
+            //public Vector4 lHand;
+
+            public Quaternion rShoulder;
+			public Quaternion rElbow;
+			public Quaternion rHand;
+			public Quaternion lShoulder;
+			public Quaternion lElbow;
+			public Quaternion lHand;
 
 			public bool hasLeftLeg;
 			public bool hasRightLeg;
