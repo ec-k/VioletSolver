@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using VioletSolver.Network;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
@@ -10,11 +9,47 @@ namespace VioletSolver {
     public class AvatarAnimator : MonoBehaviour
     {
         [SerializeField] LandmarkHandler _landmarkHandler;
+        [SerializeField] AvatarPoseSolver _poseSolver;
         [SerializeField] AvatarPoseHandler _avatarPoseHandler;
-        [SerializeField] Animator _avatarAnimator;
+        [SerializeField] Animator _animator;
+        [SerializeField] bool _isAnimating = false;
 
-        void Start() { }
-        void Update() { }
+        public LandmarkHandler Landmarks => _landmarkHandler;
+
+        private void Start()
+        {
+            //_landmarkHandler = new LandmarkHandler();
+            //_poseSolver = new AvatarPoseSolver();
+            //_avatarPoseHandler = new AvatarPoseHandler();
+        }
+
+        void Update() 
+        { 
+            if( _isAnimating)
+            {
+                var isUpdated = UpdatePose();
+                if (!isUpdated)
+                    return;
+                var pose = _avatarPoseHandler.PoseData;
+                AnimateAvatar(_animator, pose);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns>Whether updating landmarks is processed properly or not.</returns>
+        bool UpdatePose()
+        {
+            _landmarkHandler.Update();
+            var landmarks = _landmarkHandler.Landmarks;
+            if (landmarks == null || 
+                landmarks.Landmarks == null ||
+                landmarks.Landmarks.Count <= 0) 
+                return false;
+            var pose = AvatarPoseSolver.Solve(landmarks);
+            _avatarPoseHandler.Update(pose);
+            return true;
+        }
 
         void AnimateAvatar(Animator avatarAnimator, AvatarPoseData pose)
         {
@@ -24,14 +59,18 @@ namespace VioletSolver {
                 var boneName = (HumanBodyBones)bone;
                 var rot = pose.BodyBones(boneName);
 
-                AnimateBone(avatarAnimator, boneName, rot);
+                try
+                {
+                    AnimateBone(avatarAnimator, boneName, rot);
+                }
+                catch { }
             }
         }
 
         // To add interpolation or motion filtering later easily, I separated this process as a function.
         void AnimateBone(Animator avatarAnimator, HumanBodyBones boneName, Quaternion rotation)
         {
-            avatarAnimator.GetBoneTransform(boneName).localRotation = rotation;
+            avatarAnimator.GetBoneTransform(boneName).rotation = rotation;
         }
     }
 }

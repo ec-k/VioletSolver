@@ -10,12 +10,25 @@ namespace VioletSolver
     [Serializable]
     public class AvatarPoseHandler
     {
-        AvatarPoseData _avatarPoseData;
-        [SerializeField] IVRMPoseFilter[] _vrmPoseFilters;
+        AvatarPoseData _poseData;
+        public AvatarPoseData PoseData => _poseData;
+        [SerializeField] IAvatarPoseFilter[] _vrmPoseFilters;
+        [SerializeField] float _filterAmount = 1f;
 
         public AvatarPoseHandler()
         {
-            _avatarPoseData = new AvatarPoseData();
+            _poseData = new AvatarPoseData();
+        }
+
+        public void Update(AvatarPoseData poseData)
+        {
+            var pose = poseData;
+            if(_vrmPoseFilters != null) 
+                foreach (var filter in _vrmPoseFilters)
+                {
+                    pose = filter.Filter(pose, _filterAmount);
+                }
+            _poseData = pose;
         }
 
     }
