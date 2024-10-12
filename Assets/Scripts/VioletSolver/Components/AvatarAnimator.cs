@@ -13,6 +13,7 @@ namespace VioletSolver {
         [SerializeField] AvatarPoseHandler _avatarPoseHandler;
         [SerializeField] Animator _animator;
         [SerializeField] bool _isAnimating = false;
+        AvatarBonePositions _restBonePositions;
 
         public LandmarkHandler Landmarks => _landmarkHandler;
 
@@ -21,6 +22,7 @@ namespace VioletSolver {
             //_landmarkHandler = new LandmarkHandler();
             //_poseSolver = new AvatarPoseSolver();
             //_avatarPoseHandler = new AvatarPoseHandler();
+            SetBonePositions(_animator);
         }
 
         void Update() 
@@ -46,7 +48,7 @@ namespace VioletSolver {
                 landmarks.Landmarks == null ||
                 landmarks.Landmarks.Count <= 0) 
                 return false;
-            var pose = AvatarPoseSolver.Solve(landmarks);
+            var pose = AvatarPoseSolver.Solve(landmarks, _restBonePositions);
             _avatarPoseHandler.Update(pose);
             return true;
         }
@@ -71,6 +73,22 @@ namespace VioletSolver {
         void AnimateBone(Animator avatarAnimator, HumanBodyBones boneName, Quaternion rotation)
         {
             avatarAnimator.GetBoneTransform(boneName).rotation = rotation;
+        }
+
+        void SetBonePositions(Animator animator)
+        {
+            var hbb = Enum.GetValues(typeof(HumanBodyBones));
+            foreach (var bone in hbb)
+            {
+                var boneName = (HumanBodyBones)bone;
+
+                try
+                {
+                    var bonePos = animator.GetBoneTransform(boneName).position;
+                    _restBonePositions[boneName] = bonePos;
+                }
+                catch { }
+            }
         }
     }
 }
