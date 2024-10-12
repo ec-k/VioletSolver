@@ -25,8 +25,8 @@ namespace VioletSolver
             _landmarks = new PoseLandmarks(30); // number 30 is temporal number. There are no meanings and intentions.
             _landmarkFilters = new List<ILandmarkFilter>();
 
-            var filter = new TransformCoordination();
-            _landmarkFilters.Add(filter);
+            _landmarkFilters.Add(new TransformCoordination());
+            _landmarkFilters.Add(new ConfidenceFilter());
         }
         public LandmarkHandler(ILandmarks landmarks)
         {
