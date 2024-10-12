@@ -24,14 +24,18 @@ namespace VioletSolver
 
 				// Hips & Chest
 				{
-					Vector3 defaultDirection = restBonePositions.RightShoulder - restBonePositions.LeftShoulder;
-					Vector3 targetDirection = rShoulder - lShoulder;
-					Quaternion rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
-					pose.Chest = rot;
+                    Vector3 defaultDirection = restBonePositions.UpperChest - restBonePositions.Hips;
+                    Vector3 targetDirection = Vector3.Lerp(rShoulder, lShoulder, 0.5f) - Vector3.Lerp(rHip, lHip, 0.5f);
+                    var tiltRot = Quaternion.FromToRotation(defaultDirection, targetDirection);
+
+                    defaultDirection = restBonePositions.RightShoulder - restBonePositions.LeftShoulder;
+					targetDirection = rShoulder - lShoulder;
+					var rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
+                    pose.Chest = rot * tiltRot;
 
 					targetDirection = rHip - lHip;
 					rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
-					pose.Hips = rot;
+					pose.Hips = rot * tiltRot;
 
 					float mul = 1000;
 					pose.HipsPosition = new Vector3(
