@@ -24,12 +24,11 @@ namespace VioletSolver
 
 				// Hips & Chest
 				{
-					Vector3 defaultDirection = Vector3.left;
+					Vector3 defaultDirection = Vector3.right;
 					Vector3 targetDirection = rShoulder - lShoulder;
 					Quaternion rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
-					pose.Chest= rot;
+					pose.Chest = rot;
 
-					defaultDirection = Vector3.left;
 					targetDirection = rHip - lHip;
 					rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
 					pose.Hips = rot;
@@ -50,20 +49,20 @@ namespace VioletSolver
 				{
 					Vector4 rElbow = landmarks[(int)PoseLandmark.RightElbow];
 					Vector4 rHand = landmarks[(int)PoseLandmark.RightWrist];
-					(pose.RightUpperArm, pose.RightLowerArm) = SolveRim(rShoulder, rElbow, rHand, Vector3.up);
+					(pose.RightUpperArm, pose.RightLowerArm) = SolveRim(rShoulder, rElbow, rHand, Vector3.right);
 				}
 
 				{
 					Vector4 lElbow = landmarks[(int)PoseLandmark.LeftElbow];
 					Vector4 lHand = landmarks[(int)PoseLandmark.LeftWrist];
-					(pose.LeftUpperArm, pose.LeftLowerArm) = SolveRim(lShoulder, lElbow, lHand, Vector3.up);
+					(pose.LeftUpperArm, pose.LeftLowerArm) = SolveRim(lShoulder, lElbow, lHand, Vector3.left);
 				}
 
 				// Legs
 				{
 					Vector4 rKnee = landmarks[(int)PoseLandmark.RightKnee];
 					Vector4 rAnkle = landmarks[(int)PoseLandmark.RightAnkle];
-					(pose.RightUpperLeg, pose.RightLowerLeg) = SolveRim(rHip, rKnee, rAnkle, Vector3.up);
+					(pose.RightUpperLeg, pose.RightLowerLeg) = SolveRim(rHip, rKnee, rAnkle, Vector3.down);
 
 					//pose.hasRightLeg = rHip.w > 0.5 && rKnee.w > 0.5;
 				}
@@ -71,7 +70,7 @@ namespace VioletSolver
 				{
 					Vector4 lKnee = landmarks[(int)PoseLandmark.LeftKnee];
 					Vector4 lAnkle = landmarks[(int)PoseLandmark.LeftAnkle];
-                    (pose.LeftUpperLeg, pose.LeftLowerLeg) = SolveRim(lHip, lKnee, lAnkle, Vector3.up);
+					(pose.LeftUpperLeg, pose.LeftLowerLeg) = SolveRim(lHip, lKnee, lAnkle, Vector3.down);
 
 					//pose.hasLeftLeg = lHip.w > 0.5 && lKnee.w > 0.5;
 				}
