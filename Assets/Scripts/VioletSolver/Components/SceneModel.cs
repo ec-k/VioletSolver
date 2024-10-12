@@ -21,9 +21,6 @@ namespace VioletSolver
 		private readonly Dictionary<HumanBodyBones, Transform> boneTransformCache = new();
 		private readonly RuntimeAnimatorController m_defaultController;
 		private readonly GameObject m_defaultModelPrefab;
-		
-		// Internal
-		private bool visible = true; // Always visible by default
 
 		// API Getters
 		public Dictionary<BlendShapePreset, BlendShapeKey> BlendShapes => blendShapeCache;

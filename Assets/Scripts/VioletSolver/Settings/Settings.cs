@@ -42,7 +42,6 @@ namespace VioletSolver
 		}
 
 		public delegate void IntDelegate (int value);
-		public static event IntDelegate GuiScaleListener;
 
 		// Reset
 		public static void ResetSettings() {

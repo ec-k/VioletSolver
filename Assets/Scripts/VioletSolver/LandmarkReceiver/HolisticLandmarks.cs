@@ -33,7 +33,7 @@ namespace HolisticPose {
             "Gi5ob2xpc3RpY1Bvc2UuTGFuZG1hcmtMaXN0EjYKEnJpZ2h0SGFuZExhbmRt",
             "YXJrcxgDIAEoCzIaLmhvbGlzdGljUG9zZS5MYW5kbWFya0xpc3QSMQoNZmFj",
             "ZUxhbmRtYXJrcxgEIAEoCzIaLmhvbGlzdGljUG9zZS5MYW5kbWFya0xpc3Qq",
-            "nwQKDFBvc2VMYW5kbWFyaxIICgRub3NlEAASEAoMbGVmdEV5ZUlubmVyEAES",
+            "kgQKDFBvc2VMYW5kbWFyaxIICgRub3NlEAASEAoMbGVmdEV5ZUlubmVyEAES",
             "CwoHbGVmdEV5ZRACEhAKDGxlZnRFeWVPdXRlchADEhEKDXJpZ2h0RXllSW5u",
             "ZXIQBBIMCghyaWdodEV5ZRAFEhEKDXJpZ2h0RXllT3V0ZXIQBhILCgdsZWZ0",
             "RWFyEAcSDAoIcmlnaHRFYXIQCBINCgltb3V0aExlZnQQCRIOCgptb3V0aFJp",
@@ -44,16 +44,16 @@ namespace HolisticPose {
             "FRIOCgpyaWdodFRodW1iEBYSCwoHbGVmdEhpcBAXEgwKCHJpZ2h0SGlwEBgS",
             "DAoIbGVmdEtuZWUQGRINCglyaWdodEtuZWUQGhINCglsZWZ0QW5rbGUQGxIO",
             "CgpyaWdodEFua2xlEBwSDAoIbGVmdEhlZWwQHRINCglyaWdodEhlZWwQHhIR",
-            "Cg1sZWZ0Rm9vdEluZGV4EB8SEgoOcmlnaHRGb290SW5kZXgQIBILCgdwb3Nl",
-            "RW5kECEqhQMKDEhhbmRMYW5kbWFyaxIJCgV3cmlzdBAAEgwKCHRodW1iQ01D",
-            "EAESDAoIdGh1bWJNQ1AQAhILCgd0aHVtYklQEAMSDAoIdGh1bWJUSVAQBBIS",
-            "Cg5pbmRleEZpbmdlck1DUBAFEhIKDmluZGV4RmluZ2VyUElQEAYSEgoOaW5k",
-            "ZXhGaW5nZXJESVAQBxISCg5pbmRleEZpbmdlclRJUBAIEhMKD21pZGRsZUZp",
-            "bmdlck1DUBAJEhMKD21pZGRsZUZpbmdlclBJUBAKEhMKD21pZGRsZUZpbmdl",
-            "ckRJUBALEhMKD21pZGRsZUZpbmdlclRJUBAMEhEKDXJpbmdGaW5nZXJNQ1AQ",
-            "DRIRCg1yaW5nRmluZ2VyUElQEA4SEQoNcmluZ0ZpbmdlckRJUBAPEhEKDXJp",
-            "bmdGaW5nZXJUSVAQEBIMCghwaW5reU1DUBAREgwKCHBpbmt5UElQEBISDAoI",
-            "cGlua3lESVAQExIMCghwaW5reVRJUBAUEgsKB2hhbmRFbmQQFWIGcHJvdG8z"));
+            "Cg1sZWZ0Rm9vdEluZGV4EB8SEgoOcmlnaHRGb290SW5kZXgQICr4AgoMSGFu",
+            "ZExhbmRtYXJrEgkKBXdyaXN0EAASDAoIdGh1bWJDTUMQARIMCgh0aHVtYk1D",
+            "UBACEgsKB3RodW1iSVAQAxIMCgh0aHVtYlRJUBAEEhIKDmluZGV4RmluZ2Vy",
+            "TUNQEAUSEgoOaW5kZXhGaW5nZXJQSVAQBhISCg5pbmRleEZpbmdlckRJUBAH",
+            "EhIKDmluZGV4RmluZ2VyVElQEAgSEwoPbWlkZGxlRmluZ2VyTUNQEAkSEwoP",
+            "bWlkZGxlRmluZ2VyUElQEAoSEwoPbWlkZGxlRmluZ2VyRElQEAsSEwoPbWlk",
+            "ZGxlRmluZ2VyVElQEAwSEQoNcmluZ0Zpbmdlck1DUBANEhEKDXJpbmdGaW5n",
+            "ZXJQSVAQDhIRCg1yaW5nRmluZ2VyRElQEA8SEQoNcmluZ0ZpbmdlclRJUBAQ",
+            "EgwKCHBpbmt5TUNQEBESDAoIcGlua3lQSVAQEhIMCghwaW5reURJUBATEgwK",
+            "CHBpbmt5VElQEBRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::HolisticPose.PoseLandmark), typeof(global::HolisticPose.HandLandmark), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -100,7 +100,6 @@ namespace HolisticPose {
     [pbr::OriginalName("rightHeel")] RightHeel = 30,
     [pbr::OriginalName("leftFootIndex")] LeftFootIndex = 31,
     [pbr::OriginalName("rightFootIndex")] RightFootIndex = 32,
-    [pbr::OriginalName("poseEnd")] PoseEnd = 33,
   }
 
   public enum HandLandmark {
@@ -125,7 +124,6 @@ namespace HolisticPose {
     [pbr::OriginalName("pinkyPIP")] PinkyPip = 18,
     [pbr::OriginalName("pinkyDIP")] PinkyDip = 19,
     [pbr::OriginalName("pinkyTIP")] PinkyTip = 20,
-    [pbr::OriginalName("handEnd")] HandEnd = 21,
   }
 
   #endregion
