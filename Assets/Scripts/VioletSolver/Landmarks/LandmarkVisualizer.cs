@@ -24,7 +24,7 @@ namespace VioletSolver
 
         void Update()
         {
-            var lm = _landmarkHandler.Landmarks;
+            var lm = _landmarkHandler.Landmarks.Pose;
             if (lm == null)
                 return;
             ExpandVisualsList(lm);

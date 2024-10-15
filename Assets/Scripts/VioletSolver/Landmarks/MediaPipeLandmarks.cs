@@ -4,20 +4,36 @@ using System.Linq;
 
 namespace VioletSolver
 {
-    public struct HolisticLandmarks
+    public struct HolisticLandmarks: IHolisticLandmarks
     {
-        public PoseLandmarks PoseLandmarks { get; private set; }
-        public HandLandmarks LeftHandLandmarks { get; private set; }
-        public HandLandmarks RightHandLandmarks { get; private set; }
-        public FaceLandmarks FaceLandmarks { get; private set; }
+        public ILandmarks Pose { get; set; }
+        public ILandmarks LeftHand { get; set; }
+        public ILandmarks RightHand { get; set; }
+        public ILandmarks Face { get; set; }
 
+        public HolisticLandmarks(int size)
+        {
+            Pose = new PoseLandmarks(size);
+            LeftHand = new HandLandmarks(size);
+            RightHand = new HandLandmarks(size);
+            Face = new FaceLandmarks(size);
+        }
         public HolisticLandmarks(HolisticPose.HolisticLandmarks rowLandmakrs)
         {
-            PoseLandmarks = new PoseLandmarks(rowLandmakrs.poseLandmarks.Landmarks);
-            LeftHandLandmarks = new HandLandmarks(rowLandmakrs.LeftHandLandmarks.Landmarks);
-            RightHandLandmarks = new HandLandmarks(rowLandmakrs.RightHandLandmarks.Landmarks);
-            FaceLandmarks = new FaceLandmarks(rowLandmakrs.FaceResults.Landmarks);
+            Pose = new PoseLandmarks(rowLandmakrs.poseLandmarks.Landmarks);
+            LeftHand = new HandLandmarks(rowLandmakrs.LeftHandLandmarks.Landmarks);
+            RightHand = new HandLandmarks(rowLandmakrs.RightHandLandmarks.Landmarks);
+            Face = new FaceLandmarks(rowLandmakrs.FaceResults.Landmarks);
         }
+
+        public void UpdateLandmarks(HolisticPose.HolisticLandmarks landmarks)
+        {
+            Pose.UpdateLandmarks(landmarks.poseLandmarks.Landmarks);
+            //LeftHand.UpdateLandmarks(landmarks.LeftHandLandmarks.Landmarks);
+            //RightHand.UpdateLandmarks(landmarks.RightHandLandmarks.Landmarks);
+            //Face.UpdateLandmarks(landmarks.FaceResults.Landmarks);
+        }
+
 
     }
 
@@ -51,13 +67,18 @@ namespace VioletSolver
     }
     public struct HandLandmarks : ILandmarks
     {
-        public List<Landmark> Landmarks { get; set; }
+        List<Landmark> _landmarks;
+        public List<Landmark> Landmarks => _landmarks;
         public int Count => Landmarks.Count;
+        public HandLandmarks(int size)
+        {
+            _landmarks = new Landmark[size].ToList();
+        }
 
         public HandLandmarks(RepeatedField<HolisticPose.Landmark> rowLandmakrs)
         {
             var count = rowLandmakrs.Count;
-            Landmarks = new(count);
+            _landmarks = new(count);
             for (var i = 0; i < count; i++)
             {
                 Landmarks[i] = Landmark.SetFromHolisticLandmark(rowLandmakrs[i]);
@@ -68,24 +89,29 @@ namespace VioletSolver
             var count = landmarks.Count;
             for (var i = 0; i < count; i++)
             {
-                Landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks[i]);
+                _landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks[i]);
             }
         }
     }
     public struct FaceLandmarks : ILandmarks
     {
-        public List<Landmark> Landmarks { get; set; }
+        List<Landmark> _landmarks;
+        public List<Landmark> Landmarks => _landmarks;
         public int Count => Landmarks.Count;
+        public FaceLandmarks(int size)
+        {
+            _landmarks = new Landmark[size].ToList();
+        }
 
         // FIXME: functions below are not implement properly because HolisticPose.FaceLandmarks is not defined.
         public FaceLandmarks(RepeatedField<HolisticPose.Landmark> rowLandmakrs)
         {
             //var length = (int)HolisticPose.FasceLandmark.FaceEnd;
             var count = 1; // KILL ERROR NOTIFICATION (implement this lately)
-            Landmarks = new(count);
+            _landmarks = new(count);
             for (var i = 0; i < count; i++)
             {
-                Landmarks[i] = Landmark.SetFromHolisticLandmark(rowLandmakrs[i]);
+                _landmarks[i] = Landmark.SetFromHolisticLandmark(rowLandmakrs[i]);
             }
         }
         public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> landmarks)
@@ -93,7 +119,7 @@ namespace VioletSolver
             var count = landmarks.Count;
             for (var i = 0; i < count; i++)
             {
-                Landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks[i]);
+                _landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks[i]);
             }
         }
     }

@@ -45,8 +45,9 @@ namespace VioletSolver {
             _landmarkHandler.Update();
             var landmarks = _landmarkHandler.Landmarks;
             if (landmarks == null || 
-                landmarks.Landmarks == null ||
-                landmarks.Landmarks.Count <= 0) 
+                landmarks.Pose == null ||
+                landmarks.Pose.Landmarks == null ||
+                landmarks.Pose.Landmarks.Count <= 0) 
                 return false;
             var pose = AvatarPoseSolver.Solve(landmarks, _restBonePositions);
             _avatarPoseHandler.Update(pose);

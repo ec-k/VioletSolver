@@ -11,8 +11,8 @@ namespace VioletSolver
     [Serializable]
     public class LandmarkHandler
     {
-        ILandmarks _landmarks;
-        public ILandmarks Landmarks => _landmarks;
+        IHolisticLandmarks _landmarks;
+        public IHolisticLandmarks Landmarks => _landmarks;
         [SerializeField] List<ILandmarkFilter> _landmarkFilters;
         [SerializeField] float _filterAmount = 1f;
         [SerializeField] LandmarkReceiver _landmarkReceiveServer;
@@ -22,13 +22,13 @@ namespace VioletSolver
 
         public LandmarkHandler()
         {
-            _landmarks = new PoseLandmarks(30); // number 30 is temporal number. There are no meanings and intentions.
+            _landmarks = new HolisticLandmarks(30); // "30" is temporal number. There are no meanings and intentions.
             _landmarkFilters = new List<ILandmarkFilter>();
 
             _landmarkFilters.Add(new TransformCoordination());
             _landmarkFilters.Add(new ConfidenceFilter());
         }
-        public LandmarkHandler(ILandmarks landmarks)
+        public LandmarkHandler(IHolisticLandmarks landmarks)
         {
             _landmarks = landmarks;
         }
@@ -42,13 +42,12 @@ namespace VioletSolver
             if (_landmarkReceiveServer.Results == null || 
                 _landmarkReceiveServer.Results.poseLandmarks == null) 
                 return;
-            _landmarks.UpdateLandmarks(_landmarkReceiveServer.Results.poseLandmarks.Landmarks);
+            _landmarks.UpdateLandmarks(_landmarkReceiveServer.Results);
             var resultedLandmarks = _landmarks;
             if (_landmarkFilters != null)
                 foreach (var filter in _landmarkFilters)
                 {
-                    resultedLandmarks = filter.Filter(resultedLandmarks, _filterAmount);
-                    //resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose, _filterAmount);
+                    resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose, _filterAmount);
                     //resultedLandmarks.LeftHand = filter.Filter(resultedLandmarks.LeftHand, _filterAmount);
                     //resultedLandmarks.RightHand = filter.Filter(resultedLandmarks.RightHand, _filterAmount);
                     //resultedLandmarks.Face = filter.Filter(resultedLandmarks.Face, _filterAmount);
