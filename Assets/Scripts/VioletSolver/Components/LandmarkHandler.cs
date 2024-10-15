@@ -40,9 +40,9 @@ namespace VioletSolver
         public void Update() 
         {
             if (_landmarkReceiveServer.Results == null || 
-                _landmarkReceiveServer.Results.PoseLandmarks == null) 
+                _landmarkReceiveServer.Results.poseLandmarks == null) 
                 return;
-            _landmarks.UpdateLandmarks(_landmarkReceiveServer.Results.PoseLandmarks);
+            _landmarks.UpdateLandmarks(_landmarkReceiveServer.Results.poseLandmarks.Landmarks);
             var resultedLandmarks = _landmarks;
             if (_landmarkFilters != null)
                 foreach (var filter in _landmarkFilters)

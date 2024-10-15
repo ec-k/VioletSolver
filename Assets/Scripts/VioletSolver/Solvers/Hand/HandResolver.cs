@@ -8,15 +8,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using HolisticPose;
 
+using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
+
 namespace VioletSolver 
 {
 	public class HandResolver {
 		public static readonly int[][] Fingers = new int[][] {
-			new int[] { (int)HandLandmark.ThumbCmc,			(int)HandLandmark.ThumbTip},			// Thumb
-			new int[] { (int)HandLandmark.IndexFingerMcp,	(int)HandLandmark.IndexFingerTip},		// Index
-			new int[] { (int)HandLandmark.MiddleFingerMcp,	(int)HandLandmark.MiddleFingerTip},		// Middle
-			new int[] { (int)HandLandmark.RingFingerMcp,	(int)HandLandmark.RingFingerTip },		// Ring
-			new int[] { (int)HandLandmark.PinkyMcp,         (int)HandLandmark.PinkyTip },			// Pinky
+			new int[] { (int)handIndex.ThumbCmc,			(int)handIndex.ThumbTip},			// Thumb
+			new int[] { (int)handIndex.IndexFingerMcp,	(int)handIndex.IndexFingerTip},		// Index
+			new int[] { (int)handIndex.MiddleFingerMcp,	(int)handIndex.MiddleFingerTip},		// Middle
+			new int[] { (int)handIndex.RingFingerMcp,	(int)handIndex.RingFingerTip },		// Ring
+			new int[] { (int)handIndex.PinkyMcp,         (int)handIndex.PinkyTip },			// Pinky
 		};
 
 		public struct FingerAngle {
@@ -74,7 +76,7 @@ namespace VioletSolver
 				Vector3 handForwardDir = plane.normal;
 
 				Quaternion rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(0, 90, -90);
-				angles.Add(new((int)HandLandmark.Wrist, rot.eulerAngles));
+				angles.Add(new((int)handIndex.Wrist, rot.eulerAngles));
 			}
 
 			return ConvertData(angles);
@@ -91,7 +93,7 @@ namespace VioletSolver
 				Vector3 handForwardDir = plane.normal;
 
 				Quaternion rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(0, 90, 90);
-				angles.Add(new((int)HandLandmark.Wrist, rot.eulerAngles));
+				angles.Add(new((int)handIndex.Wrist, rot.eulerAngles));
 			}
 
 			return ConvertData(angles);
@@ -122,12 +124,12 @@ namespace VioletSolver
 					continue;
 				}
 
-				if (i >= (int)HandLandmark.ThumbCmc && i <= (int)HandLandmark.ThumbTip) {
+				if (i >= (int)handIndex.ThumbCmc && i <= (int)handIndex.ThumbTip) {
 					// Thumb should move more than the fingers
 					xAngle *= 1.1f;
 
 					// The thumb needs to rotate around Y for X
-					if (i == (int)HandLandmark.ThumbCmc) {
+					if (i == (int)handIndex.ThumbCmc) {
 						// By default it has around 20 degree offset from the next segment
 						xAngle -= 25;
 					}

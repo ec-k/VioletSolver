@@ -1,3 +1,4 @@
+using Google.Protobuf.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace VioletSolver
     {
         public List<Landmark> Landmarks { get; }
         public int Count => Landmarks.Count;
-        public void UpdateLandmarks(HolisticPose.LandmarkList landmarks);
+        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> landmarks);
     }
 
     public struct Landmark

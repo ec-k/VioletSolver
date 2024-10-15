@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+using Google.Protobuf.Collections;
 using HolisticPose;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace VioletSolver
 		private RigAnimator rigger;
 		private Animator anim;
 
-		private LandmarkList _poseLandmarks;
+		private RepeatedField<HolisticPose.Landmark> _poseLandmarks;
 		
 		public Vector3 LeftElbow;
 		public Vector3 LeftHand;
