@@ -21,7 +21,7 @@ namespace VioletSolver
 
     }
 
-    public class PoseLandmarks : ILandmarks
+    public struct PoseLandmarks : ILandmarks
     {
         List<Landmark> _landmarks;
         public List<Landmark> Landmarks => _landmarks;
