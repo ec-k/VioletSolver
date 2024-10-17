@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using VRM;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
@@ -12,6 +14,7 @@ namespace VioletSolver {
         [SerializeField] AvatarPoseSolver _poseSolver;
         [SerializeField] AvatarPoseHandler _avatarPoseHandler;
         [SerializeField] Animator _animator;
+        [SerializeField] VRMBlendShapeProxy _proxy;
         [SerializeField] bool _isAnimating = false;
         AvatarBonePositions _restBonePositions;
 
@@ -34,6 +37,12 @@ namespace VioletSolver {
                     return;
                 var pose = _avatarPoseHandler.PoseData;
                 AnimateAvatar(_animator, pose);
+
+                isUpdated = UpdateBlendshapes();
+                if(!isUpdated) 
+                    return;
+                var blendshapes = _avatarPoseHandler.BlendshapeWeights;
+                AnimateFace(_proxy, blendshapes);
             }
         }
 
@@ -54,6 +63,19 @@ namespace VioletSolver {
             return true;
         }
 
+        bool UpdateBlendshapes()
+        {
+            _landmarkHandler.UpdateBlendshapes();
+            var mpBlendshapes = _landmarkHandler.MpBlendshapes;
+            if (mpBlendshapes == null ||
+                mpBlendshapes == null ||
+                mpBlendshapes.Count <= 0)
+                return false;
+            var blendshapes = AvatarPoseSolver.Solve(mpBlendshapes);
+            _avatarPoseHandler.Update(blendshapes);
+            return true;
+        }
+
         void AnimateAvatar(Animator avatarAnimator, AvatarPoseData pose)
         {
             var hbb = Enum.GetValues(typeof(HumanBodyBones));
@@ -68,6 +90,21 @@ namespace VioletSolver {
                 }
                 catch { }
             }
+        }
+
+        void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<BlendShapePreset, float> blendshapes)
+        {
+            var bs = new Dictionary<BlendShapeKey, float>();
+
+            var tmpArray = Enum.GetValues(typeof(BlendShapePreset));
+            foreach (var value in tmpArray)
+            {
+                var blendshapeIndex = (BlendShapePreset)value;
+                if (blendshapes.TryGetValue(blendshapeIndex, out var blendshape))
+                    bs[BlendShapeKey.CreateFromPreset(blendshapeIndex)] = blendshape;
+            }
+
+            proxy.SetValues(bs);
         }
 
         // To add interpolation or motion filtering later easily, I separated this process as a function.

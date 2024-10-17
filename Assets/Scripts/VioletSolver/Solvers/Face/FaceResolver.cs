@@ -6,6 +6,9 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using VRM;
+
+using blendshapeIndex = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
@@ -69,6 +72,17 @@ namespace VioletSolver
 
 			return neckRotation;
 		}
-	}
+
+        public static Dictionary<BlendShapePreset, float> SolveFacialExpression(Dictionary<blendshapeIndex, float> mp_blendshapes)
+		{
+			var weights = new Dictionary<BlendShapePreset, float>();
+
+			weights[BlendShapePreset.Blink_L] = mp_blendshapes[blendshapeIndex.EyeBlinkLeft];
+			weights[BlendShapePreset.Blink_R] = mp_blendshapes[blendshapeIndex.EyeBlinkRight];
+
+			return weights;
+		}
+
+    }
 }
 

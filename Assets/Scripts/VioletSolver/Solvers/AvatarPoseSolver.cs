@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+using VRM;
+
+using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+
 namespace VioletSolver
 {
     public class AvatarPoseSolver
@@ -11,6 +16,12 @@ namespace VioletSolver
             solvedPose.Neck = FaceResolver.Solve(landmarks.Face.Landmarks);
             return solvedPose;
         }
+
+        public static Dictionary<BlendShapePreset, float> Solve(Dictionary<MediaPipeBlendshapes, float> weights)
+        {
+            return FaceResolver.SolveFacialExpression(weights);
+        }
+
         public static AvatarPoseData Solve(ILandmarks landmarks, AvatarBonePositions restBonePositions)
         {
             var solvedPose = PoseSolver.SolvePose(landmarks.Landmarks, restBonePositions);
