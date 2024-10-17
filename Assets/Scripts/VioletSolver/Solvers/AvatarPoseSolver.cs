@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using VRM;
 
 using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
@@ -17,9 +18,11 @@ namespace VioletSolver
             return solvedPose;
         }
 
-        public static Dictionary<BlendShapePreset, float> Solve(Dictionary<MediaPipeBlendshapes, float> weights)
+        public static (Dictionary<BlendShapePreset, float>, Quaternion, Quaternion) Solve(Dictionary<MediaPipeBlendshapes, float> weights)
         {
-            return FaceResolver.SolveFacialExpression(weights);
+            var blendshapes = FaceResolver.SolveFacialExpression(weights);
+            var (leftEyeRotation, rightEyeRotation) = FaceResolver.SolveEye(weights);
+            return (blendshapes, leftEyeRotation, rightEyeRotation);
         }
 
         public static AvatarPoseData Solve(ILandmarks landmarks, AvatarBonePositions restBonePositions)

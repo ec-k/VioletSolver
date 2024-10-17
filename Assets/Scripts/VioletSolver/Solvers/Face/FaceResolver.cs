@@ -83,6 +83,55 @@ namespace VioletSolver
 			return weights;
 		}
 
+		public static (Quaternion, Quaternion) SolveEye(Dictionary<blendshapeIndex, float> mp_blendshapes)
+		{
+            var weights = new Dictionary<BlendShapePreset, float>();
+			var (leftEye, rightEye) = (Quaternion.identity, Quaternion.identity);
+
+			var maxRotation = 10f;
+
+			// left eye
+			{
+				var up = mp_blendshapes[blendshapeIndex.EyeLookUpLeft];
+				var down = mp_blendshapes[blendshapeIndex.EyeLookDownLeft];
+				var left = mp_blendshapes[blendshapeIndex.EyeLookOutLeft];
+				var right = mp_blendshapes[blendshapeIndex.EyeLookInLeft];
+
+				var x_value = down - up;
+				var y_value = right - left;
+
+				var x_normalized = (x_value + 1f) / 2f;
+				var y_normalized = (y_value + 1f) / 2f;
+
+                var rot_x = Mathf.Lerp(-maxRotation, maxRotation, x_normalized);
+				var rot_y = Mathf.Lerp(-maxRotation, maxRotation, y_normalized);
+
+                leftEye = Quaternion.Euler(rot_x, rot_y, 0f);
+            }
+
+            // right eye
+            {
+				var up = mp_blendshapes[blendshapeIndex.EyeLookUpRight];
+                var down = mp_blendshapes[blendshapeIndex.EyeLookDownRight];
+                var left = mp_blendshapes[blendshapeIndex.EyeLookInRight];
+                var right = mp_blendshapes[blendshapeIndex.EyeLookOutRight];
+
+                var x_value = down - up;
+                var y_value = right - left;
+
+                var x_normalized = (x_value + 1f) / 2f;
+                var y_normalized = (y_value + 1f) / 2f;
+
+                var rot_x = Mathf.Lerp(-maxRotation, maxRotation, x_normalized);
+                var rot_y = Mathf.Lerp(-maxRotation, maxRotation, y_normalized);
+
+                rightEye = Quaternion.Euler(rot_x, rot_y, 0f);
+            }
+
+			return (leftEye, rightEye);
+
+		}
+
     }
 }
 

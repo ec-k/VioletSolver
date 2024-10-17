@@ -16,6 +16,7 @@ namespace VioletSolver
         public AvatarPoseData PoseData => _poseData;
         public Dictionary<BlendShapePreset, float> BlendshapeWeights;
         [SerializeField] IAvatarPoseFilter[] _vrmPoseFilters;
+        List<IBlendshapeFilter> _blendshapeFilters;
         [SerializeField] float _filterAmount = 1f;
 
         public AvatarPoseHandler()
@@ -38,6 +39,11 @@ namespace VioletSolver
         public void Update(Dictionary<BlendShapePreset, float> weights)
         {
             BlendshapeWeights = weights;
+            if (_blendshapeFilters != null)
+                foreach (var filter in _blendshapeFilters)
+                {
+                    BlendshapeWeights = filter.Filter(BlendshapeWeights, _filterAmount);
+                }
         }
     }
 }

@@ -71,8 +71,12 @@ namespace VioletSolver {
                 mpBlendshapes == null ||
                 mpBlendshapes.Count <= 0)
                 return false;
-            var blendshapes = AvatarPoseSolver.Solve(mpBlendshapes);
+            var (blendshapes, leftEye, rightEye) = AvatarPoseSolver.Solve(mpBlendshapes);
             _avatarPoseHandler.Update(blendshapes);
+
+            _animator.GetBoneTransform(HumanBodyBones.LeftEye).localRotation = leftEye;
+            _animator.GetBoneTransform(HumanBodyBones.RightEye).localRotation = rightEye;
+
             return true;
         }
 
