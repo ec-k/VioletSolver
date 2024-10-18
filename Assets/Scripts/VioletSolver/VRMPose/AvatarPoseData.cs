@@ -3,13 +3,13 @@ using UnityEngine;
 namespace VioletSolver
 {
     // TODO: This class must have operator.
-    public struct AvatarBonePositions
+    public struct AvatarPoseData
     {
-        public Vector3 this[HumanBodyBones index]
+        public Quaternion this[HumanBodyBones boneName]
         {
             get
             {
-                return index switch
+                return boneName switch
                 {
                     HumanBodyBones.Hips => Hips,
                     HumanBodyBones.Spine => Spine,
@@ -34,58 +34,71 @@ namespace VioletSolver
                     HumanBodyBones.LeftHand => LeftHand,
                     HumanBodyBones.RightHand => RightHand,
 
-                    _ => Vector3.zero
+                    HumanBodyBones.LeftEye => LeftEye,
+                    HumanBodyBones.RightEye => RightEye,
+
+                    _ => Quaternion.identity
                 };
             }
             set
             {
-                switch (index)
+                switch (boneName)
                 {
-                    case HumanBodyBones.Hips : Hips = value; return;
-                    case HumanBodyBones.Spine : Spine = value; return;
-                    case HumanBodyBones.Chest : Chest = value; return;
-                    case HumanBodyBones.UpperChest : UpperChest = value; return;
-                    case HumanBodyBones.Neck : Neck = value; return;
-                    case HumanBodyBones.Head : Head = value; return;
-                    case HumanBodyBones.LeftUpperLeg : LeftUpperLeg = value; return;
-                    case HumanBodyBones.RightUpperLeg : RightUpperLeg = value; return;
-                    case HumanBodyBones.LeftLowerLeg : LeftLowerLeg = value; return;
-                    case HumanBodyBones.RightLowerLeg : RightLowerLeg = value; return;
-                    case HumanBodyBones.LeftFoot : LeftFoot = value; return;
-                    case HumanBodyBones.RightFoot : RightFoot = value; return;
-                    case HumanBodyBones.LeftShoulder : LeftShoulder = value; return;
-                    case HumanBodyBones.RightShoulder : RightShoulder = value; return;
-                    case HumanBodyBones.LeftUpperArm : LeftUpperArm = value; return;
-                    case HumanBodyBones.RightUpperArm : RightUpperArm = value; return;
-                    case HumanBodyBones.LeftLowerArm : LeftLowerArm = value; return;
-                    case HumanBodyBones.RightLowerArm : RightLowerArm = value; return;
-                    case HumanBodyBones.LeftHand : LeftHand = value; return;
+                    case HumanBodyBones.Hips: Hips = value; return;
+                    case HumanBodyBones.Spine: Spine = value; return;
+                    case HumanBodyBones.Chest: Chest = value; return;
+                    case HumanBodyBones.UpperChest: UpperChest = value; return;
+                    case HumanBodyBones.Neck: Neck = value; return;
+                    case HumanBodyBones.Head: Head = value; return;
+
+                    case HumanBodyBones.LeftUpperLeg: LeftUpperLeg = value; return;
+                    case HumanBodyBones.RightUpperLeg: RightUpperLeg = value; return;
+                    case HumanBodyBones.LeftLowerLeg: LeftLowerLeg = value; return;
+                    case HumanBodyBones.RightLowerLeg: RightLowerLeg = value; return;
+                    case HumanBodyBones.LeftFoot: LeftFoot = value; return;
+                    case HumanBodyBones.RightFoot: RightFoot = value; return;
+
+                    case HumanBodyBones.LeftShoulder: LeftShoulder = value; return;
+                    case HumanBodyBones.RightShoulder: RightShoulder = value; return;
+                    case HumanBodyBones.LeftUpperArm: LeftUpperArm = value; return;
+                    case HumanBodyBones.RightUpperArm: RightUpperArm = value; return;
+                    case HumanBodyBones.LeftLowerArm: LeftLowerArm = value; return;
+                    case HumanBodyBones.RightLowerArm: RightLowerArm = value; return;
+                    case HumanBodyBones.LeftHand: LeftHand = value; return;
                     case HumanBodyBones.RightHand: RightHand = value; return;
+
+                    case HumanBodyBones.LeftEye: LeftEye = value; return;
+                    case HumanBodyBones.RightEye: RightEye = value; return;
                 }
             }
         }
 
-        public Vector3 Hips;
-        public Vector3 Spine;
-        public Vector3 Chest;
-        public Vector3 UpperChest;
-        public Vector3 Neck;
-        public Vector3 Head;
+        public Vector3 HipsPosition;
 
-        public Vector3 LeftUpperLeg;
-        public Vector3 RightUpperLeg;
-        public Vector3 LeftLowerLeg;
-        public Vector3 RightLowerLeg;
-        public Vector3 LeftFoot;
-        public Vector3 RightFoot;
+        public Quaternion Hips;
+        public Quaternion Spine;
+        public Quaternion Chest;
+        public Quaternion UpperChest;
+        public Quaternion Neck;
+        public Quaternion Head;
 
-        public Vector3 LeftShoulder;
-        public Vector3 RightShoulder;
-        public Vector3 LeftUpperArm;
-        public Vector3 RightUpperArm;
-        public Vector3 LeftLowerArm;
-        public Vector3 RightLowerArm;
-        public Vector3 LeftHand;
-        public Vector3 RightHand;
+        public Quaternion LeftUpperLeg;
+        public Quaternion RightUpperLeg;
+        public Quaternion LeftLowerLeg;
+        public Quaternion RightLowerLeg;
+        public Quaternion LeftFoot;
+        public Quaternion RightFoot;
+
+        public Quaternion LeftShoulder;
+        public Quaternion RightShoulder;
+        public Quaternion LeftUpperArm;
+        public Quaternion RightUpperArm;
+        public Quaternion LeftLowerArm;
+        public Quaternion RightLowerArm;
+        public Quaternion LeftHand;
+        public Quaternion RightHand;
+
+        public Quaternion LeftEye;
+        public Quaternion RightEye;
     }
 }
