@@ -36,6 +36,11 @@ namespace VioletSolver
             _poseData = pose;
         }
 
+        public void Update(HumanBodyBones boneName, Quaternion value)
+        {
+            _poseData[boneName] = value;
+        }
+
         public void Update(Dictionary<BlendShapePreset, float> weights)
         {
             BlendshapeWeights = weights;

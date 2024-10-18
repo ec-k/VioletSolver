@@ -35,13 +35,15 @@ namespace VioletSolver {
                 var isUpdated = UpdatePose();
                 if (!isUpdated)
                     return;
-                var pose = _avatarPoseHandler.PoseData;
-                AnimateAvatar(_animator, pose);
 
                 isUpdated = UpdateBlendshapes();
                 if(!isUpdated) 
                     return;
+
+                var pose = _avatarPoseHandler.PoseData;
                 var blendshapes = _avatarPoseHandler.BlendshapeWeights;
+
+                AnimateAvatar(_animator, pose);
                 AnimateFace(_proxy, blendshapes);
             }
         }
@@ -74,8 +76,8 @@ namespace VioletSolver {
             var (blendshapes, leftEye, rightEye) = AvatarPoseSolver.Solve(mpBlendshapes);
             _avatarPoseHandler.Update(blendshapes);
 
-            _animator.GetBoneTransform(HumanBodyBones.LeftEye).localRotation = leftEye;
-            _animator.GetBoneTransform(HumanBodyBones.RightEye).localRotation = rightEye;
+            _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
+            _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
 
             return true;
         }
@@ -86,13 +88,25 @@ namespace VioletSolver {
             foreach(var bone in hbb)
             {
                 var boneName = (HumanBodyBones)bone;
-                var rot = pose.BodyBones(boneName);
+                var rot = pose[boneName];
 
-                try
+                if (boneName == HumanBodyBones.LeftEye
+                    || boneName == HumanBodyBones.RightEye)
                 {
-                    AnimateBone(avatarAnimator, boneName, rot);
+                    try
+                    {
+                        avatarAnimator.GetBoneTransform(boneName).localRotation = rot;
+                    }
+                    catch { }
                 }
-                catch { }
+                else
+                {
+                    try
+                    {
+                        avatarAnimator.GetBoneTransform(boneName).rotation = rot;
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -111,11 +125,6 @@ namespace VioletSolver {
             proxy.SetValues(bs);
         }
 
-        // To add interpolation or motion filtering later easily, I separated this process as a function.
-        void AnimateBone(Animator avatarAnimator, HumanBodyBones boneName, Quaternion rotation)
-        {
-            avatarAnimator.GetBoneTransform(boneName).rotation = rotation;
-        }
 
         void SetBonePositions(Animator animator)
         {
