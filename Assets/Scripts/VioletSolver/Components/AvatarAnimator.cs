@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using VRM;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
@@ -12,6 +14,7 @@ namespace VioletSolver {
         [SerializeField] AvatarPoseSolver _poseSolver;
         [SerializeField] AvatarPoseHandler _avatarPoseHandler;
         [SerializeField] Animator _animator;
+        [SerializeField] VRMBlendShapeProxy _proxy;
         [SerializeField] bool _isAnimating = false;
         AvatarBonePositions _restBonePositions;
 
@@ -32,8 +35,16 @@ namespace VioletSolver {
                 var isUpdated = UpdatePose();
                 if (!isUpdated)
                     return;
+
+                isUpdated = UpdateBlendshapes();
+                if(!isUpdated) 
+                    return;
+
                 var pose = _avatarPoseHandler.PoseData;
+                var blendshapes = _avatarPoseHandler.BlendshapeWeights;
+
                 AnimateAvatar(_animator, pose);
+                AnimateFace(_proxy, blendshapes);
             }
         }
 
@@ -54,27 +65,66 @@ namespace VioletSolver {
             return true;
         }
 
+        bool UpdateBlendshapes()
+        {
+            _landmarkHandler.UpdateBlendshapes();
+            var mpBlendshapes = _landmarkHandler.MpBlendshapes;
+            if (mpBlendshapes == null ||
+                mpBlendshapes == null ||
+                mpBlendshapes.Count <= 0)
+                return false;
+            var (blendshapes, leftEye, rightEye) = AvatarPoseSolver.Solve(mpBlendshapes);
+            _avatarPoseHandler.Update(blendshapes);
+
+            _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
+            _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
+
+            return true;
+        }
+
         void AnimateAvatar(Animator avatarAnimator, AvatarPoseData pose)
         {
             var hbb = Enum.GetValues(typeof(HumanBodyBones));
             foreach(var bone in hbb)
             {
                 var boneName = (HumanBodyBones)bone;
-                var rot = pose.BodyBones(boneName);
+                var rot = pose[boneName];
 
-                try
+                if (boneName == HumanBodyBones.LeftEye
+                    || boneName == HumanBodyBones.RightEye)
                 {
-                    AnimateBone(avatarAnimator, boneName, rot);
+                    try
+                    {
+                        avatarAnimator.GetBoneTransform(boneName).localRotation = rot;
+                    }
+                    catch { }
                 }
-                catch { }
+                else
+                {
+                    try
+                    {
+                        avatarAnimator.GetBoneTransform(boneName).rotation = rot;
+                    }
+                    catch { }
+                }
             }
         }
 
-        // To add interpolation or motion filtering later easily, I separated this process as a function.
-        void AnimateBone(Animator avatarAnimator, HumanBodyBones boneName, Quaternion rotation)
+        void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<BlendShapePreset, float> blendshapes)
         {
-            avatarAnimator.GetBoneTransform(boneName).rotation = rotation;
+            var bs = new Dictionary<BlendShapeKey, float>();
+
+            var tmpArray = Enum.GetValues(typeof(BlendShapePreset));
+            foreach (var value in tmpArray)
+            {
+                var blendshapeIndex = (BlendShapePreset)value;
+                if (blendshapes.TryGetValue(blendshapeIndex, out var blendshape))
+                    bs[BlendShapeKey.CreateFromPreset(blendshapeIndex)] = blendshape;
+            }
+
+            proxy.SetValues(bs);
         }
+
 
         void SetBonePositions(Animator animator)
         {

@@ -451,6 +451,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6466abbcc1656354296c781b3024314d, type: 3}
+--- !u!114 &1471964583 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4619499939566164268, guid: 6466abbcc1656354296c781b3024314d, type: 3}
+  m_PrefabInstance: {fileID: 1471964582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b678c1df50cfb547990db24a32856da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1493492820
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +542,7 @@ MonoBehaviour:
   _avatarPoseHandler:
     _filterAmount: 1
   _animator: {fileID: 1686597046}
+  _proxy: {fileID: 1471964583}
   _isAnimating: 1
 --- !u!4 &1588626826
 Transform:

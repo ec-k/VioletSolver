@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using VRM;
 
 namespace VioletSolver
 {
@@ -12,12 +14,15 @@ namespace VioletSolver
     {
         AvatarPoseData _poseData;
         public AvatarPoseData PoseData => _poseData;
+        public Dictionary<BlendShapePreset, float> BlendshapeWeights;
         [SerializeField] IAvatarPoseFilter[] _vrmPoseFilters;
+        List<IBlendshapeFilter> _blendshapeFilters;
         [SerializeField] float _filterAmount = 1f;
 
         public AvatarPoseHandler()
         {
             _poseData = new AvatarPoseData();
+            BlendshapeWeights = new();
         }
 
         public void Update(AvatarPoseData poseData)
@@ -31,5 +36,19 @@ namespace VioletSolver
             _poseData = pose;
         }
 
+        public void Update(HumanBodyBones boneName, Quaternion value)
+        {
+            _poseData[boneName] = value;
+        }
+
+        public void Update(Dictionary<BlendShapePreset, float> weights)
+        {
+            BlendshapeWeights = weights;
+            if (_blendshapeFilters != null)
+                foreach (var filter in _blendshapeFilters)
+                {
+                    BlendshapeWeights = filter.Filter(BlendshapeWeights, _filterAmount);
+                }
+        }
     }
 }
