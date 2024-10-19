@@ -28,10 +28,15 @@ namespace VioletSolver
 
         public void UpdateLandmarks(HolisticPose.HolisticLandmarks landmarks)
         {
-            Pose.UpdateLandmarks(landmarks.poseLandmarks.Landmarks);
-            //LeftHand.UpdateLandmarks(landmarks.LeftHandLandmarks.Landmarks);
-            //RightHand.UpdateLandmarks(landmarks.RightHandLandmarks.Landmarks);
-            Face.UpdateLandmarks(landmarks.FaceResults.Landmarks);
+            var existPose       = landmarks.poseLandmarks       != null;
+            var existLefthand   = landmarks.LeftHandLandmarks   != null;
+            var existRightHand  = landmarks.RightHandLandmarks  != null;
+            var existFace       = landmarks.FaceResults         != null;
+
+            if (existPose)      Pose.UpdateLandmarks(landmarks.poseLandmarks.Landmarks);
+            if (existLefthand)  LeftHand.UpdateLandmarks(landmarks.LeftHandLandmarks.Landmarks);
+            if (existRightHand) RightHand.UpdateLandmarks(landmarks.RightHandLandmarks.Landmarks);
+            if (existFace)      Face.UpdateLandmarks(landmarks.FaceResults.Landmarks);
         }
 
 
@@ -84,12 +89,13 @@ namespace VioletSolver
                 Landmarks[i] = Landmark.SetFromHolisticLandmark(rowLandmakrs[i]);
             }
         }
-        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> landmarks)
+        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> rawLandmarks)
         {
-            var count = landmarks.Count;
+            var count = rawLandmarks.Count;
+            Utils<Landmark>.ExpandList(count, ref _landmarks);
             for (var i = 0; i < count; i++)
             {
-                _landmarks[i] = Landmark.SetFromHolisticLandmark(landmarks[i]);
+                _landmarks[i] = Landmark.SetFromHolisticLandmark(rawLandmarks[i]);
             }
         }
     }
