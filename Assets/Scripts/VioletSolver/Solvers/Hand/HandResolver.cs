@@ -30,49 +30,28 @@ namespace VioletSolver
 				this.angle = angle;
 			}
 		}
-
-		public static DataGroups.HandData SolveRightHand(HandLandmarks landmarks) {
-			DataGroups.HandPoints handPoints = new();
-			int count = landmarks.Count;
-			for (int i = 0; i < count; i++) {
-                handPoints.Data[i].x = landmarks.Landmarks[i].X;
-                handPoints.Data[i].y = landmarks.Landmarks[i].Y;
-                handPoints.Data[i].z = landmarks.Landmarks[i].Z;
-            }
-
-			return SolveRightHand(handPoints);
-		}
-
-		public static DataGroups.HandData SolveLeftHand(HandLandmarks landmarks) {
-			DataGroups.HandPoints handPoints = new();
-			int count = landmarks.Count;
-			for (int i = 0; i < count; i++) {
-				handPoints.Data[i].x = landmarks.Landmarks[i].X;
-				handPoints.Data[i].y = landmarks.Landmarks[i].Y;
-				handPoints.Data[i].z = landmarks.Landmarks[i].Z;
-            }
-
-			return SolveLeftHand(handPoints);
-		}
 		
-		private static DataGroups.HandPoints SetGlobalOrigin(DataGroups.HandPoints hand) {
-			DataGroups.HandPoints result = new();
+		private static ILandmarks SetGlobalOrigin(ILandmarks hand) {
+			HandLandmarks result = new(hand.Landmarks.Count);
 
-			for (int i = 0; i < hand.Data.Length; i++) {
-				result.Data[i] = hand.Data[i] - hand.Wrist;
+			for (int i = 0; i < hand.Landmarks.Count; i++) {
+				var direction = hand.Landmarks[i].Position - hand.Landmarks[(int)handIndex.Wrist].Position;
+				var confidence = Mathf.Min(hand.Landmarks[i].Confidence, hand.Landmarks[((int)handIndex.Wrist)].Confidence);
+
+                result.Landmarks[i] = new Landmark(direction, confidence);
 			}
 
 			return result;
 		}
 
-		public static DataGroups.HandData SolveLeftHand(DataGroups.HandPoints hand) {
+		public static DataGroups.HandData SolveLeftHand(ILandmarks hand) {
 			hand = SetGlobalOrigin(hand);
 
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Left);
-			
-			{
-				Plane plane = new(hand.Wrist, hand.IndexFingerMCP, hand.PinkyMCP);
-				Vector3 handUpDir = hand.Wrist - hand.MiddleFingerMCP;
+
+            {
+				Plane plane = new(hand.Landmarks[(int)handIndex.Wrist], hand.Landmarks[(int)handIndex.IndexFingerMcp], hand.Landmarks[(int)handIndex.PinkyMcp]);
+				Vector3 handUpDir = hand.Landmarks[(int)handIndex.Wrist] - hand.Landmarks[(int)handIndex.MiddleFingerMcp];
 				Vector3 handForwardDir = plane.normal;
 
 				Quaternion rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(0, 90, -90);
@@ -82,15 +61,14 @@ namespace VioletSolver
 			return ConvertData(angles);
 		}
 
-		public static DataGroups.HandData SolveRightHand(DataGroups.HandPoints hand) {
+		public static DataGroups.HandData SolveRightHand(ILandmarks hand) {
 			hand = SetGlobalOrigin(hand);
 
-			List<FingerAngle> angles = FingerAngles(hand, HandType.Right);
-			
+			List<FingerAngle> angles = FingerAngles(hand, HandType.Right);			
 			{
-				Plane plane = new(hand.Wrist, hand.IndexFingerMCP, hand.PinkyMCP);
-				Vector3 handUpDir = hand.Wrist - hand.MiddleFingerMCP;
-				Vector3 handForwardDir = plane.normal;
+                Plane plane = new(hand.Landmarks[(int)handIndex.Wrist], hand.Landmarks[(int)handIndex.IndexFingerMcp], hand.Landmarks[(int)handIndex.PinkyMcp]);
+                Vector3 handUpDir = hand.Landmarks[(int)handIndex.Wrist] - hand.Landmarks[(int)handIndex.MiddleFingerMcp];
+                Vector3 handForwardDir = plane.normal;
 
 				Quaternion rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(0, 90, 90);
 				angles.Add(new((int)handIndex.Wrist, rot.eulerAngles));
@@ -102,18 +80,17 @@ namespace VioletSolver
 		private static DataGroups.HandData ConvertData(List<FingerAngle> angles) {
 			DataGroups.HandData rotation = new();
 			foreach (FingerAngle angle in angles) {
-				rotation[angle.idx] = Quaternion.Euler(angle.angle);
+				if (float.IsNaN(angle.angle.x)) continue;
+				if (float.IsNaN(angle.angle.y)) continue;
+				if (float.IsNaN(angle.angle.z)) continue;
+                rotation[angle.idx] = Quaternion.Euler(angle.angle);
 			}
 
 			return rotation;
 		}
 
-		private static List<FingerAngle> FingerAngles(DataGroups.HandPoints hand, HandType type) {
+		private static List<FingerAngle> FingerAngles(ILandmarks hand, HandType type) {
 			List<FingerAngle> data = new();
-
-			if (hand == null) {
-				return data;
-			}
 
 			float[] xAngles = GetXAngles(hand);
 			float[] zAngles = GetZAngles(hand);
@@ -164,16 +141,16 @@ namespace VioletSolver
 		/// <summary>
 		/// Calculate the X angles for each finger on the hand
 		/// </summary>
-		private static float[] GetXAngles(DataGroups.HandPoints hand) {
+		private static float[] GetXAngles(ILandmarks hand) {
 			// Create an array that contains the position of all finger joints
 			Vector3[][] fingers = new Vector3[Fingers.Length][];
 			for (int i = 0; i < Fingers.Length; i++) {
 				int s = Fingers[i][0];
 				int e = Fingers[i][1];
 				fingers[i] = new Vector3[e - s + 2];
-				fingers[i][0] = hand.Wrist;
+				fingers[i][0] = hand.Landmarks[(int)handIndex.Wrist];
 				for (int j = s; j <= e; j++) {
-					fingers[i][j - s + 1] = hand.Data[j];
+					fingers[i][j - s + 1] = hand.Landmarks[j];
 				}
 			}
 
@@ -227,22 +204,22 @@ namespace VioletSolver
 			return data;
 		}
 
-		private static float[] GetZAngles(DataGroups.HandPoints hand) {
+		private static float[] GetZAngles(ILandmarks hand) {
 			float[] data = new float[20];
 
 			// Calculate the tangent of the hand
-			Vector3 tangent = hand.PinkyMCP - hand.IndexFingerMCP;
+			Vector3 tangent = hand.Landmarks[(int)handIndex.PinkyMcp] - hand.Landmarks[(int)handIndex.IndexFingerMcp];
 
 			// Get pips and mcps (mcps projected on tangent)
 			Vector3[] mcps = new Vector3[Fingers.Length - 1];
 			Vector3[] pips = new Vector3[Fingers.Length - 1];
 			for (int i = 0; i < Fingers.Length - 1; i++) {
-				mcps[i] = HandResolverUtil.ProjectPointOnVector(hand.Data[Fingers[i + 1][0]], hand.IndexFingerMCP, hand.PinkyMCP);
-				pips[i] = hand.Data[Fingers[i + 1][1] - 2];
+				mcps[i] = HandResolverUtil.ProjectPointOnVector(hand.Landmarks[Fingers[i + 1][0]], hand.Landmarks[(int)handIndex.IndexFingerMcp], hand.Landmarks[(int)handIndex.PinkyMcp]);
+				pips[i] = hand.Landmarks[Fingers[i + 1][1] - 2];
 			}
 
 			// Direction vector
-			Vector3 forwardVector = hand.IndexFingerMCP - hand.ThumbCMC;
+			Vector3 forwardVector = hand.Landmarks[(int)handIndex.IndexFingerMcp] - hand.Landmarks[(int)handIndex.ThumbCmc];
 
 			// For each non thumb finger
 			for (int i = 0; i < 4; i++) {

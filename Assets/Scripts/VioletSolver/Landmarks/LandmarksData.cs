@@ -1,5 +1,6 @@
 using Google.Protobuf.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace VioletSolver
@@ -38,6 +39,11 @@ namespace VioletSolver
                 landmark.Z);
             Confidence = landmark.Confidence;
         }
+        public Landmark(Vector3 position, float confidence)
+        {
+            _position = position;
+            Confidence = confidence;
+        }
         public Landmark(float x, float y, float z)
         {
             _position = new Vector3(x, y, z);
@@ -67,5 +73,9 @@ namespace VioletSolver
 
         public static implicit operator Vector3 (Landmark l) => new Vector3(l.X, l.Y, l.Z);
         public static implicit operator Vector4 (Landmark l) => new Vector4(l.X, l.Y, l.Z, l.Confidence);
+        public static Landmark operator +(Landmark l) => l;
+        public static Landmark operator -(Landmark l) => new Landmark(-l.Position, l.Confidence);
+        public static Landmark operator +(Landmark l1, Landmark l2) => new Landmark(l1.Position + l2.Position, Mathf.Min(l1.Confidence, l2.Confidence));
+        public static Landmark operator -(Landmark l1, Landmark l2) => l1 + (-l2);
     }
 }
