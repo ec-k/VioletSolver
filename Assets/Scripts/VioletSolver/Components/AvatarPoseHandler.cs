@@ -15,14 +15,18 @@ namespace VioletSolver
         AvatarPoseData _poseData;
         public AvatarPoseData PoseData => _poseData;
         public Dictionary<BlendShapePreset, float> BlendshapeWeights;
-        [SerializeField] IAvatarPoseFilter[] _vrmPoseFilters;
+        [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
         [SerializeField] float _filterAmount = 1f;
+
 
         public AvatarPoseHandler()
         {
             _poseData = new AvatarPoseData();
             BlendshapeWeights = new();
+
+            _vrmPoseFilters = new();
+            _vrmPoseFilters.Add(new Interpolator());
         }
 
         public void Update(AvatarPoseData poseData)

@@ -73,6 +73,8 @@ namespace VioletSolver
             }
         }
 
+        public float time;
+
         public Vector3 HipsPosition;
 
         public Quaternion Hips;

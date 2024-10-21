@@ -49,7 +49,7 @@ namespace VioletSolver
             if (results == null || 
                 results.poseLandmarks == null) 
                 return;
-            _landmarks.UpdateLandmarks(results);
+            _landmarks.UpdateLandmarks(results, _landmarkReceiveServer.Time);
             var resultedLandmarks = _landmarks;
             if (_landmarkFilters != null)
                 foreach (var filter in _landmarkFilters)

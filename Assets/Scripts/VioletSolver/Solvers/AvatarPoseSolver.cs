@@ -15,6 +15,7 @@ namespace VioletSolver
         {
             var solvedPose = PoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions);
             solvedPose.Neck = FaceResolver.Solve(landmarks.Face.Landmarks);
+            solvedPose.time = landmarks.Pose.Time;
             return solvedPose;
         }
 

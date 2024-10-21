@@ -12,14 +12,15 @@ namespace VioletSolver
         public ILandmarks RightHand { get; set; }
         public ILandmarks Face { get; set; }
 
-        public void UpdateLandmarks(HolisticPose.HolisticLandmarks landmarks);
+        public void UpdateLandmarks(HolisticPose.HolisticLandmarks landmarks, float time);
     }
 
     public interface ILandmarks
     {
         public List<Landmark> Landmarks { get; }
         public int Count => Landmarks.Count;
-        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> landmarks);
+        public float Time { get; }
+        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> landmarks, float time);
     }
 
     public struct Landmark
