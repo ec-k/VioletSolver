@@ -42,7 +42,7 @@ namespace VioletSolver {
             {
                 _landmarkHandler.Update();
                 _landmarkHandler.UpdateBlendshapes();
-                var (existPose, existFace, existLeftHand, existRightHand) = (UpdatePose(), UpdatePose(), UpdateLeftHand(), UpdateRightHand());
+                var (existPose, existFace, existLeftHand, existRightHand) = (UpdatePose(), UpdateBlendshapes(), UpdateLeftHand(), UpdateRightHand());
 
                 if(existPose)
                     AnimateAvatar(_animator, _avatarPoseHandler.PoseData);
