@@ -1,3 +1,4 @@
+using HolisticPose;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,15 +14,11 @@ namespace VioletSolver {
     public class AvatarAnimator : MonoBehaviour
     {
         [SerializeField] LandmarkHandler _landmarkHandler;
-        [SerializeField] AvatarPoseSolver _poseSolver;
         [SerializeField] AvatarPoseHandler _avatarPoseHandler;
         [SerializeField] Animator _animator;
         [SerializeField] VRMBlendShapeProxy _proxy;
         [SerializeField] bool _isAnimating = false;
         AvatarBonePositions _restBonePositions;
-
-        DataGroups.HandData _leftHand;
-        DataGroups.HandData _rightHand;
 
         public LandmarkHandler Landmarks => _landmarkHandler;
 
@@ -31,68 +28,31 @@ namespace VioletSolver {
             //_poseSolver = new AvatarPoseSolver();
             //_avatarPoseHandler = new AvatarPoseHandler();
             SetBonePositions(_animator);
-
-            _leftHand = new();
-            _rightHand = new();
         }
 
         void Update() 
         { 
             if( _isAnimating)
             {
-                _landmarkHandler.Update();
+                _landmarkHandler.Update(); 
                 _landmarkHandler.UpdateBlendshapes();
-                var (existPose, existFace, existLeftHand, existRightHand) = (UpdatePose(), UpdateBlendshapes(), UpdateLeftHand(), UpdateRightHand());
 
-                if(existPose)
-                    AnimateAvatar(_animator, _avatarPoseHandler.PoseData);
-                if (existFace)
-                    AnimateFace(_proxy, _avatarPoseHandler.BlendshapeWeights);
-                if (existLeftHand)
-                    AnimateLeftHand(_animator, _leftHand);
-                if (existRightHand)
-                    AnimatRightHand(_animator, _rightHand);
+                UpdatePose();
+                UpdateBlendshapes();
+
+                AnimateAvatar(_animator, _avatarPoseHandler.PoseData);
+                AnimateFace(_proxy, _avatarPoseHandler.BlendshapeWeights);
             }
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Whether updating landmarks is processed properly or not.</returns>
-        bool UpdatePose()
+        void UpdatePose()
         {
             var landmarks = _landmarkHandler.Landmarks;
-            if (landmarks == null || 
-                landmarks.Pose == null ||
-                landmarks.Pose.Landmarks == null ||
-                landmarks.Pose.Landmarks.Count <= 0) 
-                return false;
             var pose = AvatarPoseSolver.Solve(landmarks, _restBonePositions);
             _avatarPoseHandler.Update(pose);
-            return true;
-        }
-
-        bool UpdateLeftHand()
-        {
-            var landmarks = _landmarkHandler.Landmarks;
-            if (landmarks == null ||
-                landmarks.LeftHand == null ||
-                landmarks.LeftHand.Landmarks == null ||
-                landmarks.LeftHand.Landmarks.Count <= 0)
-                return false;
-            _leftHand = HandResolver.SolveLeftHand(landmarks.LeftHand);
-            return true;
-        }
-
-        bool UpdateRightHand()
-        {
-            var landmarks = _landmarkHandler.Landmarks;
-            if (landmarks == null ||
-                landmarks.RightHand == null ||
-                landmarks.RightHand.Landmarks == null ||
-                landmarks.RightHand.Landmarks.Count <= 0)
-                return false;
-            _rightHand = HandResolver.SolveRightHand(landmarks.RightHand);
-            return true;
         }
 
         bool UpdateBlendshapes()
@@ -110,73 +70,70 @@ namespace VioletSolver {
             return true;
         }
 
-        void AnimateAvatar(Animator avatarAnimator, AvatarPoseData pose)
+        void AnimateAvatar(Animator animator, AvatarPoseData pose)
         {
-            var hbb = Enum.GetValues(typeof(HumanBodyBones));
-            foreach(var bone in hbb)
-            {
-                var boneName = (HumanBodyBones)bone;
-                var rot = pose[boneName];
+            ApplyGlobal(animator, pose, HumanBodyBones.Hips);
+            ApplyGlobal(animator, pose, HumanBodyBones.Spine );
+            ApplyGlobal(animator, pose, HumanBodyBones.Chest );
+            ApplyGlobal(animator, pose, HumanBodyBones.UpperChest );
+            ApplyGlobal(animator, pose, HumanBodyBones.Neck );
+            ApplyGlobal(animator, pose, HumanBodyBones.Head );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperLeg );
+            ApplyGlobal(animator, pose, HumanBodyBones.RightUpperLeg );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerLeg );
+            ApplyGlobal(animator, pose, HumanBodyBones.RightLowerLeg );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot );
+            ApplyGlobal(animator, pose, HumanBodyBones.RightFoot );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftShoulder );
+            ApplyGlobal(animator, pose, HumanBodyBones.RightShoulder );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperArm );
+            ApplyGlobal(animator, pose, HumanBodyBones.RightUpperArm );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerArm );
+            ApplyGlobal(animator, pose, HumanBodyBones.RightLowerArm );
+            ApplyGlobal(animator, pose, HumanBodyBones.LeftHand);
+            ApplyGlobal(animator, pose, HumanBodyBones.RightHand);
 
-                if (boneName == HumanBodyBones.LeftEye
-                    || boneName == HumanBodyBones.RightEye)
-                {
-                    try
-                    {
-                        avatarAnimator.GetBoneTransform(boneName).localRotation = rot;
-                    }
-                    catch { }
-                }
-                else
-                {
-                    try
-                    {
-                        avatarAnimator.GetBoneTransform(boneName).rotation = rot;
-                    }
-                    catch { }
-                }
-            }
+            ApplyLocal(animator, pose, HumanBodyBones.LeftThumbProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftThumbIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftThumbDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftIndexProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftIndexIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftIndexDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftMiddleProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftMiddleIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftMiddleDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftRingProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftRingIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftRingDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftLittleProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftLittleIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.LeftLittleDistal);
+
+            ApplyLocal(animator, pose, HumanBodyBones.RightThumbProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightThumbIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.RightThumbDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightIndexProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightIndexIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.RightIndexDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightMiddleProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightMiddleIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.RightMiddleDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightRingProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightRingIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.RightRingDistal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightLittleProximal);
+            ApplyLocal(animator, pose, HumanBodyBones.RightLittleIntermediate);
+            ApplyLocal(animator, pose, HumanBodyBones.RightLittleDistal);
+            
+            ApplyLocal(animator, pose, HumanBodyBones.LeftEye);
+            ApplyLocal(animator, pose, HumanBodyBones.RightEye);
         }
 
-        void AnimateLeftHand(Animator animator, DataGroups.HandData hand)
-        {
-            animator.GetBoneTransform(HumanBodyBones.LeftHand).rotation = hand[(int)mpHand.Wrist];
-            animator.GetBoneTransform(HumanBodyBones.LeftThumbProximal).localRotation = hand[(int)mpHand.ThumbCmc];
-            animator.GetBoneTransform(HumanBodyBones.LeftThumbIntermediate).localRotation = hand[(int)mpHand.ThumbMcp];
-            animator.GetBoneTransform(HumanBodyBones.LeftThumbDistal).localRotation = hand[(int)mpHand.ThumbIp];
-            animator.GetBoneTransform(HumanBodyBones.LeftIndexProximal).localRotation = hand[(int)mpHand.IndexFingerMcp];
-            animator.GetBoneTransform(HumanBodyBones.LeftIndexIntermediate).localRotation = hand[(int)mpHand.IndexFingerPip];
-            animator.GetBoneTransform(HumanBodyBones.LeftIndexDistal).localRotation = hand[(int)mpHand.IndexFingerDip];
-            animator.GetBoneTransform(HumanBodyBones.LeftMiddleProximal).localRotation = hand[(int)mpHand.MiddleFingerMcp];
-            animator.GetBoneTransform(HumanBodyBones.LeftMiddleIntermediate).localRotation = hand[(int)mpHand.MiddleFingerPip];
-            animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal).localRotation = hand[(int)mpHand.MiddleFingerDip];
-            animator.GetBoneTransform(HumanBodyBones.LeftRingProximal).localRotation = hand[(int)mpHand.RingFingerMcp];
-            animator.GetBoneTransform(HumanBodyBones.LeftRingIntermediate).localRotation = hand[(int)mpHand.RingFingerPip];
-            animator.GetBoneTransform(HumanBodyBones.LeftRingDistal).localRotation = hand[(int)mpHand.RingFingerDip];
-            animator.GetBoneTransform(HumanBodyBones.LeftLittleProximal).localRotation = hand[(int)mpHand.PinkyMcp];
-            animator.GetBoneTransform(HumanBodyBones.LeftLittleIntermediate).localRotation = hand[(int)mpHand.PinkyPip];
-            animator.GetBoneTransform(HumanBodyBones.LeftLittleDistal).localRotation = hand[(int)mpHand.PinkyDip];
-        }
-
-        void AnimatRightHand(Animator animator, DataGroups.HandData hand)
-        {
-            animator.GetBoneTransform(HumanBodyBones.RightHand).rotation = hand[(int)mpHand.Wrist];
-            animator.GetBoneTransform(HumanBodyBones.RightThumbProximal).localRotation = hand[(int)mpHand.ThumbCmc];
-            animator.GetBoneTransform(HumanBodyBones.RightThumbIntermediate).localRotation = hand[(int)mpHand.ThumbMcp];
-            animator.GetBoneTransform(HumanBodyBones.RightThumbDistal).localRotation = hand[(int)mpHand.ThumbIp];
-            animator.GetBoneTransform(HumanBodyBones.RightIndexProximal).localRotation = hand[(int)mpHand.IndexFingerMcp];
-            animator.GetBoneTransform(HumanBodyBones.RightIndexIntermediate).localRotation = hand[(int)mpHand.IndexFingerPip];
-            animator.GetBoneTransform(HumanBodyBones.RightIndexDistal).localRotation = hand[(int)mpHand.IndexFingerDip];
-            animator.GetBoneTransform(HumanBodyBones.RightMiddleProximal).localRotation = hand[(int)mpHand.MiddleFingerMcp];
-            animator.GetBoneTransform(HumanBodyBones.RightMiddleIntermediate).localRotation = hand[(int)mpHand.MiddleFingerPip];
-            animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal).localRotation = hand[(int)mpHand.MiddleFingerDip];
-            animator.GetBoneTransform(HumanBodyBones.RightRingProximal).localRotation = hand[(int)mpHand.RingFingerMcp];
-            animator.GetBoneTransform(HumanBodyBones.RightRingIntermediate).localRotation = hand[(int)mpHand.RingFingerPip];
-            animator.GetBoneTransform(HumanBodyBones.RightRingDistal).localRotation = hand[(int)mpHand.RingFingerDip];
-            animator.GetBoneTransform(HumanBodyBones.RightLittleProximal).localRotation = hand[(int)mpHand.PinkyMcp];
-            animator.GetBoneTransform(HumanBodyBones.RightLittleIntermediate).localRotation = hand[(int)mpHand.PinkyPip];
-            animator.GetBoneTransform(HumanBodyBones.RightLittleDistal).localRotation = hand[(int)mpHand.PinkyDip];
-        }
+        void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
+            => animator.GetBoneTransform(boneName).localRotation = pose[boneName];
+        
+        void ApplyGlobal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
+            => animator.GetBoneTransform(boneName).rotation = pose[boneName];
 
         void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<BlendShapePreset, float> blendshapes)
         {

@@ -6,16 +6,25 @@ using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
-    public class AvatarPoseSolver
+    public static class AvatarPoseSolver
     {
-        public AvatarPoseSolver() { }
         // Probably, this class has PoseSolver, HandSolver and FaceSolver.
         // Use them.Solve in a function below and solve pose holisticly.
         public static AvatarPoseData Solve(IHolisticLandmarks landmarks, AvatarBonePositions restBonePositions)
         {
-            var solvedPose = PoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions);
-            solvedPose.Neck = FaceResolver.Solve(landmarks.Face.Landmarks);
+            var solvedPose = new AvatarPoseData();
+
+            if(ExistLandmarks(landmarks.Pose))
+                solvedPose = PoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions);
+            if(ExistLandmarks(landmarks.Face))
+                solvedPose.Neck = FaceResolver.Solve(landmarks.Face.Landmarks);
+            if(ExistLandmarks(landmarks.LeftHand))
+                solvedPose.SetLeftHandData(HandResolver.SolveLeftHand(landmarks.LeftHand));
+            if (ExistLandmarks(landmarks.RightHand))
+                solvedPose.SetRightHandData(HandResolver.SolveRightHand(landmarks.RightHand));
+            
             solvedPose.time = landmarks.Pose.Time;
+
             return solvedPose;
         }
 
@@ -26,10 +35,9 @@ namespace VioletSolver
             return (blendshapes, leftEyeRotation, rightEyeRotation);
         }
 
-        public static AvatarPoseData Solve(ILandmarks landmarks, AvatarBonePositions restBonePositions)
-        {
-            var solvedPose = PoseSolver.SolvePose(landmarks.Landmarks, restBonePositions);
-            return solvedPose;
-        }
+        static bool ExistLandmarks(ILandmarks landmarks)
+            => landmarks != null
+                && landmarks.Landmarks != null
+                && landmarks.Landmarks.Count > 0;
     }
 }

@@ -1,3 +1,4 @@
+using Codice.CM.SEIDInfo;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace VioletSolver
     {
         AvatarPoseData _poseData;
         public AvatarPoseData PoseData => _poseData;
+
         public Dictionary<BlendShapePreset, float> BlendshapeWeights;
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
@@ -22,7 +24,7 @@ namespace VioletSolver
 
         public AvatarPoseHandler()
         {
-            _poseData = new AvatarPoseData();
+            _poseData = new();
             BlendshapeWeights = new();
 
             _vrmPoseFilters = new();
@@ -30,15 +32,16 @@ namespace VioletSolver
             _vrmPoseFilters.Add(new Interpolator());
         }
 
-        public void Update(AvatarPoseData poseData)
+        // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
+        public void Update(AvatarPoseData pose)
         {
-            var pose = poseData;
+            var result = pose;
             if(_vrmPoseFilters != null) 
                 foreach (var filter in _vrmPoseFilters)
                 {
-                    pose = filter.Filter(pose, _filterAmount);
+                    result = filter.Filter(pose, _filterAmount);
                 }
-            _poseData = pose;
+            _poseData = result;
         }
 
         public void Update(HumanBodyBones boneName, Quaternion value)
@@ -46,14 +49,17 @@ namespace VioletSolver
             _poseData[boneName] = value;
         }
 
+
+        // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
         public void Update(Dictionary<BlendShapePreset, float> weights)
         {
-            BlendshapeWeights = weights;
+            var result = weights;
             if (_blendshapeFilters != null)
                 foreach (var filter in _blendshapeFilters)
                 {
-                    BlendshapeWeights = filter.Filter(BlendshapeWeights, _filterAmount);
+                    result = filter.Filter(weights, _filterAmount);
                 }
+            BlendshapeWeights = result;
         }
     }
 }
