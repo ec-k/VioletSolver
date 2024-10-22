@@ -6,23 +6,25 @@ namespace VioletSolver
     public class ConfidenceFilter: ILandmarkFilter
     {
         List<Landmark> _previousLandmarks;
+        float _threshold;
+        float _valueOnThreshold;
 
-        public ConfidenceFilter() 
+        public ConfidenceFilter(float threshold, float valueOnThreshold) 
         { 
             _previousLandmarks = new List<Landmark>(30);
+            _threshold = threshold;
+            _valueOnThreshold = valueOnThreshold;
         }
 
         public ILandmarks Filter(ILandmarks landmarks, float amount)
         {
             for (var i = 0; i < Math.Min(landmarks.Count, _previousLandmarks.Count); i++)
             {
-                landmarks.Landmarks[i] = Filter(_previousLandmarks[i], landmarks.Landmarks[i], amount);
+                landmarks.Landmarks[i] = Filter(_previousLandmarks[i], landmarks.Landmarks[i]);
             }
 
-            UpdatePrevLandmarks(landmarks);     // CAUTION: This is a side effect. We have to display this function has side effect
-                                                //          or move side effect out of this function.
-                                                //          But maybe,  we don't have to consider it because effect range of the side effect is only this class.
-                                                //          There is one option that this function have one argument to save prev landmarks or not.
+            UpdatePrevLandmarks(landmarks);
+                                                
             return landmarks;
         }
 
@@ -33,11 +35,23 @@ namespace VioletSolver
         }
 
 
-        Landmark Filter(Landmark prev_landmark, Landmark target_landmark, float coefficient)
+        Landmark Filter(Landmark prevLandmark, Landmark targetLandmark)
         {
-            var _amount = Math.Clamp(coefficient, 0, 1) * target_landmark.Confidence;
-            var result = Landmark.Lerp(prev_landmark, target_landmark, _amount);
+            var amount = CombinedLinear(targetLandmark.Confidence, _threshold, _valueOnThreshold);
+            var result = Landmark.Lerp(prevLandmark, targetLandmark, amount);
             return result;
+        }
+
+        float CombinedLinear(float x, float x_th, float y_th)
+        {
+            if (x < x_th)
+            {
+                return x * (y_th / x_th);
+            }
+            else
+            {
+                return (1 - y_th) / (1 - x_th) * (x - x_th) + y_th;
+            }
         }
     }
 }

@@ -27,11 +27,11 @@ namespace VioletSolver
         public LandmarkHandler()
         {
             _landmarks = new HolisticLandmarks(30); // "30" is temporal number. There are no meanings and intentions.
-            _landmarkFilters = new List<ILandmarkFilter>();
+            _landmarkFilters = new();
             MpBlendshapes = new();
 
             _landmarkFilters.Add(new TransformCoordination());
-            _landmarkFilters.Add(new ConfidenceFilter());
+            _landmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f));
         }
         public LandmarkHandler(IHolisticLandmarks landmarks)
         {
