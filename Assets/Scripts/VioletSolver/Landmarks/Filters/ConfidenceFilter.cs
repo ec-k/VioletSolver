@@ -44,7 +44,11 @@ namespace VioletSolver
 
         float CombinedLinear(float x, float x_th, float y_th)
         {
-            if (x < x_th)
+            if (x < 0.2f)
+            {
+                return 0f;
+            }
+            else if (x < x_th)
             {
                 return x * (y_th / x_th);
             }
