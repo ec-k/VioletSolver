@@ -27,7 +27,7 @@ namespace VioletSolver
             BlendshapeWeights = new();
 
             _vrmPoseFilters = new();
-            _vrmPoseFilters.Add(new LowPassFilter(0.1f));
+            _vrmPoseFilters.Add(new LowPassFilter(0.6f));
             _vrmPoseFilters.Add(new Interpolator());
 
             _blendshapeFilters = new();
