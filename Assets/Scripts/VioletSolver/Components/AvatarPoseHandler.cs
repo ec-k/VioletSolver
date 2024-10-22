@@ -1,4 +1,3 @@
-using Codice.CM.SEIDInfo;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +29,11 @@ namespace VioletSolver
             _vrmPoseFilters = new();
             _vrmPoseFilters.Add(new LowPassFilter(0.1f));
             _vrmPoseFilters.Add(new Interpolator());
+
+            _blendshapeFilters = new();
+            _blendshapeFilters.Add(new Blendshapes.LowPassFilter(0.6f));
+            _blendshapeFilters.Add(new Blendshapes.EyeOpener(0.15f));   // completely opening is 0.0
+            _blendshapeFilters.Add(new Blendshapes.EyeCloser(0.85f));   // completely closeing is 1.0
         }
 
         // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
