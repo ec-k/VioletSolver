@@ -18,10 +18,6 @@ namespace VioletSolver
 		{
 			Quaternion neckRotation = Quaternion.identity;
 			//float mouthOpen = 0;
-			//float lEyeOpen = 0;
-			//float rEyeOpen = 0;
-			//Vector2 lEyeIris = Vector2.zero;
-			//Vector2 rEyeIris = Vector2.zero;
 
 			//{
 			//	// Mouth
@@ -37,20 +33,6 @@ namespace VioletSolver
 
 			//	mouthOpen = (perc - 0.25f) * 3;
 			//	mouthOpen = Mathf.Clamp01(mouthOpen);
-
-			//	Vector3 converter(int i)
-			//	{
-			//		Vector3 value = landmarks[i];
-			//		value.x = -value.x;
-			//		return value;
-			//	}
-
-			//	// Eyes
-			//	lEyeOpen = FacePoints.CalculateEyeAspectRatio(Array.ConvertAll(FacePoints.LeftEyeEAR, converter));
-			//	rEyeOpen = FacePoints.CalculateEyeAspectRatio(Array.ConvertAll(FacePoints.RightEyeEAR, converter));
-			//	lEyeIris = FacePoints.CalculateIrisPosition(FacePoints.LeftEyeIrisPoint, converter);
-			//	rEyeIris = FacePoints.CalculateIrisPosition(FacePoints.RightEyeIrisPoint, converter);
-			//}
 
 			{
 				Vector3 botHead = landmarks[152];
@@ -77,8 +59,14 @@ namespace VioletSolver
 		{
 			var weights = new Dictionary<BlendShapePreset, float>();
 
+			// blink
 			weights[BlendShapePreset.Blink_L] = mp_blendshapes[blendshapeIndex.EyeBlinkLeft];
 			weights[BlendShapePreset.Blink_R] = mp_blendshapes[blendshapeIndex.EyeBlinkRight];
+
+			// viseme
+			weights[BlendShapePreset.O] = mp_blendshapes[blendshapeIndex.JawOpen];
+			weights[BlendShapePreset.U] = mp_blendshapes[blendshapeIndex.MouthFunnel];
+			weights[BlendShapePreset.I] = mp_blendshapes[blendshapeIndex.MouthDimpleLeft] * 0.4f + mp_blendshapes[blendshapeIndex.MouthDimpleRight] * 0.4f + mp_blendshapes[blendshapeIndex.JawOpen] * 0.2f;
 
 			return weights;
 		}
