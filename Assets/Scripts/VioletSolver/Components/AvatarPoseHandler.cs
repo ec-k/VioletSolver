@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VRM;
+using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
@@ -16,6 +17,7 @@ namespace VioletSolver
         public AvatarPoseData PoseData => _poseData;
 
         public Dictionary<BlendShapePreset, float> BlendshapeWeights;
+        public Dictionary<mpBlendshapes, float> PerfectSyncWeights;
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
         [SerializeField] float _filterAmount = 1f;
@@ -25,6 +27,7 @@ namespace VioletSolver
         {
             _poseData = new();
             BlendshapeWeights = new();
+            PerfectSyncWeights = new();
 
             _vrmPoseFilters = new();
             _vrmPoseFilters.Add(new LowPassFilter(0.6f));
@@ -64,6 +67,17 @@ namespace VioletSolver
                     result = filter.Filter(weights, _filterAmount);
                 }
             BlendshapeWeights = result;
+        }
+        public void Update(Dictionary<mpBlendshapes, float> weights)
+        {
+            //var result = weights;
+            //if (_blendshapeFilters != null)
+            //    foreach (var filter in _blendshapeFilters)
+            //    {
+            //        result = filter.Filter(weights, _filterAmount);
+            //    }
+            //BlendshapeWeights = result;
+            PerfectSyncWeights = weights;
         }
     }
 }

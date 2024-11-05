@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRM;
 
+using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 using mpHand = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
 // This is avatar animating component which does
@@ -19,6 +20,8 @@ namespace VioletSolver {
         [SerializeField] VRMBlendShapeProxy _proxy;
         [SerializeField] bool _isAnimating = false;
         AvatarBonePositions _restBonePositions;
+
+        [SerializeField] bool _enablePerfectSync = false;
 
         public LandmarkHandler Landmarks => _landmarkHandler;
 
@@ -38,10 +41,16 @@ namespace VioletSolver {
                 _landmarkHandler.UpdateBlendshapes();
 
                 UpdatePose();
-                UpdateBlendshapes();
+                if (_enablePerfectSync)
+                    UpdateBlendshapesPerfectly();
+                else
+                    UpdateBlendshapes();
 
                 AnimateAvatar(_animator, _avatarPoseHandler.PoseData);
-                AnimateFace(_proxy, _avatarPoseHandler.BlendshapeWeights);
+                if (_enablePerfectSync)
+                    AnimateFace(_proxy, _avatarPoseHandler.PerfectSyncWeights);
+                else
+                    AnimateFace(_proxy, _avatarPoseHandler.BlendshapeWeights);
             }
         }
 
@@ -62,6 +71,20 @@ namespace VioletSolver {
                 mpBlendshapes.Count <= 0)
                 return false;
             var (blendshapes, leftEye, rightEye) = AvatarPoseSolver.Solve(mpBlendshapes);
+            _avatarPoseHandler.Update(blendshapes);
+
+            _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
+            _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
+
+            return true;
+        }
+        bool UpdateBlendshapesPerfectly()
+        {
+            var mpBlendshapes = _landmarkHandler.MpBlendshapes;
+            if (mpBlendshapes == null ||
+                mpBlendshapes.Count <= 0)
+                return false;
+            var (blendshapes, leftEye, rightEye) = AvatarPoseSolver.SolvePerfectly(mpBlendshapes);
             _avatarPoseHandler.Update(blendshapes);
 
             _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
@@ -145,6 +168,21 @@ namespace VioletSolver {
                 var blendshapeIndex = (BlendShapePreset)value;
                 if (blendshapes.TryGetValue(blendshapeIndex, out var blendshape))
                     bs[BlendShapeKey.CreateFromPreset(blendshapeIndex)] = blendshape;
+            }
+
+            proxy.SetValues(bs);
+        }        
+        
+        void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<mpBlendshapes, float> blendshapes)
+        {
+            var bs = new Dictionary<BlendShapeKey, float>();
+
+            var tmpArray = Enum.GetValues(typeof(mpBlendshapes));
+            foreach (var value in tmpArray)
+            {
+                var blendshapeIndex = (mpBlendshapes)value;
+                if (blendshapes.TryGetValue(blendshapeIndex, out var blendshape))
+                    bs[BlendShapeKey.CreateUnknown(blendshapeIndex.ToString())] = blendshape;
             }
 
             proxy.SetValues(bs);

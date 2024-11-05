@@ -35,6 +35,18 @@ namespace VioletSolver
             return (blendshapes, leftEyeRotation, rightEyeRotation);
         }
 
+        /// <summary>
+        ///     Solve face for Perfect Sync.
+        /// </summary>
+        /// <param name="weights"></param>
+        /// <returns></returns>
+        public static (Dictionary<MediaPipeBlendshapes, float>, Quaternion, Quaternion) SolvePerfectly(Dictionary<MediaPipeBlendshapes, float> weights)
+        {
+            var blendshapes = FaceResolver.SolveFacialExpressionPerfectly(weights);
+            var (leftEyeRotation, rightEyeRotation) = FaceResolver.SolveEye(weights);
+            return (blendshapes, leftEyeRotation, rightEyeRotation);
+        }
+
         static bool ExistLandmarks(ILandmarks landmarks)
             => landmarks != null
                 && landmarks.Landmarks != null
