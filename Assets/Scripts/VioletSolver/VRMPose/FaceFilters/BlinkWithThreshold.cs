@@ -10,7 +10,7 @@ namespace VioletSolver.Blendshapes
         { 
             _threshold = threshold;
         }
-        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes, float amount)
+        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes)
         {
             var result = blendshapes;
 
@@ -30,7 +30,7 @@ namespace VioletSolver.Blendshapes
         {
             _threshold = threshold;
         }
-        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes, float amount)
+        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes)
         {
             var result = blendshapes;
 

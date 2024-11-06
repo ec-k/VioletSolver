@@ -13,7 +13,7 @@ namespace VioletSolver
             _amount = amount;
         }
 
-        public AvatarPoseData Filter(AvatarPoseData pose, float amount)
+        public AvatarPoseData Filter(AvatarPoseData pose)
         {
             var result = new AvatarPoseData();
 

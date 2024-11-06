@@ -2,7 +2,7 @@ namespace VioletSolver
 {
     public class TransformCoordination : ILandmarkFilter
     {
-        public ILandmarks Filter(ILandmarks landmarks, float amount)
+        public ILandmarks Filter(ILandmarks landmarks)
         {
             for(int i=0;i<landmarks.Count;i++)
             {

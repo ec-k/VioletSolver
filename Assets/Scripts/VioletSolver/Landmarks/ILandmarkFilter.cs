@@ -2,6 +2,6 @@ namespace VioletSolver
 {
     public interface ILandmarkFilter
     {
-        public ILandmarks Filter(ILandmarks landmarks, float amount);
+        public ILandmarks Filter(ILandmarks landmarks);
     }
 }

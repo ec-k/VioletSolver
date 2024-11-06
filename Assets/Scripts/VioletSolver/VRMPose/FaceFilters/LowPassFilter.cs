@@ -16,7 +16,7 @@ namespace VioletSolver.Blendshapes
             _prevWeights = new();
         }
 
-        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes, float amount)
+        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes)
         {
             var results = blendshapes;
 

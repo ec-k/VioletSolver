@@ -5,11 +5,11 @@ namespace VioletSolver
 {
     public interface IAvatarPoseFilter
     {
-        public AvatarPoseData Filter(AvatarPoseData boneRotations, float amount);
+        public AvatarPoseData Filter(AvatarPoseData boneRotations);
     }
 
     public interface IBlendshapeFilter
     {
-        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes, float amount);
+        public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes);
     }
 }

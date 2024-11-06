@@ -1,4 +1,3 @@
-using HolisticPose;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +17,6 @@ namespace VioletSolver
         public IHolisticLandmarks Landmarks => _landmarks;
         public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
         [SerializeField] List<ILandmarkFilter> _landmarkFilters;
-        [SerializeField] float _filterAmount = 1f;
         [SerializeField] LandmarkReceiver _landmarkReceiveServer;
 
         // for debugging
@@ -54,7 +52,7 @@ namespace VioletSolver
             if (_landmarkFilters != null)
                 foreach (var filter in _landmarkFilters)
                 {
-                    resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose, _filterAmount);
+                    resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose);
                     //resultedLandmarks.LeftHand = filter.Filter(resultedLandmarks.LeftHand, _filterAmount);
                     //resultedLandmarks.RightHand = filter.Filter(resultedLandmarks.RightHand, _filterAmount);
                     //resultedLandmarks.Face = filter.Filter(resultedLandmarks.Face, _filterAmount);

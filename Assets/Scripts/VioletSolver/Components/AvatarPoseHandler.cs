@@ -20,7 +20,6 @@ namespace VioletSolver
         public Dictionary<mpBlendshapes, float> PerfectSyncWeights;
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
-        [SerializeField] float _filterAmount = 1f;
 
 
         public AvatarPoseHandler()
@@ -46,7 +45,7 @@ namespace VioletSolver
             if(_vrmPoseFilters != null) 
                 foreach (var filter in _vrmPoseFilters)
                 {
-                    result = filter.Filter(pose, _filterAmount);
+                    result = filter.Filter(pose);
                 }
             _poseData = result;
         }
@@ -64,7 +63,7 @@ namespace VioletSolver
             if (_blendshapeFilters != null)
                 foreach (var filter in _blendshapeFilters)
                 {
-                    result = filter.Filter(weights, _filterAmount);
+                    result = filter.Filter(weights);
                 }
             BlendshapeWeights = result;
         }

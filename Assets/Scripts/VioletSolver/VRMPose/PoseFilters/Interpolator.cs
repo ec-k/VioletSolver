@@ -11,7 +11,7 @@ namespace VioletSolver
         {
             _current = new AvatarPoseData();
         }
-        public AvatarPoseData Filter(AvatarPoseData data, float amount)
+        public AvatarPoseData Filter(AvatarPoseData data)
         {
             var result = new AvatarPoseData();
 

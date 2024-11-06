@@ -16,7 +16,7 @@ namespace VioletSolver
             _valueOnThreshold = valueOnThreshold;
         }
 
-        public ILandmarks Filter(ILandmarks landmarks, float amount)
+        public ILandmarks Filter(ILandmarks landmarks)
         {
             for (var i = 0; i < Math.Min(landmarks.Count, _previousLandmarks.Count); i++)
             {
