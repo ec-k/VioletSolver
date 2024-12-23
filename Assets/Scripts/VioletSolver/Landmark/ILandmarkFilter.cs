@@ -1,4 +1,4 @@
-namespace VioletSolver
+namespace VioletSolver.Landmarks
 {
     public interface ILandmarkFilter
     {

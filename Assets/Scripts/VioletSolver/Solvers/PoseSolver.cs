@@ -7,9 +7,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+using VioletSolver.Landmarks;
+using VioletSolver.Pose;
 using poseIndex = HolisticPose.PoseLandmarks.Types.LandmarkIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Solver
 {
 	public class PoseSolver
 	{

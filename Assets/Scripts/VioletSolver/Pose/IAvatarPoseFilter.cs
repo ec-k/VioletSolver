@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VRM;
 
-namespace VioletSolver
+namespace VioletSolver.Pose
 {
     public interface IAvatarPoseFilter
     {

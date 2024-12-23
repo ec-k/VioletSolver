@@ -4,7 +4,7 @@ using UnityEngine;
 using VRM;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Pose
 {
     // This class does
     //  1. get landmarks from udp by LandmarkReceiver.
@@ -29,8 +29,8 @@ namespace VioletSolver
             PerfectSyncWeights = new();
 
             _vrmPoseFilters = new();
-            _vrmPoseFilters.Add(new LowPassFilter(0.6f));
-            _vrmPoseFilters.Add(new Interpolator());
+            //_vrmPoseFilters.Add(new LowPassFilter(0.6f));
+            //_vrmPoseFilters.Add(new Interpolator());
 
             _blendshapeFilters = new();
             _blendshapeFilters.Add(new Blendshapes.LowPassFilter(0.6f));

@@ -1,9 +1,8 @@
 using Google.Protobuf.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-namespace VioletSolver
+namespace VioletSolver.Landmarks
 {
     public interface IHolisticLandmarks
     {

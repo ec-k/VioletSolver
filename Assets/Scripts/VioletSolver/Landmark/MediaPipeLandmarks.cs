@@ -2,7 +2,7 @@ using Google.Protobuf.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VioletSolver
+namespace VioletSolver.Landmarks
 {
     public struct HolisticLandmarks: IHolisticLandmarks
     {

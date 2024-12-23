@@ -6,11 +6,10 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using HolisticPose;
-
+using VioletSolver.Landmarks;
 using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
-namespace VioletSolver 
+namespace VioletSolver.Solver
 {
 	public class HandSolver {
 		public static readonly int[][] Fingers = new int[][] {

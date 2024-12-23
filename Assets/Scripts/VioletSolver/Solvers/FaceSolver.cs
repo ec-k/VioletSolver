@@ -7,10 +7,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 using VRM;
-
+using VioletSolver.Landmarks;
 using blendshapeIndex = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Solver
 {
 	public class FaceSolver {
 		// TODO: Later, change this function to return (Quaternion neckRotation, float[] blendshapes)

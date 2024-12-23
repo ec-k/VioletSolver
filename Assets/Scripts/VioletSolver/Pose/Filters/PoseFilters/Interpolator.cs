@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace VioletSolver
+namespace VioletSolver.Pose
 {
     public class Interpolator : IAvatarPoseFilter
     {

@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using VRM;
 
-namespace VioletSolver.Blendshapes
+namespace VioletSolver.Pose.Blendshapes
 {
     public class LowPassFilter : IBlendshapeFilter
     {

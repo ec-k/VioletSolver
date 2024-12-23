@@ -1,9 +1,10 @@
-using HolisticPose;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VRM;
 
+using VioletSolver.Pose;
+using VioletSolver.Solver;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 using mpHand = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
@@ -101,12 +102,12 @@ namespace VioletSolver {
             ApplyGlobal(animator, pose, HumanBodyBones.UpperChest );
             ApplyGlobal(animator, pose, HumanBodyBones.Neck );
             ApplyGlobal(animator, pose, HumanBodyBones.Head );
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperLeg );
-            ApplyGlobal(animator, pose, HumanBodyBones.RightUpperLeg );
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerLeg );
-            ApplyGlobal(animator, pose, HumanBodyBones.RightLowerLeg );
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot );
-            ApplyGlobal(animator, pose, HumanBodyBones.RightFoot );
+            //ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperLeg );
+            //ApplyGlobal(animator, pose, HumanBodyBones.RightUpperLeg );
+            //ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerLeg );
+            //ApplyGlobal(animator, pose, HumanBodyBones.RightLowerLeg );
+            //ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot );
+            //ApplyGlobal(animator, pose, HumanBodyBones.RightFoot );
             ApplyGlobal(animator, pose, HumanBodyBones.LeftShoulder );
             ApplyGlobal(animator, pose, HumanBodyBones.RightShoulder );
             ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperArm );

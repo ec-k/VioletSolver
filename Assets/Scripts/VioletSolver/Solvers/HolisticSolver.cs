@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRM;
 
+using VioletSolver.Landmarks;
+using VioletSolver.Pose;
 using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Solver
 {
     public static class HolisticSolver
     {

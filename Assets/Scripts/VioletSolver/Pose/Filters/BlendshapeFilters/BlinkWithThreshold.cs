@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VRM;
 
-namespace VioletSolver.Blendshapes
+namespace VioletSolver.Pose.Blendshapes
 {
     public class EyeOpener : IBlendshapeFilter
     {

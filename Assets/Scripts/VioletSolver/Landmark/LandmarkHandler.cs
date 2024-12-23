@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VioletSolver.Network;
+using VioletSolver.Landmarks;
 
 using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 

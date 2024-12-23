@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace VioletSolver
+namespace VioletSolver.Landmarks
 {
     public class ConfidenceFilter: ILandmarkFilter
     {

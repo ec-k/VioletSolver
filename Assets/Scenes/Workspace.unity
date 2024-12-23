@@ -247,10 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _landmarkHandler:
-    _filterAmount: 1
     _landmarkReceiveServer: {fileID: 1493492823}
-  _avatarPoseHandler:
-    _filterAmount: 1
   _animator: {fileID: 2070397307}
   _proxy: {fileID: 2070397306}
   _isAnimating: 1
@@ -288,7 +285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &849487605
 Transform:
   m_ObjectHideFlags: 0
@@ -604,10 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _landmarkHandler:
-    _filterAmount: 1
     _landmarkReceiveServer: {fileID: 1493492823}
-  _avatarPoseHandler:
-    _filterAmount: 1
   _animator: {fileID: 1686597046}
   _proxy: {fileID: 1471964583}
   _isAnimating: 1

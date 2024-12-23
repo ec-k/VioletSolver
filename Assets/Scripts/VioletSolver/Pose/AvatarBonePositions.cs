@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VioletSolver
+namespace VioletSolver.Pose
 {
     // TODO: This class must have operator.
     public struct AvatarBonePositions
