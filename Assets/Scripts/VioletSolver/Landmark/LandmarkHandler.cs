@@ -17,7 +17,10 @@ namespace VioletSolver
         IHolisticLandmarks _landmarks;
         public IHolisticLandmarks Landmarks => _landmarks;
         public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
-        [SerializeField] List<ILandmarkFilter> _landmarkFilters;
+        List<ILandmarkFilter> _poseLandmarkFilters;
+        List<ILandmarkFilter> _leftHandLandmarkFilters;
+        List<ILandmarkFilter> _rightHandLandmarkFilters;
+        List<ILandmarkFilter> _faceLandmarkFilters;
         [SerializeField] LandmarkReceiver _landmarkReceiveServer;
 
         // for debugging
@@ -26,11 +29,27 @@ namespace VioletSolver
         public LandmarkHandler()
         {
             _landmarks = new HolisticLandmarks(30); // "30" is temporal number. There are no meanings and intentions.
-            _landmarkFilters = new();
+            _poseLandmarkFilters = new();
+            _leftHandLandmarkFilters = new();
+            _rightHandLandmarkFilters = new();
+            _faceLandmarkFilters = new();
             MpBlendshapes = new();
 
-            _landmarkFilters.Add(new TransformCoordination());
-            _landmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f));
+            var cutConfidence = 0f;
+            var smoothingFactor = 0.5f;
+
+            _poseLandmarkFilters.Add(new TransformCoordination());
+            _poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
+            _poseLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+
+            _leftHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
+            _leftHandLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+
+            _rightHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
+            _rightHandLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+
+            _faceLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+
         }
         public LandmarkHandler(IHolisticLandmarks landmarks)
         {
@@ -50,14 +69,23 @@ namespace VioletSolver
                 return;
             _landmarks.UpdateLandmarks(results, _landmarkReceiveServer.Time);
             var resultedLandmarks = _landmarks;
-            if (_landmarkFilters != null)
-                foreach (var filter in _landmarkFilters)
-                {
-                    resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose);
-                    //resultedLandmarks.LeftHand = filter.Filter(resultedLandmarks.LeftHand, _filterAmount);
-                    //resultedLandmarks.RightHand = filter.Filter(resultedLandmarks.RightHand, _filterAmount);
-                    //resultedLandmarks.Face = filter.Filter(resultedLandmarks.Face, _filterAmount);
-                }
+
+            // Apply filters
+            {
+                if (_poseLandmarkFilters != null)
+                    foreach (var filter in _poseLandmarkFilters)
+                        resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose);
+                if (_leftHandLandmarkFilters != null)
+                    foreach (var filter in _leftHandLandmarkFilters)
+                        resultedLandmarks.LeftHand = filter.Filter(resultedLandmarks.LeftHand);
+                if (_rightHandLandmarkFilters != null)
+                    foreach (var filter in _rightHandLandmarkFilters)
+                        resultedLandmarks.RightHand = filter.Filter(resultedLandmarks.RightHand);
+                if (_faceLandmarkFilters != null)
+                    foreach (var filter in _faceLandmarkFilters)
+                        resultedLandmarks.Face = filter.Filter(resultedLandmarks.Face);
+            }
+
             _landmarks = resultedLandmarks;
         }
 

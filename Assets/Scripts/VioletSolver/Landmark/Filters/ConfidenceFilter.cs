@@ -8,12 +8,14 @@ namespace VioletSolver.Landmarks
         List<Landmark> _previousLandmarks;
         float _threshold;
         float _valueOnThreshold;
+        float _cutThreshold;
 
-        public ConfidenceFilter(float threshold, float valueOnThreshold) 
+        public ConfidenceFilter(float threshold, float valueOnThreshold, float cutThreshold) 
         { 
             _previousLandmarks = new List<Landmark>(30);
             _threshold = threshold;
             _valueOnThreshold = valueOnThreshold;
+            _cutThreshold = cutThreshold;
         }
 
         public ILandmarks Filter(ILandmarks landmarks)
@@ -37,8 +39,9 @@ namespace VioletSolver.Landmarks
 
         Landmark Filter(Landmark prevLandmark, Landmark targetLandmark)
         {
-            var amount = CombinedLinear(targetLandmark.Confidence, _threshold, _valueOnThreshold);
-            var result = Landmark.Lerp(prevLandmark, targetLandmark, amount);
+            var rawMoveAmount = CombinedLinear(targetLandmark.Confidence, _threshold, _valueOnThreshold);
+            var moveAmount = rawMoveAmount >= _cutThreshold ? rawMoveAmount : 0f;
+            var result = Landmark.Lerp(prevLandmark, targetLandmark, moveAmount);
             return result;
         }
 
