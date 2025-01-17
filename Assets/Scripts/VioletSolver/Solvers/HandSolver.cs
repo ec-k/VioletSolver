@@ -13,11 +13,11 @@ namespace VioletSolver.Solver
 {
 	public class HandSolver {
 		public static readonly int[][] Fingers = new int[][] {
-			new int[] { (int)handIndex.ThumbCmc,			(int)handIndex.ThumbTip},			// Thumb
+			new int[] { (int)handIndex.ThumbCmc,		(int)handIndex.ThumbTip},			// Thumb
 			new int[] { (int)handIndex.IndexFingerMcp,	(int)handIndex.IndexFingerTip},		// Index
 			new int[] { (int)handIndex.MiddleFingerMcp,	(int)handIndex.MiddleFingerTip},		// Middle
 			new int[] { (int)handIndex.RingFingerMcp,	(int)handIndex.RingFingerTip },		// Ring
-			new int[] { (int)handIndex.PinkyMcp,         (int)handIndex.PinkyTip },			// Pinky
+			new int[] { (int)handIndex.PinkyMcp,        (int)handIndex.PinkyTip },			// Pinky
 		};
 
 		public struct FingerAngle {

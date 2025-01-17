@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VioletSolver.Network;
 using VioletSolver.Landmarks;
+using Cysharp.Threading.Tasks;
 
 using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
@@ -38,7 +39,6 @@ namespace VioletSolver
             var cutConfidence = 0f;
             var smoothingFactor = 0.5f;
 
-            _poseLandmarkFilters.Add(new TransformCoordination());
             _poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
             _poseLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
 
@@ -49,7 +49,6 @@ namespace VioletSolver
             _rightHandLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
 
             _faceLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
-
         }
         public LandmarkHandler(IHolisticLandmarks landmarks)
         {
@@ -60,7 +59,7 @@ namespace VioletSolver
         ///     Update landmarks: gets landmarks, filters them and assign to this.Landmarks.
         /// </summary>
         /// 
-        public void Update() 
+        async public void Update() 
         {
             // Update landmarks.
             var results = _landmarkReceiveServer.Results;
@@ -72,21 +71,21 @@ namespace VioletSolver
 
             // Apply filters
             {
-                if (_poseLandmarkFilters != null)
-                    foreach (var filter in _poseLandmarkFilters)
-                        resultedLandmarks.Pose = filter.Filter(resultedLandmarks.Pose);
-                if (_leftHandLandmarkFilters != null)
-                    foreach (var filter in _leftHandLandmarkFilters)
-                        resultedLandmarks.LeftHand = filter.Filter(resultedLandmarks.LeftHand);
-                if (_rightHandLandmarkFilters != null)
-                    foreach (var filter in _rightHandLandmarkFilters)
-                        resultedLandmarks.RightHand = filter.Filter(resultedLandmarks.RightHand);
-                if (_faceLandmarkFilters != null)
-                    foreach (var filter in _faceLandmarkFilters)
-                        resultedLandmarks.Face = filter.Filter(resultedLandmarks.Face);
+                await UniTask.WhenAll(
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_poseLandmarkFilters, resultedLandmarks.Pose)),
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_rightHandLandmarkFilters, resultedLandmarks.RightHand)),
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_leftHandLandmarkFilters, resultedLandmarks.LeftHand)),
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_faceLandmarkFilters, resultedLandmarks.Face)));
             }
 
             _landmarks = resultedLandmarks;
+        }
+
+        void ApplyFilters(List<ILandmarkFilter> filters, ILandmarks landmarks)
+        {
+            if (filters != null)
+                foreach (var filter in filters)
+                    landmarks = filter.Filter(landmarks);
         }
 
         public void UpdateBlendshapes()

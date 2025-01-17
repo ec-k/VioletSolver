@@ -3,7 +3,8 @@
     "rootNamespace": "VioletSolver",
     "references": [
         "Unity.Animation.Rigging",
-        "VRM"
+        "VRM",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

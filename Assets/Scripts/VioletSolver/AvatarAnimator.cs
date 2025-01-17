@@ -6,7 +6,6 @@ using VRM;
 using VioletSolver.Pose;
 using VioletSolver.Solver;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
-using mpHand = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
