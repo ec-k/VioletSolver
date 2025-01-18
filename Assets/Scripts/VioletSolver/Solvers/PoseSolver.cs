@@ -40,11 +40,11 @@ namespace VioletSolver.Solver
 					rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
 					pose.Hips = rot * tiltRot;
 
-					float mul = 1000;
+					float mul = 1;
 					pose.HipsPosition = new Vector3(
+						(rHip.x + lHip.x) * 0.5f * mul,
 						(rHip.y + lHip.y) * 0.5f * mul,
-						0, // -(rHip.z + lHip.z) * 0.5f * mul,
-						0 // (rHip.y + lHip.y) * 0.5f * mul
+						(rHip.z + lHip.z) * 0.5f * mul
 					);
 					/*
 					float bodyRotation = 1.0f;

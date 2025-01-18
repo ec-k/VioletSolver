@@ -19,6 +19,7 @@ namespace VioletSolver {
         [SerializeField] Animator _animator;
         [SerializeField] VRMBlendShapeProxy _proxy;
         [SerializeField] bool _isAnimating = false;
+        [SerializeField] bool _animateLeg = false;
         AvatarBonePositions _restBonePositions;
 
         [SerializeField] bool _enablePerfectSync = false;
@@ -95,18 +96,23 @@ namespace VioletSolver {
 
         void AnimateAvatar(Animator animator, AvatarPoseData pose)
         {
+            animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
+
             ApplyGlobal(animator, pose, HumanBodyBones.Hips);
             ApplyGlobal(animator, pose, HumanBodyBones.Spine );
             ApplyGlobal(animator, pose, HumanBodyBones.Chest );
             ApplyGlobal(animator, pose, HumanBodyBones.UpperChest );
             ApplyGlobal(animator, pose, HumanBodyBones.Neck );
             ApplyGlobal(animator, pose, HumanBodyBones.Head );
-            //ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperLeg );
-            //ApplyGlobal(animator, pose, HumanBodyBones.RightUpperLeg );
-            //ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerLeg );
-            //ApplyGlobal(animator, pose, HumanBodyBones.RightLowerLeg );
-            //ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot );
-            //ApplyGlobal(animator, pose, HumanBodyBones.RightFoot );
+            if (_animateLeg)
+            {
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperLeg);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightUpperLeg);
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerLeg);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightLowerLeg);
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightFoot);
+            }
             ApplyGlobal(animator, pose, HumanBodyBones.LeftShoulder );
             ApplyGlobal(animator, pose, HumanBodyBones.RightShoulder );
             ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperArm );
