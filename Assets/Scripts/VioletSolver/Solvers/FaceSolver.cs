@@ -26,7 +26,10 @@ namespace VioletSolver.Solver
 				Vector3 forwardDir = plane.normal;
 				Vector3 faceUpDir = botHead - topHead;
 
-				neckRotation = Quaternion.LookRotation(forwardDir, faceUpDir);
+				if(forwardDir == Vector3.zero || faceUpDir == Vector3.zero)
+					neckRotation = Quaternion.identity;
+				else
+					neckRotation = Quaternion.LookRotation(forwardDir, faceUpDir);
 			}
 			return neckRotation;
 		}
