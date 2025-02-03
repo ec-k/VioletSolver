@@ -76,3 +76,7 @@ crashlytics-build.properties
 /[Pp]ackages/*
 !manifest.json
 !packages-lock.json
+
+# Plugins
+/[Aa]ssets/Plugins/
+/[Aa]ssets/Plugins.meta
