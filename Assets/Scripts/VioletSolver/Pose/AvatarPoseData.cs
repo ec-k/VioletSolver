@@ -139,8 +139,27 @@ namespace VioletSolver.Pose
 
         public float time;
 
+        // Ik Target Positions
         public Vector3 HipsPosition;
+        public Vector3 HeadPosition;
 
+        public Vector3 LeftShoulderPosition;
+        public Vector3 LeftElbowPosition;
+        public Vector3 LeftHandPosition;
+
+        public Vector3 RightShoulderPosition;
+        public Vector3 RightElbowPosition;
+        public Vector3 RightHandPosition;
+
+        public Vector3 LeftThighPosition;
+        public Vector3 LeftKneePosition;
+        public Vector3 LeftFootPosition;
+
+        public Vector3 RightThighPosition;
+        public Vector3 RightKneePosition;
+        public Vector3 RightFootPosition;
+
+        // Bone Rotations in solving without IK
         public Quaternion Hips;
         public Quaternion Spine;
         public Quaternion Chest;

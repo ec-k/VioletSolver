@@ -15,7 +15,7 @@ namespace VioletSolver.Solver
 {
 	public class PoseSolver
 	{
-		public static AvatarPoseData SolvePose(List<Landmark> landmarks, AvatarBonePositions restBonePositions)
+		public static AvatarPoseData SolvePose(List<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
 		{
             AvatarPoseData pose = new();
 
@@ -52,19 +52,24 @@ namespace VioletSolver.Solver
 					*/
 				}
 
-				// Arms
+				if (useIk)
+					SolveIkTargets(landmarks, ref pose);
+				else
 				{
-					Vector4 rElbow = landmarks[(int)poseIndex.RightElbow];
-					Vector4 rHand = landmarks[(int)poseIndex.RightWrist];
-					var baseDirection = restBonePositions.RightLowerArm - restBonePositions.RightUpperArm;
-                    (pose.RightUpperArm, pose.RightLowerArm) = SolveRim(rShoulder, rElbow, rHand, baseDirection);
-				}
+					// Arms
+					{
+						Vector4 rElbow = landmarks[(int)poseIndex.RightElbow];
+						Vector4 rHand = landmarks[(int)poseIndex.RightWrist];
+						var baseDirection = restBonePositions.RightLowerArm - restBonePositions.RightUpperArm;
+						(pose.RightUpperArm, pose.RightLowerArm) = SolveRim(rShoulder, rElbow, rHand, baseDirection);
+					}
 
-				{
-					Vector4 lElbow = landmarks[(int)poseIndex.LeftElbow];
-					Vector4 lHand = landmarks[(int)poseIndex.LeftWrist];
-					var baseDirection = restBonePositions.LeftLowerArm - restBonePositions.LeftUpperArm;
-                    (pose.LeftUpperArm, pose.LeftLowerArm) = SolveRim(lShoulder, lElbow, lHand, baseDirection);
+					{
+						Vector4 lElbow = landmarks[(int)poseIndex.LeftElbow];
+						Vector4 lHand = landmarks[(int)poseIndex.LeftWrist];
+						var baseDirection = restBonePositions.LeftLowerArm - restBonePositions.LeftUpperArm;
+						(pose.LeftUpperArm, pose.LeftLowerArm) = SolveRim(lShoulder, lElbow, lHand, baseDirection);
+					}
 				}
 
 				// Legs
@@ -99,6 +104,27 @@ namespace VioletSolver.Solver
 
 			return (rootRot, midRot);
 		}
-	}
+
+        static void SolveIkTargets(List<Landmark> landmarks, ref AvatarPoseData pose)
+        {
+			pose.HeadPosition = landmarks[(int)poseIndex.Nose];
+
+            pose.LeftHandPosition = landmarks[(int)poseIndex.LeftWrist];
+            pose.LeftElbowPosition = landmarks[(int)poseIndex.LeftElbow];
+            pose.LeftShoulderPosition = landmarks[(int)poseIndex.LeftShoulder];
+
+            pose.RightHandPosition = landmarks[(int)poseIndex.RightWrist];
+            pose.RightElbowPosition = landmarks[(int)poseIndex.RightElbow];
+            pose.RightShoulderPosition = landmarks[(int)poseIndex.RightShoulder];
+
+			pose.LeftThighPosition = landmarks[(int)poseIndex.LeftHip];
+			pose.LeftKneePosition = landmarks[(int)poseIndex.LeftKnee];
+			pose.LeftFootPosition = landmarks[(int)poseIndex.LeftAnkle];
+
+            pose.RightThighPosition = landmarks[(int)poseIndex.RightHip];
+            pose.RightKneePosition = landmarks[(int)poseIndex.RightKnee];
+            pose.RightFootPosition = landmarks[(int)poseIndex.RightAnkle];
+        }
+    }
 }
 

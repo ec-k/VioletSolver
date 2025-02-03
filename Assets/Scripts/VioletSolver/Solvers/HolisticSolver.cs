@@ -12,12 +12,12 @@ namespace VioletSolver.Solver
     {
         // Probably, this class has PoseSolver, HandSolver and FaceSolver.
         // Use them.Solve in a function below and solve pose holisticly.
-        public static AvatarPoseData Solve(IHolisticLandmarks landmarks, AvatarBonePositions restBonePositions)
+        public static AvatarPoseData Solve(IHolisticLandmarks landmarks, AvatarBonePositions restBonePositions, bool useIk)
         {
             var solvedPose = new AvatarPoseData();
 
             if(ExistLandmarks(landmarks.Pose))
-                solvedPose = PoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions);
+                solvedPose = PoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions, useIk);
             if(ExistLandmarks(landmarks.Face))
                 solvedPose.Neck = FaceSolver.Solve(landmarks.Face.Landmarks);
             if(ExistLandmarks(landmarks.LeftHand))

@@ -6,12 +6,14 @@ using VRM;
 using VioletSolver.Pose;
 using VioletSolver.Solver;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+using UnityEditor;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
 //  2. solve landmarks to avatar pose
 //  3. filters pose and apply pose to avatar (in _avatarPoseHandler)
-namespace VioletSolver {
+namespace VioletSolver 
+{
     public class AvatarAnimator : MonoBehaviour
     {
         [SerializeField] LandmarkHandler _landmarkHandler;
@@ -23,6 +25,22 @@ namespace VioletSolver {
         AvatarBonePositions _restBonePositions;
 
         [SerializeField] bool _enablePerfectSync = false;
+
+
+        [SerializeField] bool _useIk = false;
+        [SerializeField] Transform _headTarget;
+        [SerializeField] Transform _leftShoulderTarget;
+        [SerializeField] Transform _leftElbowTarget;
+        [SerializeField] Transform _leftHandTarget;
+        [SerializeField] Transform _rightShoulderTarget;
+        [SerializeField] Transform _rightElbowTarget;
+        [SerializeField] Transform _rightHandTarget;
+        [SerializeField] Transform _leftThighTarget;
+        [SerializeField] Transform _leftKneeTarget;
+        [SerializeField] Transform _leftFootTarget;
+        [SerializeField] Transform _rightThighTarget;
+        [SerializeField] Transform _rightKneeTarget;
+        [SerializeField] Transform _rightFootTarget;
 
         public LandmarkHandler Landmarks => _landmarkHandler;
 
@@ -61,7 +79,7 @@ namespace VioletSolver {
         void UpdatePose()
         {
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBonePositions);
+            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk);
             _avatarPoseHandler.Update(pose);
         }
 
@@ -113,14 +131,19 @@ namespace VioletSolver {
                 ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot);
                 ApplyGlobal(animator, pose, HumanBodyBones.RightFoot);
             }
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftShoulder );
-            ApplyGlobal(animator, pose, HumanBodyBones.RightShoulder );
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperArm );
-            ApplyGlobal(animator, pose, HumanBodyBones.RightUpperArm );
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerArm );
-            ApplyGlobal(animator, pose, HumanBodyBones.RightLowerArm );
-            ApplyGlobal(animator, pose, HumanBodyBones.LeftHand);
-            ApplyGlobal(animator, pose, HumanBodyBones.RightHand);
+            if (_useIk)
+                ApplyIkTarget(pose);
+            else
+            {
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftShoulder);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightShoulder);
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperArm);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightUpperArm);
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerArm);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightLowerArm);
+                ApplyGlobal(animator, pose, HumanBodyBones.LeftHand);
+                ApplyGlobal(animator, pose, HumanBodyBones.RightHand);
+            }
 
             ApplyLocal(animator, pose, HumanBodyBones.LeftThumbProximal);
             ApplyLocal(animator, pose, HumanBodyBones.LeftThumbIntermediate);
@@ -158,6 +181,31 @@ namespace VioletSolver {
             ApplyLocal(animator, pose, HumanBodyBones.RightEye);
         }
 
+        void ApplyIkTarget(AvatarPoseData pose)
+        {
+            _headTarget.position = pose.HeadPosition;
+
+            _leftShoulderTarget.position = pose.LeftShoulderPosition;
+            _leftElbowTarget.position = pose.LeftElbowPosition;
+            _leftHandTarget.position = pose.LeftHandPosition;
+            _leftHandTarget.rotation = pose.LeftHand;
+
+            _rightShoulderTarget.position = pose.RightShoulderPosition;
+            _rightElbowTarget.position = pose.RightElbowPosition;
+            _rightHandTarget.position = pose.RightHandPosition;
+            _rightHandTarget.rotation = pose.RightHand;
+
+            _leftThighTarget.position = pose.LeftThighPosition;
+            _leftKneeTarget.position = pose.LeftKneePosition;
+            _leftFootTarget.position = pose.LeftFootPosition;
+            _leftFootTarget.rotation = pose.LeftFoot;
+
+            _rightThighTarget.position = pose.RightThighPosition;
+            _rightKneeTarget.position = pose.RightKneePosition;
+            _rightFootTarget.position = pose.RightFootPosition;
+            _rightFootTarget.rotation = pose.RightFoot;
+        }
+
         void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
             => animator.GetBoneTransform(boneName).localRotation = pose[boneName];
         
@@ -193,7 +241,6 @@ namespace VioletSolver {
 
             proxy.SetValues(bs);
         }
-
 
         void SetBonePositions(Animator animator)
         {
