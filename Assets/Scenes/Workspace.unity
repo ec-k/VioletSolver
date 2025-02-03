@@ -251,6 +251,7 @@ MonoBehaviour:
   _animator: {fileID: 2070397307}
   _proxy: {fileID: 2070397306}
   _isAnimating: 1
+  _animateLeg: 0
   _enablePerfectSync: 1
 --- !u!4 &797420695
 Transform:
@@ -605,6 +606,7 @@ MonoBehaviour:
   _animator: {fileID: 1686597046}
   _proxy: {fileID: 1471964583}
   _isAnimating: 1
+  _animateLeg: 0
   _enablePerfectSync: 0
 --- !u!4 &1588626826
 Transform:
