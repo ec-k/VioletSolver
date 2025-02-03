@@ -6,7 +6,9 @@ using VRM;
 using VioletSolver.Pose;
 using VioletSolver.Solver;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
-using UnityEditor;
+using RootMotion.FinalIK;
+
+using R3;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
@@ -27,33 +29,94 @@ namespace VioletSolver
         [SerializeField] bool _enablePerfectSync = false;
 
 
-        [SerializeField] bool _useIk = false;
-        [SerializeField] Transform _headTarget;
-        [SerializeField] Transform _leftShoulderTarget;
-        [SerializeField] Transform _leftElbowTarget;
-        [SerializeField] Transform _leftHandTarget;
-        [SerializeField] Transform _rightShoulderTarget;
-        [SerializeField] Transform _rightElbowTarget;
-        [SerializeField] Transform _rightHandTarget;
-        [SerializeField] Transform _leftThighTarget;
-        [SerializeField] Transform _leftKneeTarget;
-        [SerializeField] Transform _leftFootTarget;
-        [SerializeField] Transform _rightThighTarget;
-        [SerializeField] Transform _rightKneeTarget;
-        [SerializeField] Transform _rightFootTarget;
+        [SerializeField] SerializableReactiveProperty<bool> _useIk;
+        ArmIK _leftArmIk;
+        ArmIK _rightArmIk;
+        // IK Targets
+        Transform _leftShoulderTarget;
+        Transform _leftElbowTarget;
+        Transform _leftHandTarget;
+        Transform _rightShoulderTarget;
+        Transform _rightElbowTarget;
+        Transform _rightHandTarget;
 
         public LandmarkHandler Landmarks => _landmarkHandler;
 
         private void Start()
         {
-            //_landmarkHandler = new LandmarkHandler();
-            //_poseSolver = new AvatarPoseSolver();
-            //_avatarPoseHandler = new AvatarPoseHandler();
+            _useIk = new(true);
             SetBonePositions(_animator);
+
+            SetupIkTargets();
+            SetupArmIk(true);
+            SetupArmIk(false);
+
+            _useIk.Subscribe(x =>
+            {
+                _leftArmIk.enabled = x;
+                _rightArmIk.enabled = x;
+            });
+        }
+
+        void SetupIkTargets()
+        {
+            var targetRoot = new GameObject("ArmIK Targets").transform;
+            targetRoot.parent = gameObject.transform;
+
+            SetupIkTarget(targetRoot, "LeftShoulderTarget", ref _leftShoulderTarget);
+            SetupIkTarget(targetRoot, "LeftElbowTarget", ref _leftElbowTarget);
+            SetupIkTarget(targetRoot, "LeftHandTarget", ref _leftHandTarget);
+            SetupIkTarget(targetRoot, "RightShoulderTarget", ref _rightShoulderTarget);
+            SetupIkTarget(targetRoot, "RightElbowTarget", ref _rightElbowTarget);
+            SetupIkTarget(targetRoot, "RightHandTarget", ref _rightHandTarget);
+        }
+
+        void SetupIkTarget(Transform root, string name, ref Transform target)
+        {
+            target = new GameObject(name).transform;
+            target.parent = root;
+        }
+
+        void SetupArmIk(bool isLeft) 
+        {            
+            var armIk = gameObject.AddComponent<ArmIK>(); ;
+
+            armIk.solver.IKPositionWeight = 1f;
+            armIk.solver.IKRotationWeight = 1f;
+            armIk.solver.arm.bendGoalWeight = 1f;
+            armIk.solver.chest.transform = _animator.GetBoneTransform(HumanBodyBones.Chest);
+
+            if (isLeft) 
+            {
+                _leftArmIk = armIk;
+
+                armIk.solver.shoulder.transform = _animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
+                armIk.solver.upperArm.transform = _animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
+                armIk.solver.forearm.transform  = _animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
+                armIk.solver.hand.transform     = _animator.GetBoneTransform(HumanBodyBones.LeftHand);
+
+                armIk.solver.arm.target     = _leftHandTarget;
+                armIk.solver.arm.bendGoal   = _leftElbowTarget;
+                armIk.solver.isLeft         = true;
+            }
+            else
+            {
+                _rightArmIk = armIk;
+
+                armIk.solver.shoulder.transform = _animator.GetBoneTransform(HumanBodyBones.RightShoulder);
+                armIk.solver.upperArm.transform = _animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
+                armIk.solver.forearm.transform = _animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
+                armIk.solver.hand.transform = _animator.GetBoneTransform(HumanBodyBones.RightHand);
+
+                armIk.solver.arm.target     = _rightHandTarget;
+                armIk.solver.arm.bendGoal   = _rightElbowTarget;
+                armIk.solver.isLeft         = false;
+            }
+
         }
 
         void Update() 
-        { 
+        {
             if( _isAnimating)
             {
                 _landmarkHandler.Update(); 
@@ -79,7 +142,7 @@ namespace VioletSolver
         void UpdatePose()
         {
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk);
+            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk.Value);
             _avatarPoseHandler.Update(pose);
         }
 
@@ -131,7 +194,7 @@ namespace VioletSolver
                 ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot);
                 ApplyGlobal(animator, pose, HumanBodyBones.RightFoot);
             }
-            if (_useIk)
+            if (_useIk.Value)
                 ApplyIkTarget(pose);
             else
             {
@@ -183,8 +246,6 @@ namespace VioletSolver
 
         void ApplyIkTarget(AvatarPoseData pose)
         {
-            _headTarget.position = pose.HeadPosition;
-
             _leftShoulderTarget.position = pose.LeftShoulderPosition;
             _leftElbowTarget.position = pose.LeftElbowPosition;
             _leftHandTarget.position = pose.LeftHandPosition;
@@ -194,16 +255,6 @@ namespace VioletSolver
             _rightElbowTarget.position = pose.RightElbowPosition;
             _rightHandTarget.position = pose.RightHandPosition;
             _rightHandTarget.rotation = pose.RightHand;
-
-            _leftThighTarget.position = pose.LeftThighPosition;
-            _leftKneeTarget.position = pose.LeftKneePosition;
-            _leftFootTarget.position = pose.LeftFootPosition;
-            _leftFootTarget.rotation = pose.LeftFoot;
-
-            _rightThighTarget.position = pose.RightThighPosition;
-            _rightKneeTarget.position = pose.RightKneePosition;
-            _rightFootTarget.position = pose.RightFootPosition;
-            _rightFootTarget.rotation = pose.RightFoot;
         }
 
         void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)

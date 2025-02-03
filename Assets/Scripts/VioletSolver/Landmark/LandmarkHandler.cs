@@ -36,7 +36,7 @@ namespace VioletSolver
             _faceLandmarkFilters = new();
             MpBlendshapes = new();
 
-            var cutConfidence = 0f;
+            var cutConfidence = 0.3f;
             var smoothingFactor = 0.5f;
 
             _poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
