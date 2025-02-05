@@ -94,7 +94,7 @@ namespace VioletSolver
 					case (int)handIndex.PinkyTip: PinkyTIP = value; return;
 					default:
 						{
-							Debug.LogError("Invalid index " + index);
+							UnityEngine.Debug.LogError("Invalid index " + index);
 							return;
 						}
 				}
