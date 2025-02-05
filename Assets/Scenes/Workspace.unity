@@ -201,7 +201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &660518267
 Transform:
   m_ObjectHideFlags: 0
@@ -229,7 +229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb063bb9a1967be47ab5bf1a4f337770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  src: {fileID: 2091502717}
+  _avatarAnimator: {fileID: 2091502719}
+  _poseVisualMaterial: {fileID: 2100000, guid: b9a00b9951469894ca9d375647a4fc30, type: 2}
+  _handVisualMaterial: {fileID: 2100000, guid: cd08410367e025c449864dfc04f3d1dc, type: 2}
 --- !u!1 &670212240
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +393,8 @@ MonoBehaviour:
   _isAnimating: 1
   _animateLeg: 0
   _enablePerfectSync: 1
-  _useIk: 0
+  _useIk:
+    value: 0
 --- !u!4 &797420695
 Transform:
   m_ObjectHideFlags: 0
@@ -484,7 +487,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb063bb9a1967be47ab5bf1a4f337770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  src: {fileID: 797420693}
+  _avatarAnimator: {fileID: 0}
+  _poseVisualMaterial: {fileID: 0}
+  _handVisualMaterial: {fileID: 0}
 --- !u!1 &859659965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,7 +1140,8 @@ MonoBehaviour:
   _isAnimating: 1
   _animateLeg: 0
   _enablePerfectSync: 0
-  _useIk: 0
+  _useIk:
+    value: 0
 --- !u!4 &1588626826
 Transform:
   m_ObjectHideFlags: 0
@@ -1412,7 +1418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb063bb9a1967be47ab5bf1a4f337770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  src: {fileID: 1588626824}
+  _avatarAnimator: {fileID: 0}
+  _poseVisualMaterial: {fileID: 0}
+  _handVisualMaterial: {fileID: 0}
 --- !u!4 &1886205637
 Transform:
   m_ObjectHideFlags: 0
@@ -1594,7 +1602,8 @@ MonoBehaviour:
   _isAnimating: 1
   _animateLeg: 0
   _enablePerfectSync: 1
-  _useIk: 1
+  _useIk:
+    value: 1
 --- !u!4 &2091502720
 Transform:
   m_ObjectHideFlags: 0

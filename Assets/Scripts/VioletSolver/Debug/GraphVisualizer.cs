@@ -5,12 +5,11 @@ namespace VioletSolver.Debug
 {
     internal struct NodeVisualOption
     {
-        internal PrimitiveType ShapeType { get; }
+        internal PrimitiveType NodeShape { get; }
         internal float NodeSize { get; }
-
-        internal NodeVisualOption(PrimitiveType shapeType, float nodeSize)
+        internal NodeVisualOption(float nodeSize)
         {
-            ShapeType = shapeType;
+            NodeShape = PrimitiveType.Sphere;
             NodeSize = nodeSize;
         }
     }
@@ -18,74 +17,66 @@ namespace VioletSolver.Debug
     internal class GraphVisualizer
     {
         Graph _graph;
-
-        LineRenderer _line;
-        GameObject _nodes;
-
+        internal GameObject RootNode { get; private set; }
         Dictionary<Node[], GameObject> _linkMap;
+        float _lineWidth = 0.005f;
+        NodeVisualOption _visualOption;
 
-        internal float LineWidth { get; set; } = 0.02f;
-        internal NodeVisualOption VisualOption { get; set; }
-
-        internal GraphVisualizer(Graph linkGraph, string objectName = "Graph Visual")
+        internal GraphVisualizer(in Graph linkGraph, NodeVisualOption option, in Material lineMaterial, string objectName = "Graph Visual")
         {
-            _nodes = new GameObject(objectName);
-            SetupGraph(_nodes);
-            VisualOption = new(PrimitiveType.Sphere, 0.02f);
             _linkMap = new();
-        }
-        internal GraphVisualizer(Graph linkGraph, NodeVisualOption option, string objectName = "Graph Visual")
-        {
-            _nodes = new GameObject(objectName);
-            SetupGraph(_nodes);
-            VisualOption = option;
-            _linkMap = new();
+            _graph = linkGraph;
+            RootNode = new GameObject(objectName);
+            SetupGraphVisual(RootNode, lineMaterial);
+            _visualOption = option;
         }
 
         GameObject GenerateNodeObject(NodeVisualOption option)
         {
-            var nodeObject = GameObject.CreatePrimitive(option.ShapeType);
+            var nodeObject = GameObject.CreatePrimitive(option.NodeShape);
             nodeObject.transform.localScale = Vector3.one * option.NodeSize;
             return nodeObject;
         }
 
-        internal void SetupGraph(GameObject rootObject)
+        internal void SetupGraphVisual(in GameObject rootObject, in Material lineMaterial)
         {
             for (var i = 0; i < _graph.Count; i++)
             {
-                var linkRootObject = new GameObject();
+                var linkRootObject = new GameObject($"Link {i.ToString()}");
                 _linkMap.Add(_graph[i], linkRootObject);
                 linkRootObject.transform.parent = rootObject.transform;
 
                 // Setup LineRenderer
                 var line = linkRootObject.AddComponent<LineRenderer>();
-                line.startWidth = LineWidth;
-                line.endWidth = LineWidth;
+                line.positionCount = _graph[i].Length;
+                line.startWidth = _lineWidth;
+                line.endWidth = _lineWidth;
+                line.material = lineMaterial;
 
                 foreach (var _ in _graph[i]) 
                 {
-                    GameObject node = GenerateNodeObject(VisualOption);
+                    GameObject node = GenerateNodeObject(_visualOption);
                     node.transform.parent = linkRootObject.transform;
                 }
             }
         }
 
-        internal void UpdateGraphVisual(GameObject visualizerObject, ref Vector3[] referencePositions)
+        internal void UpdateGraphVisual(in Vector3[] referencePositions)
         {
             for (var i = 0; i < _graph.Count; i++)
             {
-                UpdateLinkVisual(_graph[i], ref referencePositions);
+                UpdateLinkVisual(_graph[i], in referencePositions);
             }
         }
-        internal void UpdateGraphVisual(GameObject visualizerObject, Vector3 posOffset, ref Vector3[] referencePositions)
+        internal void UpdateGraphVisual(in Vector3[] referencePositions, Vector3 posOffset)
         {
             for (var i = 0; i < _graph.Count; i++)
             {
-                UpdateLinkVisual(_graph[i], posOffset, ref referencePositions);
+                UpdateLinkVisual(_graph[i], referencePositions, posOffset);
             }
         }
 
-        void UpdateLinkVisual(Node[] link, ref Vector3[] referencePositions)
+        void UpdateLinkVisual(Node[] link, in Vector3[] referencePositions)
         {
             var linkRootObj = _linkMap[link];
             var line = linkRootObj.GetComponent<LineRenderer>();
@@ -94,8 +85,11 @@ namespace VioletSolver.Debug
             foreach (var node in link)
             {
                 var i = node.Index;
-                var pos = referencePositions[i];
-                node.Position = pos;
+                if (referencePositions.Length > i)
+                {
+                    var pos = referencePositions[i];
+                    node.Position = pos;
+                }
             }
 
             // Update LineRenderer
@@ -103,7 +97,7 @@ namespace VioletSolver.Debug
             line.SetPositions(posArray);
         }
 
-        void UpdateLinkVisual(Node[] link, Vector3 posOffset, ref Vector3[] referencePositions)
+        void UpdateLinkVisual(Node[] link, in Vector3[] referencePositions, Vector3 posOffset)
         {
             var linkRootObj = _linkMap[link];
             var line = linkRootObj.GetComponent<LineRenderer>();
