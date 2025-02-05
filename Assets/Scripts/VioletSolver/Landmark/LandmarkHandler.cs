@@ -38,15 +38,16 @@ namespace VioletSolver
 
             var cutConfidence = 0.3f;
             var smoothingFactor = 0.5f;
+            var handSmoothingFactor = 0.3f;
 
             _poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
             _poseLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
 
             _leftHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _leftHandLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+            _leftHandLandmarkFilters.Add(new LowPassFilter(handSmoothingFactor));
 
             _rightHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _rightHandLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+            _rightHandLandmarkFilters.Add(new LowPassFilter(handSmoothingFactor));
 
             _faceLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
         }
