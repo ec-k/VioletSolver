@@ -106,8 +106,11 @@ namespace VioletSolver.Debug
             foreach (var node in link)
             {
                 var i = node.Index;
-                var pos = referencePositions[i] + posOffset;
-                node.Position = pos;
+                if (referencePositions.Length > i)
+                {
+                    var pos = referencePositions[i] + posOffset;
+                    node.Position = pos;
+                }
             }
 
             // Update LineRenderer
