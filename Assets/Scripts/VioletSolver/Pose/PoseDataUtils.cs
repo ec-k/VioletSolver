@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace VioletSolver.Pose
 {
-    public static class PoseDataUtils
+    internal static class PoseDataUtils
     {
-        public static bool Equals(AvatarPoseData pose1, AvatarPoseData pose2)
+        internal static bool Equals(AvatarPoseData pose1, AvatarPoseData pose2)
         {
             var hbbs = Enum.GetValues(typeof(HumanBodyBones));
             foreach (var hbb in hbbs)

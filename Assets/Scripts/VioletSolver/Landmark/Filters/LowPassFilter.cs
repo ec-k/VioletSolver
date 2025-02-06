@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace VioletSolver.Landmarks
 {
-    public class LowPassFilter : ILandmarkFilter
+    internal class LowPassFilter : ILandmarkFilter
     {
         List<Landmark> _prevResults;
         float _smoothingFactor;
 
-        public LowPassFilter(float smootingFactor)
+        internal LowPassFilter(float smootingFactor)
         {
             _smoothingFactor = smootingFactor;
             _prevResults = new List<Landmark>(30);

@@ -4,7 +4,7 @@ using VioletSolver.Landmarks;
 
 namespace VioletSolver.Debug
 {
-    public class LandmarkVisualizer : MonoBehaviour
+    internal class LandmarkVisualizer : MonoBehaviour
     {
         [SerializeField] AvatarAnimator _avatarAnimator;
         LandmarkHandler _landmarkHandler;

@@ -11,8 +11,8 @@ using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Solver
 {
-	public class HandSolver {
-		public static readonly int[][] Fingers = new int[][] {
+	internal class HandSolver {
+		internal static readonly int[][] Fingers = new int[][] {
 			new int[] { (int)handIndex.ThumbCmc,		(int)handIndex.ThumbTip},			// Thumb
 			new int[] { (int)handIndex.IndexFingerMcp,	(int)handIndex.IndexFingerTip},		// Index
 			new int[] { (int)handIndex.MiddleFingerMcp,	(int)handIndex.MiddleFingerTip},		// Middle
@@ -20,11 +20,11 @@ namespace VioletSolver.Solver
 			new int[] { (int)handIndex.PinkyMcp,        (int)handIndex.PinkyTip },			// Pinky
 		};
 
-		public struct FingerAngle {
-			public int idx;
-			public Vector3 angle;
+		internal struct FingerAngle {
+			internal int idx;
+			internal Vector3 angle;
 
-			public FingerAngle(int idx, Vector3 angle) {
+			internal FingerAngle(int idx, Vector3 angle) {
 				this.idx = idx;
 				this.angle = angle;
 			}
@@ -43,7 +43,7 @@ namespace VioletSolver.Solver
 			return result;
 		}
 
-		public static HandData SolveLeftHand(ILandmarks hand) {
+		internal static HandData SolveLeftHand(ILandmarks hand) {
 			hand = SetGlobalOrigin(hand);
 
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Left);
@@ -62,7 +62,7 @@ namespace VioletSolver.Solver
 			return ConvertData(angles);
 		}
 
-		public static HandData SolveRightHand(ILandmarks hand) {
+		internal static HandData SolveRightHand(ILandmarks hand) {
 			hand = SetGlobalOrigin(hand);
 
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Right);			
@@ -295,18 +295,18 @@ namespace VioletSolver.Solver
 
 	// Helper methods for the hand calculations
 	class HandResolverUtil {
-		public static Vector3 ProjectVecOnPlane(Vector3[] triangle, Vector3 vec) {
+		internal static Vector3 ProjectVecOnPlane(Vector3[] triangle, Vector3 vec) {
 			Vector3 normal = Vector3.Cross(triangle[1] - triangle[0], triangle[2] - triangle[0]);
 			return vec - (Vector3.Dot(vec, normal) / normal.sqrMagnitude) * normal;
 		}
 
-		public static Vector3 ProjectPointOnVector(Vector3 p, Vector3 a, Vector3 b) {
+		internal static Vector3 ProjectPointOnVector(Vector3 p, Vector3 a, Vector3 b) {
 			Vector3 ap = p - a;
 			Vector3 ab = b - a;
 			return a + (Vector3.Dot(ap, ab) / Vector3.Dot(ab, ab)) * ab;
 		}
 
-		public static float[] JointAngles(Vector3[] vertices) {
+		internal static float[] JointAngles(Vector3[] vertices) {
 			float[] angles = new float[vertices.Length - 2];
 			for (int i = 0; i < vertices.Length - 2; i++) {
 				angles[i] = Vector3.Angle(
@@ -317,7 +317,7 @@ namespace VioletSolver.Solver
 			return angles;
 		}
 
-		public static Plane CreatePlaneAroundVector(Vector3 vector, Vector3 C, Vector3 U) {
+		internal static Plane CreatePlaneAroundVector(Vector3 vector, Vector3 C, Vector3 U) {
 			Vector3 V = Vector3.Cross(vector, U);
 			U = U.normalized;
 			V = V.normalized;
@@ -328,7 +328,7 @@ namespace VioletSolver.Solver
 			);
 		}
 
-		public static Vector3[] CreateTriangleAroundVector(Vector3 vector, Vector3 C, Vector3 U) {
+		internal static Vector3[] CreateTriangleAroundVector(Vector3 vector, Vector3 C, Vector3 U) {
 			Vector3 V = Vector3.Cross(vector, U);
 			U = U.normalized;
 			V = V.normalized;
@@ -347,8 +347,8 @@ namespace VioletSolver.Solver
 		}
 	}
 
-	public static class Vector3Extensions {
-		public static bool IsFinite(this Vector3 vector) {
+	internal static class Vector3Extensions {
+		internal static bool IsFinite(this Vector3 vector) {
 			return float.IsFinite(vector.x) && float.IsFinite(vector.y) && float.IsFinite(vector.z);
 		}
 	}

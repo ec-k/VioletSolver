@@ -3,10 +3,10 @@ using VRM;
 
 namespace VioletSolver.Pose.Blendshapes
 {
-    public class EyeOpener : IBlendshapeFilter
+    internal class EyeOpener : IBlendshapeFilter
     {
         float _threshold;
-        public EyeOpener(float threshold) 
+        internal EyeOpener(float threshold) 
         { 
             _threshold = threshold;
         }
@@ -23,10 +23,10 @@ namespace VioletSolver.Pose.Blendshapes
         }
     }
 
-    public class EyeCloser : IBlendshapeFilter
+    internal class EyeCloser : IBlendshapeFilter
     {
         float _threshold;
-        public EyeCloser(float threshold)
+        internal EyeCloser(float threshold)
         {
             _threshold = threshold;
         }

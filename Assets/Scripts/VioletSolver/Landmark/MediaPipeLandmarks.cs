@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace VioletSolver.Landmarks
 {
-    public struct HolisticLandmarks: IHolisticLandmarks
+    internal struct HolisticLandmarks: IHolisticLandmarks
     {
         public ILandmarks Pose { get; set; }
         public ILandmarks LeftHand { get; set; }
@@ -42,19 +42,19 @@ namespace VioletSolver.Landmarks
 
     }
 
-    public struct PoseLandmarks : ILandmarks
+    internal struct PoseLandmarks : ILandmarks
     {
         List<Landmark> _landmarks;
         public List<Landmark> Landmarks => _landmarks;
         public int Count => Landmarks.Count;
         float _time;
         public float Time => _time;
-        public PoseLandmarks(int size)
+        internal PoseLandmarks(int size)
         {
             _landmarks = new Landmark[size].ToList();
             _time = 0f;
         }
-        public PoseLandmarks(RepeatedField<HolisticPose.Landmark> rawLandmakrs)
+        internal PoseLandmarks(RepeatedField<HolisticPose.Landmark> rawLandmakrs)
         {
             var count = rawLandmakrs.Count;
             _landmarks = new(count);
@@ -75,20 +75,20 @@ namespace VioletSolver.Landmarks
             _time = time;
         }
     }
-    public struct HandLandmarks : ILandmarks
+    internal struct HandLandmarks : ILandmarks
     {
         List<Landmark> _landmarks;
         public List<Landmark> Landmarks => _landmarks;
         public int Count => Landmarks.Count;
         float _time;
         public float Time => _time;
-        public HandLandmarks(int size)
+        internal HandLandmarks(int size)
         {
             _landmarks = new Landmark[size].ToList();
             _time = 0f;
         }
 
-        public HandLandmarks(RepeatedField<HolisticPose.Landmark> rowLandmakrs)
+        internal HandLandmarks(RepeatedField<HolisticPose.Landmark> rowLandmakrs)
         {
             var count = rowLandmakrs.Count;
             _landmarks = new(count);
@@ -109,19 +109,19 @@ namespace VioletSolver.Landmarks
             _time = time;
         }
     }
-    public struct FaceLandmarks : ILandmarks
+    internal struct FaceLandmarks : ILandmarks
     {
         List<Landmark> _landmarks;
         public List<Landmark> Landmarks => _landmarks;
         public int Count => Landmarks.Count;
         float _time;
         public float Time => _time;
-        public FaceLandmarks(int size)
+        internal FaceLandmarks(int size)
         {
             _landmarks = new Landmark[size].ToList();
             _time = 0f;
         }
-        public FaceLandmarks(RepeatedField<HolisticPose.Landmark> rowLandmakrs)
+        internal FaceLandmarks(RepeatedField<HolisticPose.Landmark> rowLandmakrs)
         {
             var count = rowLandmakrs.Count;
             _landmarks = new(count);

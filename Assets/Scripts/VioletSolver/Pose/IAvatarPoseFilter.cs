@@ -3,12 +3,12 @@ using VRM;
 
 namespace VioletSolver.Pose
 {
-    public interface IAvatarPoseFilter
+    internal interface IAvatarPoseFilter
     {
         public AvatarPoseData Filter(AvatarPoseData boneRotations);
     }
 
-    public interface IBlendshapeFilter
+    internal interface IBlendshapeFilter
     {
         public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes);
     }

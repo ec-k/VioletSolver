@@ -9,35 +9,35 @@ using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver
 {
-	public class HandData
+	internal class HandData
 	{
-		public readonly int Length = 21;
+		internal readonly int Length = 21;
 
 		// Easy setters
-		public Quaternion Wrist;
-		public Quaternion ThumbCMC;
-		public Quaternion ThumbMCP;
-		public Quaternion ThumbIP;
-		public Quaternion ThumbTIP;
-		public Quaternion IndexFingerMCP;
-		public Quaternion IndexFingerPIP;
-		public Quaternion IndexFingerDIP;
-		public Quaternion IndexFingerTIP;
-		public Quaternion MiddleFingerMCP;
-		public Quaternion MiddleFingerPIP;
-		public Quaternion MiddleFingerDIP;
-		public Quaternion MiddleFingerTIP;
-		public Quaternion RingFingerMCP;
-		public Quaternion RingFingerPIP;
-		public Quaternion RingFingerDIP;
-		public Quaternion RingFingerTIP;
-		public Quaternion PinkyMCP;
-		public Quaternion PinkyPIP;
-		public Quaternion PinkyDIP;
-		public Quaternion PinkyTIP;
+		internal Quaternion Wrist;
+		internal Quaternion ThumbCMC;
+		internal Quaternion ThumbMCP;
+		internal Quaternion ThumbIP;
+		internal Quaternion ThumbTIP;
+		internal Quaternion IndexFingerMCP;
+		internal Quaternion IndexFingerPIP;
+		internal Quaternion IndexFingerDIP;
+		internal Quaternion IndexFingerTIP;
+		internal Quaternion MiddleFingerMCP;
+		internal Quaternion MiddleFingerPIP;
+		internal Quaternion MiddleFingerDIP;
+		internal Quaternion MiddleFingerTIP;
+		internal Quaternion RingFingerMCP;
+		internal Quaternion RingFingerPIP;
+		internal Quaternion RingFingerDIP;
+		internal Quaternion RingFingerTIP;
+		internal Quaternion PinkyMCP;
+		internal Quaternion PinkyPIP;
+		internal Quaternion PinkyDIP;
+		internal Quaternion PinkyTIP;
 
 		// This uses the indexs MediaPipe.Hand
-		public Quaternion this[int index]
+		internal Quaternion this[int index]
 		{
 			get
 			{

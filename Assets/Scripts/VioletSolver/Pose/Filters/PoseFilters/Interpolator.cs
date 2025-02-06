@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace VioletSolver.Pose
 {
-    public class Interpolator : IAvatarPoseFilter
+    internal class Interpolator : IAvatarPoseFilter
     {
         AvatarPoseData _current;
 
-        public Interpolator()
+        internal Interpolator()
         {
             _current = new AvatarPoseData();
         }

@@ -3,9 +3,9 @@ using UnityEngine;
 namespace VioletSolver.Pose
 {
     // TODO: This class must have operator.
-    public struct AvatarBonePositions
+    internal struct AvatarBonePositions
     {
-        public Vector3 this[HumanBodyBones index]
+        internal Vector3 this[HumanBodyBones index]
         {
             get
             {
@@ -65,27 +65,27 @@ namespace VioletSolver.Pose
             }
         }
 
-        public Vector3 Hips;
-        public Vector3 Spine;
-        public Vector3 Chest;
-        public Vector3 UpperChest;
-        public Vector3 Neck;
-        public Vector3 Head;
+        internal Vector3 Hips;
+        internal Vector3 Spine;
+        internal Vector3 Chest;
+        internal Vector3 UpperChest;
+        internal Vector3 Neck;
+        internal Vector3 Head;
 
-        public Vector3 LeftUpperLeg;
-        public Vector3 RightUpperLeg;
-        public Vector3 LeftLowerLeg;
-        public Vector3 RightLowerLeg;
-        public Vector3 LeftFoot;
-        public Vector3 RightFoot;
+        internal Vector3 LeftUpperLeg;
+        internal Vector3 RightUpperLeg;
+        internal Vector3 LeftLowerLeg;
+        internal Vector3 RightLowerLeg;
+        internal Vector3 LeftFoot;
+        internal Vector3 RightFoot;
 
-        public Vector3 LeftShoulder;
-        public Vector3 RightShoulder;
-        public Vector3 LeftUpperArm;
-        public Vector3 RightUpperArm;
-        public Vector3 LeftLowerArm;
-        public Vector3 RightLowerArm;
-        public Vector3 LeftHand;
-        public Vector3 RightHand;
+        internal Vector3 LeftShoulder;
+        internal Vector3 RightShoulder;
+        internal Vector3 LeftUpperArm;
+        internal Vector3 RightUpperArm;
+        internal Vector3 LeftLowerArm;
+        internal Vector3 RightLowerArm;
+        internal Vector3 LeftHand;
+        internal Vector3 RightHand;
     }
 }

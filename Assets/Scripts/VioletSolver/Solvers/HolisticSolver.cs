@@ -8,11 +8,11 @@ using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver.Solver
 {
-    public static class HolisticSolver
+    internal static class HolisticSolver
     {
         // Probably, this class has PoseSolver, HandSolver and FaceSolver.
         // Use them.Solve in a function below and solve pose holisticly.
-        public static AvatarPoseData Solve(IHolisticLandmarks landmarks, AvatarBonePositions restBonePositions, bool useIk)
+        internal static AvatarPoseData Solve(IHolisticLandmarks landmarks, AvatarBonePositions restBonePositions, bool useIk)
         {
             var solvedPose = new AvatarPoseData();
 
@@ -30,7 +30,7 @@ namespace VioletSolver.Solver
             return solvedPose;
         }
 
-        public static (Dictionary<BlendShapePreset, float>, Quaternion, Quaternion) Solve(Dictionary<MediaPipeBlendshapes, float> weights)
+        internal static (Dictionary<BlendShapePreset, float>, Quaternion, Quaternion) Solve(Dictionary<MediaPipeBlendshapes, float> weights)
         {
             var blendshapes = FaceSolver.SolveFacialExpression(weights);
             var (leftEyeRotation, rightEyeRotation) = FaceSolver.SolveEye(weights);
@@ -42,7 +42,7 @@ namespace VioletSolver.Solver
         /// </summary>
         /// <param name="weights"></param>
         /// <returns></returns>
-        public static (Dictionary<MediaPipeBlendshapes, float>, Quaternion, Quaternion) SolvePerfectly(Dictionary<MediaPipeBlendshapes, float> weights)
+        internal static (Dictionary<MediaPipeBlendshapes, float>, Quaternion, Quaternion) SolvePerfectly(Dictionary<MediaPipeBlendshapes, float> weights)
         {
             var blendshapes = FaceSolver.SolveFacialExpressionPerfectly(weights);
             var (leftEyeRotation, rightEyeRotation) = FaceSolver.SolveEye(weights);

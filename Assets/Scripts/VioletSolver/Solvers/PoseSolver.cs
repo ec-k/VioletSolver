@@ -13,9 +13,9 @@ using poseIndex = HolisticPose.PoseLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Solver
 {
-	public class PoseSolver
+	internal class PoseSolver
 	{
-		public static AvatarPoseData SolvePose(List<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
+		internal static AvatarPoseData SolvePose(List<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
 		{
             AvatarPoseData pose = new();
 

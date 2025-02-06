@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace VioletSolver.Landmarks
 {
-    public class ConfidenceFilter: ILandmarkFilter
+    internal class ConfidenceFilter: ILandmarkFilter
     {
         List<Landmark> _previousLandmarks;
         float _threshold;
         float _valueOnThreshold;
         float _cutThreshold;
 
-        public ConfidenceFilter(float threshold, float valueOnThreshold, float cutThreshold) 
+        internal ConfidenceFilter(float threshold, float valueOnThreshold, float cutThreshold) 
         { 
             _previousLandmarks = new List<Landmark>(30);
             _threshold = threshold;

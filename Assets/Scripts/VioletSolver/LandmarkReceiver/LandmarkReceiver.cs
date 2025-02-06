@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 
 namespace VioletSolver.Network {
-    public class LandmarkReceiver : MonoBehaviour
+    internal class LandmarkReceiver : MonoBehaviour
     {
         UdpClient _udpClient;
         [SerializeField] int _port = 9000;
@@ -14,10 +14,10 @@ namespace VioletSolver.Network {
         readonly Action<ObjectDisposedException> _ObjectDisposedExceptionCallback;
 
         HolisticPose.HolisticLandmarks _results;
-        public HolisticPose.HolisticLandmarks Results => _results;
+        internal HolisticPose.HolisticLandmarks Results => _results;
 
         float _time = 0f;
-        public float Time => _time;
+        internal float Time => _time;
 
         SynchronizationContext _context;
 
@@ -59,13 +59,13 @@ namespace VioletSolver.Network {
             _udpClient.BeginReceive(OnReceived, getUdp);
         }
 
-        public void Dispose()
+        void Dispose()
         {
             _udpClient?.Close();
             _udpClient?.Dispose();
         }
 
-        public void OnApplicationQuit()
+        void OnApplicationQuit()
         {
             Dispose();
         }

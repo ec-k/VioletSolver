@@ -6,11 +6,11 @@ using VRM;
 
 namespace VioletSolver.Pose.Blendshapes
 {
-    public class LowPassFilter : IBlendshapeFilter
+    internal class LowPassFilter : IBlendshapeFilter
     {
         Dictionary<BlendShapePreset, float> _prevWeights;
         float _amount;
-        public LowPassFilter(float amount)
+        internal LowPassFilter(float amount)
         {
             _amount = amount;
             _prevWeights = new();

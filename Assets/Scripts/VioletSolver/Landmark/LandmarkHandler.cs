@@ -13,11 +13,11 @@ namespace VioletSolver
     //  1. gets landmarks
     //  2. filters landmarks
     [Serializable]
-    public class LandmarkHandler
+    internal class LandmarkHandler
     {
         IHolisticLandmarks _landmarks;
-        public IHolisticLandmarks Landmarks => _landmarks;
-        public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
+        internal IHolisticLandmarks Landmarks => _landmarks;
+        internal Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
         List<ILandmarkFilter> _poseLandmarkFilters;
         List<ILandmarkFilter> _leftHandLandmarkFilters;
         List<ILandmarkFilter> _rightHandLandmarkFilters;
@@ -27,7 +27,7 @@ namespace VioletSolver
         // for debugging
         GameObject[] _balls;
 
-        public LandmarkHandler()
+        internal LandmarkHandler()
         {
             _landmarks = new HolisticLandmarks(30); // "30" is temporal number. There are no meanings and intentions.
             _poseLandmarkFilters = new();
@@ -51,7 +51,7 @@ namespace VioletSolver
 
             _faceLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
         }
-        public LandmarkHandler(IHolisticLandmarks landmarks)
+        internal LandmarkHandler(IHolisticLandmarks landmarks)
         {
             _landmarks = landmarks;
         }
@@ -60,7 +60,7 @@ namespace VioletSolver
         ///     Update landmarks: gets landmarks, filters them and assign to this.Landmarks.
         /// </summary>
         /// 
-        async public void Update() 
+        async internal void Update() 
         {
             // Update landmarks.
             var results = _landmarkReceiveServer.Results;
@@ -89,7 +89,7 @@ namespace VioletSolver
                     landmarks = filter.Filter(landmarks);
         }
 
-        public void UpdateBlendshapes()
+        internal void UpdateBlendshapes()
         {
             // Update blendshapes
             var results = _landmarkReceiveServer.Results;

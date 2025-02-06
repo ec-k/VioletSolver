@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace VioletSolver.Pose
 {
-    public class LowPassFilter : IAvatarPoseFilter
+    internal class LowPassFilter : IAvatarPoseFilter
     {
         AvatarPoseData _prev;
         float _amount;
-        public LowPassFilter(float amount)
+        internal LowPassFilter(float amount)
         {
             _prev = new AvatarPoseData();
             _amount = amount;

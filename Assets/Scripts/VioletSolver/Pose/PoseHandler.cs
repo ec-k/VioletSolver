@@ -11,18 +11,18 @@ namespace VioletSolver.Pose
     //  2. filters pose
     //  3. apply pose to avatar
     [Serializable]
-    public class PoseHandler
+    internal class PoseHandler
     {
         AvatarPoseData _poseData;
-        public AvatarPoseData PoseData => _poseData;
+        internal AvatarPoseData PoseData => _poseData;
 
-        public Dictionary<BlendShapePreset, float> BlendshapeWeights;
-        public Dictionary<mpBlendshapes, float> PerfectSyncWeights;
+        internal Dictionary<BlendShapePreset, float> BlendshapeWeights;
+        internal Dictionary<mpBlendshapes, float> PerfectSyncWeights;
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
 
 
-        public PoseHandler()
+        internal PoseHandler()
         {
             _poseData = new();
             BlendshapeWeights = new();
@@ -39,7 +39,7 @@ namespace VioletSolver.Pose
         }
 
         // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
-        public void Update(AvatarPoseData pose)
+        internal void Update(AvatarPoseData pose)
         {
             var result = pose;
             if(_vrmPoseFilters != null) 
@@ -50,14 +50,14 @@ namespace VioletSolver.Pose
             _poseData = result;
         }
 
-        public void Update(HumanBodyBones boneName, Quaternion value)
+        internal void Update(HumanBodyBones boneName, Quaternion value)
         {
             _poseData[boneName] = value;
         }
 
 
         // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
-        public void Update(Dictionary<BlendShapePreset, float> weights)
+        internal void Update(Dictionary<BlendShapePreset, float> weights)
         {
             var result = weights;
             if (_blendshapeFilters != null)
@@ -67,7 +67,7 @@ namespace VioletSolver.Pose
                 }
             BlendshapeWeights = result;
         }
-        public void Update(Dictionary<mpBlendshapes, float> weights)
+        internal void Update(Dictionary<mpBlendshapes, float> weights)
         {
             //var result = weights;
             //if (_blendshapeFilters != null)
