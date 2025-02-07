@@ -40,7 +40,7 @@ namespace VioletSolver
         Transform _rightElbowTarget;
         Transform _rightHandTarget;
 
-        internal LandmarkHandler Landmarks => _landmarkHandler;
+        public LandmarkHandler Landmarks => _landmarkHandler;
 
         private void Start()
         {

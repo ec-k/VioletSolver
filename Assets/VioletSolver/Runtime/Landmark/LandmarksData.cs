@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace VioletSolver.Landmarks
 {
-    internal interface IHolisticLandmarks
+    public interface IHolisticLandmarks
     {
         public ILandmarks Pose { get; set; }
         public ILandmarks LeftHand { get; set; }
@@ -14,7 +14,7 @@ namespace VioletSolver.Landmarks
         public void UpdateLandmarks(HolisticPose.HolisticLandmarks landmarks, float time);
     }
 
-    internal interface ILandmarks
+    public interface ILandmarks
     {
         public List<Landmark> Landmarks { get; }
         public int Count => Landmarks.Count;
@@ -22,16 +22,16 @@ namespace VioletSolver.Landmarks
         public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> landmarks, float time);
     }
 
-    internal struct Landmark
+    public struct Landmark
     {
         Vector3 _position;
-        internal Vector3 Position => _position;
-        internal float X => _position.x;
-        internal float Y => _position.y;
-        internal float Z => _position.z;
-        internal float Confidence { get; set; }
+        public Vector3 Position => _position;
+        public float X => _position.x;
+        public float Y => _position.y;
+        public float Z => _position.z;
+        public float Confidence { get; set; }
 
-        internal Landmark(HolisticPose.Landmark landmark)
+        public Landmark(HolisticPose.Landmark landmark)
         {
             _position = new Vector3(
                 landmark.X,
@@ -39,23 +39,23 @@ namespace VioletSolver.Landmarks
                 landmark.Z);
             Confidence = landmark.Confidence;
         }
-        internal Landmark(Vector3 position, float confidence)
+        public Landmark(Vector3 position, float confidence)
         {
             _position = position;
             Confidence = confidence;
         }
-        internal Landmark(float x, float y, float z)
+        public Landmark(float x, float y, float z)
         {
             _position = new Vector3(x, y, z);
             Confidence = 0.0f;
         }
-        internal Landmark(float x, float y, float z, float confidence)
+        public Landmark(float x, float y, float z, float confidence)
         {
             _position = new Vector3(x, y, z);
             Confidence = confidence;
         }
 
-        internal static Landmark SetFromHolisticLandmark(HolisticPose.Landmark landmark)
+        public static Landmark SetFromHolisticLandmark(HolisticPose.Landmark landmark)
         {
             return new Landmark(
                 landmark.X,
@@ -64,7 +64,7 @@ namespace VioletSolver.Landmarks
                 landmark.Confidence);
         }
 
-        internal static Landmark Lerp(Landmark l1,  Landmark l2, float amount)
+        public static Landmark Lerp(Landmark l1,  Landmark l2, float amount)
         =>  new Landmark(
                 Mathf.Lerp(l1.X, l2.X, amount),
                 Mathf.Lerp(l1.Y, l2.Y, amount),

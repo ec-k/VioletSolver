@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VioletSolver.Debug
+namespace VioletSolver.Development
 {
     internal struct NodeVisualOption
     {

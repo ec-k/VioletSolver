@@ -1,7 +1,7 @@
 using poseIndex = HolisticPose.PoseLandmarks.Types.LandmarkIndex;
 using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
 
-namespace VioletSolver.Debug
+namespace VioletSolver.Development
 {
     internal static class LandmarkGraphGenerator
     {

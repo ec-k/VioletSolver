@@ -13,11 +13,11 @@ namespace VioletSolver
     //  1. gets landmarks
     //  2. filters landmarks
     [Serializable]
-    internal class LandmarkHandler
+    public class LandmarkHandler
     {
         IHolisticLandmarks _landmarks;
-        internal IHolisticLandmarks Landmarks => _landmarks;
-        internal Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
+        public IHolisticLandmarks Landmarks => _landmarks;
+        public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
         List<ILandmarkFilter> _poseLandmarkFilters;
         List<ILandmarkFilter> _leftHandLandmarkFilters;
         List<ILandmarkFilter> _rightHandLandmarkFilters;

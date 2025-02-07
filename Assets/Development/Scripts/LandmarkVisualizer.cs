@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using VioletSolver.Landmarks;
 
-namespace VioletSolver.Debug
+namespace VioletSolver.Development
 {
     internal class LandmarkVisualizer : MonoBehaviour
     {

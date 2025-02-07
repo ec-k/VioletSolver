@@ -1,7 +1,0 @@
-{
-    "name": "com.ec-k.violet-solver",
-    "displayName": "VioletSolver",
-    "version": "0.1.0",
-    "unity": "2022.3",
-    "description": "A solver library for Human Pose Estimation output."
-}
