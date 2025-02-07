@@ -1,25 +1,26 @@
 {
-    "name": "com.ec2k.violetsolver",
-    "version": "0.1.0",
-    "displayName": "VioletSolver",
-    "description": "An avatar pose solver that handles MediaPipe results.",
-    "unity": "2022.3",
-    "keywords": [
-        "avatar",
-        "mediapipe"
-    ],
-    "author": {
-        "name": "EC-K",
-        "url": "https://github.com/ec-k"
-    },
-    "dependencies": {
-        "com.vrmc.univrm": "0.128.1",
-        "com.vrmc.vrm": "0.128.1",
-        "com.vrmc.gltf": "0.128.1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ec-k/VioletSolver.git"
-    },
-    "license": "MIT"
+  "name": "com.ec2k.violetsolver",
+  "version": "0.1.0",
+  "displayName": "VioletSolver",
+  "description": "An avatar pose solver that handles MediaPipe results.",
+  "unity": "2022.3",
+  "keywords": [
+    "avatar",
+    "mediapipe"
+  ],
+  "author": {
+    "name": "EC-K",
+    "url": "https://github.com/ec-k"
+  },
+  "dependencies": {
+    "com.vrmc.univrm": "0.128.1",
+    "com.vrmc.vrm": "0.128.1",
+    "com.vrmc.gltf": "0.128.1",
+    "com.cysharp.unitask": "2.5.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ec-k/VioletSolver.git"
+  },
+  "license": "MIT"
 }
