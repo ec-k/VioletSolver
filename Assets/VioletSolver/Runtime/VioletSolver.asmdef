@@ -5,8 +5,7 @@
         "Unity.Animation.Rigging",
         "VRM",
         "UniTask",
-        "RootMotion",
-        "R3.Unity"
+        "RootMotion"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

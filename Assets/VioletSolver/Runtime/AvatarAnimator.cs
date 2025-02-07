@@ -8,8 +8,6 @@ using VioletSolver.Solver;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
 using RootMotion.FinalIK;
 
-using R3;
-
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
 //  2. solve landmarks to avatar pose
@@ -29,7 +27,8 @@ namespace VioletSolver
         [SerializeField] bool _enablePerfectSync = false;
 
 
-        [SerializeField] SerializableReactiveProperty<bool> _useIk;
+        [SerializeField]bool _useIk = true;
+
         ArmIK _leftArmIk;
         ArmIK _rightArmIk;
         // IK Targets
@@ -44,18 +43,11 @@ namespace VioletSolver
 
         private void Start()
         {
-            _useIk = new(true);
             SetBonePositions(_animator);
 
             SetupIkTargets();
             SetupArmIk(true);
             SetupArmIk(false);
-
-            _useIk.Subscribe(x =>
-            {
-                _leftArmIk.enabled = x;
-                _rightArmIk.enabled = x;
-            });
         }
 
         void SetupIkTargets()
@@ -117,6 +109,10 @@ namespace VioletSolver
 
         void Update() 
         {
+            {
+                _leftArmIk.enabled = _useIk;
+                _rightArmIk.enabled = _useIk;
+            }
             if( _isAnimating)
             {
                 _landmarkHandler.Update(); 
@@ -142,7 +138,7 @@ namespace VioletSolver
         void UpdatePose()
         {
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk.Value);
+            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk);
             _avatarPoseHandler.Update(pose);
         }
 
@@ -194,7 +190,7 @@ namespace VioletSolver
                 ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot);
                 ApplyGlobal(animator, pose, HumanBodyBones.RightFoot);
             }
-            if (_useIk.Value)
+            if (_useIk)
                 ApplyIkTarget(pose);
             else
             {
