@@ -32,8 +32,7 @@ namespace VioletSolver.Landmarks
 
         void UpdatePrevLandmarks(ILandmarks landmarks)
         {
-            CollectionUtils<Landmark>.ExpandList(landmarks.Count, ref _previousLandmarks);
-            _previousLandmarks = landmarks.Landmarks;
+            _previousLandmarks = landmarks.Landmarks; 
         }
 
 

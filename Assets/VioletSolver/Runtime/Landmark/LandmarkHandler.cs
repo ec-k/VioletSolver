@@ -29,7 +29,8 @@ namespace VioletSolver
 
         internal LandmarkHandler()
         {
-            _landmarks = new HolisticLandmarks(30); // "30" is temporal number. There are no meanings and intentions.
+            var mediapipeFaceLandmarkCount = 478;
+            _landmarks = new HolisticLandmarks(mediapipeFaceLandmarkCount);
             _poseLandmarkFilters = new();
             _leftHandLandmarkFilters = new();
             _rightHandLandmarkFilters = new();
@@ -65,7 +66,7 @@ namespace VioletSolver
             // Update landmarks.
             var results = _landmarkReceiveServer.Results;
             if (results == null || 
-                results.poseLandmarks == null) 
+                results.PoseLandmarks == null) 
                 return;
             _landmarks.UpdateLandmarks(results, _landmarkReceiveServer.Time);
             var resultedLandmarks = _landmarks;

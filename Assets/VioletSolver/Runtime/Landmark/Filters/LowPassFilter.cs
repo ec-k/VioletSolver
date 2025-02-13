@@ -32,10 +32,12 @@ namespace VioletSolver.Landmarks
             return Landmark.Lerp(prev, current, lerpAmount);
         }
 
-        void UpdatePrevResults(ILandmarks landmarks)
+        void UpdatePrevResults(in ILandmarks landmarks)
         {
-            CollectionUtils<Landmark>.ExpandList(landmarks.Landmarks.Count, ref _prevResults);
-            _prevResults = landmarks.Landmarks;
+            for (var i = 0;i< _prevResults.Count; i++)
+            {
+                _prevResults[i] = landmarks.Landmarks[i];
+            }
         }
     }
 }
