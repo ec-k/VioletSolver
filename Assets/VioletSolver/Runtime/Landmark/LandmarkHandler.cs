@@ -29,8 +29,10 @@ namespace VioletSolver
 
         internal LandmarkHandler()
         {
-            var mediapipeFaceLandmarkCount = 478;
-            _landmarks = new HolisticLandmarks(mediapipeFaceLandmarkCount);
+            var faceLandmarkLength = 478; 
+            var poseLength = (int)HolisticPose.PoseLandmarks.Types.LandmarkIndex.PoseLandmarkLength;
+            var handLength = (int)HolisticPose.HandLandmarks.Types.LandmarkIndex.HandLandmarkLength;
+            _landmarks = new HolisticLandmarks(faceLandmarkLength);
             _poseLandmarkFilters = new();
             _leftHandLandmarkFilters = new();
             _rightHandLandmarkFilters = new();
@@ -39,18 +41,24 @@ namespace VioletSolver
 
             var cutConfidence = 0.3f;
             var smoothingFactor = 0.5f;
-            var handSmoothingFactor = 0.3f;
+            var handSmoothingFactor = 0.1f;
+            var minCutoff = 1f;
+            var slope = 0.3f;
+            var dCutoff = 1f;
 
             _poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _poseLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+            _poseLandmarkFilters.Add(new OneEuroFilter(poseLength, minCutoff, slope, dCutoff));
 
             _leftHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _leftHandLandmarkFilters.Add(new LowPassFilter(handSmoothingFactor));
+            _leftHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
 
             _rightHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _rightHandLandmarkFilters.Add(new LowPassFilter(handSmoothingFactor));
+            _rightHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
 
-            _faceLandmarkFilters.Add(new LowPassFilter(smoothingFactor));
+
+            //_faceLandmarkFilters.Add(new SingleExponentialSmoothingFilter(faceLandmarkLength, smoothingFactor));
+            _faceLandmarkFilters.Add(new OneEuroFilter(faceLandmarkLength, minCutoff, slope, dCutoff));
+
         }
         internal LandmarkHandler(IHolisticLandmarks landmarks)
         {
@@ -71,7 +79,7 @@ namespace VioletSolver
             _landmarks.UpdateLandmarks(results, _landmarkReceiveServer.Time);
             var resultedLandmarks = _landmarks;
 
-            // Apply filters
+            //// Apply filters
             {
                 await UniTask.WhenAll(
                     UniTask.RunOnThreadPool(() => ApplyFilters(_poseLandmarkFilters, resultedLandmarks.Pose)),
