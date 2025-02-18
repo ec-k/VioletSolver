@@ -1,10 +1,11 @@
 using UnityEngine;
 using System;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 
-namespace VioletSolver.Network {
+namespace VioletSolver.Network 
+{
     internal class LandmarkReceiver : MonoBehaviour
     {
         UdpClient _udpClient;
@@ -19,44 +20,49 @@ namespace VioletSolver.Network {
         float _time = 0f;
         internal float Time => _time;
 
-        SynchronizationContext _context;
-
         // Start is called before the first frame update
         void Start()
         {
-            _context = SynchronizationContext.Current;
-
+            _time = UnityEngine.Time.time;
             _results = new HolisticPose.HolisticLandmarks();
             _udpClient = new UdpClient(_port);
-            _udpClient.BeginReceive(OnReceived, _udpClient);
-            _time = UnityEngine.Time.time;
+            var token = this.GetCancellationTokenOnDestroy();
+            OnReceived(token).Forget();
         }
 
-        void OnReceived(IAsyncResult result)
+        async UniTask<byte[]> ReceiveByte(CancellationToken token)
         {
-            UdpClient getUdp = (UdpClient)result.AsyncState;
-            IPEndPoint ipEnd = null;
+            var result = await _udpClient.ReceiveAsync();
+            var data = result.Buffer;
+            return data;
+        }
 
-            try
+        async UniTaskVoid OnReceived(CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+            await UniTask.SwitchToThreadPool();
+            while (!token.IsCancellationRequested)
             {
-                byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
-                _results = HolisticPose.HolisticLandmarks.Parser.ParseFrom(getByte);
-                _context.Post(_ =>
+                try
                 {
-                    _time = UnityEngine.Time.time;
-                }, null);
+                    byte[] getByte = await ReceiveByte(token);
+                    _results = HolisticPose.HolisticLandmarks.Parser.ParseFrom(getByte);
+                    await UniTask.SwitchToMainThread();
+                    _time = UnityEngine.Time.time;  // NOTE: This process works only main thread.
+                    await UniTask.SwitchToThreadPool();
+                }
+                catch (SocketException e)
+                {
+                    _SocketEcxeptionCallback(e);
+                    return;
+                }
+                catch (ObjectDisposedException e)
+                {
+                    _ObjectDisposedExceptionCallback(e);
+                    return;
+                }
             }
-            catch (SocketException e)
-            {
-                _SocketEcxeptionCallback(e);
-                return;
-            }catch (ObjectDisposedException e)
-            {
-                _ObjectDisposedExceptionCallback(e);
-                return;
-            }
-
-            _udpClient.BeginReceive(OnReceived, getUdp);
+            token.ThrowIfCancellationRequested();
         }
 
         void Dispose()
