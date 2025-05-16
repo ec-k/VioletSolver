@@ -30,8 +30,8 @@ namespace VioletSolver
         internal LandmarkHandler()
         {
             var faceLandmarkLength = 478; 
-            var poseLength = (int)HolisticPose.PoseLandmarks.Types.LandmarkIndex.PoseLandmarkLength;
-            var handLength = (int)HolisticPose.HandLandmarks.Types.LandmarkIndex.HandLandmarkLength;
+            //var poseLength = (int)HolisticPose.PoseLandmarks.Types.LandmarkIndex.PoseLandmarkLength;
+            //var handLength = (int)HolisticPose.HandLandmarks.Types.LandmarkIndex.HandLandmarkLength;
             _landmarks = new HolisticLandmarks(faceLandmarkLength);
             _poseLandmarkFilters = new();
             _leftHandLandmarkFilters = new();
@@ -39,25 +39,23 @@ namespace VioletSolver
             _faceLandmarkFilters = new();
             MpBlendshapes = new();
 
-            var cutConfidence = 0.3f;
-            var smoothingFactor = 0.5f;
-            var handSmoothingFactor = 0.1f;
-            var minCutoff = 1f;
-            var slope = 0.3f;
-            var dCutoff = 1f;
+            //var cutConfidence = 0.3f;
+            //var minCutoff = 1f;
+            //var slope = 0.1f;
+            //var dCutoff = 1f;
 
-            _poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _poseLandmarkFilters.Add(new OneEuroFilter(poseLength, minCutoff, slope, dCutoff));
+            //_poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
+            //_poseLandmarkFilters.Add(new OneEuroFilter(poseLength, 20f, 1f, 20f));
 
-            _leftHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _leftHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
+            //_leftHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
+            //_leftHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
 
-            _rightHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            _rightHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
+            //_rightHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
+            //_rightHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
 
 
             //_faceLandmarkFilters.Add(new SingleExponentialSmoothingFilter(faceLandmarkLength, smoothingFactor));
-            _faceLandmarkFilters.Add(new OneEuroFilter(faceLandmarkLength, minCutoff, slope, dCutoff));
+            //_faceLandmarkFilters.Add(new OneEuroFilter(faceLandmarkLength, minCutoff, slope, dCutoff));
 
         }
         internal LandmarkHandler(IHolisticLandmarks landmarks)
