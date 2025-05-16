@@ -77,5 +77,6 @@ namespace VioletSolver.Landmarks
         public static Landmark operator -(Landmark l) => new Landmark(-l.Position, l.Confidence);
         public static Landmark operator +(Landmark l1, Landmark l2) => new Landmark(l1.Position + l2.Position, Mathf.Min(l1.Confidence, l2.Confidence));
         public static Landmark operator -(Landmark l1, Landmark l2) => l1 + (-l2);
+        public static Landmark operator *(Landmark l, float a) => new Landmark(l.X * a, l.Y * a, l.Z * a, l.Confidence);
     }
 }
