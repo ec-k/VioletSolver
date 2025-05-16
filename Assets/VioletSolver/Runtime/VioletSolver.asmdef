@@ -5,7 +5,8 @@
         "Unity.Animation.Rigging",
         "VRM",
         "UniTask",
-        "RootMotion"
+        "RootMotion",
+        "uOSC.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

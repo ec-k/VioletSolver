@@ -14,6 +14,13 @@
       "dependencies": {},
       "hash": "a011c51ed65c9abc3151a7a408bc70d408352933"
     },
+    "com.hecomi.uosc": {
+      "version": "https://github.com/hecomi/uOSC.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "3788ab28702c44330bfea7323b2e05bc4d23c213"
+    },
     "com.unity.animation.rigging": {
       "version": "1.2.1",
       "depth": 0,
