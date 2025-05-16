@@ -242,41 +242,45 @@ namespace VioletSolver
             //ApplyLocal(animator, pose, HumanBodyBones.RightLittleProximal);
             //ApplyLocal(animator, pose, HumanBodyBones.RightLittleIntermediate);
             //ApplyLocal(animator, pose, HumanBodyBones.RightLittleDistal);
-
-            animator.GetBoneTransform(HumanBodyBones.LeftThumbProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbProximal];
-            animator.GetBoneTransform(HumanBodyBones.LeftThumbIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.LeftThumbDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbDistal];
-            animator.GetBoneTransform(HumanBodyBones.LeftIndexIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.LeftIndexProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexProximal];
-            animator.GetBoneTransform(HumanBodyBones.LeftIndexDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexDistal];
-            animator.GetBoneTransform(HumanBodyBones.LeftMiddleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.LeftMiddleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleProximal];
-            animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleDistal];
-            animator.GetBoneTransform(HumanBodyBones.LeftRingIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.LeftRingProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingProximal];
-            animator.GetBoneTransform(HumanBodyBones.LeftRingDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingDistal];
-            animator.GetBoneTransform(HumanBodyBones.LeftLittleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.LeftLittleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleProximal];
-            animator.GetBoneTransform(HumanBodyBones.LeftLittleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleDistal];
-
-            animator.GetBoneTransform(HumanBodyBones.RightThumbProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbProximal];
-            animator.GetBoneTransform(HumanBodyBones.RightThumbIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.RightThumbDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbDistal];
-            animator.GetBoneTransform(HumanBodyBones.RightIndexIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.RightIndexProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexProximal];
-            animator.GetBoneTransform(HumanBodyBones.RightIndexDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexDistal];
-            animator.GetBoneTransform(HumanBodyBones.RightMiddleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.RightMiddleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleProximal];
-            animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleDistal];
-            animator.GetBoneTransform(HumanBodyBones.RightRingIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.RightRingProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingProximal];
-            animator.GetBoneTransform(HumanBodyBones.RightRingDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingDistal];
-            animator.GetBoneTransform(HumanBodyBones.RightLittleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleIntermediate];
-            animator.GetBoneTransform(HumanBodyBones.RightLittleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleProximal];
-            animator.GetBoneTransform(HumanBodyBones.RightLittleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleDistal];
             
             ApplyLocal(animator, pose, HumanBodyBones.LeftEye);
             ApplyLocal(animator, pose, HumanBodyBones.RightEye);
+
+            try
+            {
+                animator.GetBoneTransform(HumanBodyBones.LeftThumbProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbProximal];
+                animator.GetBoneTransform(HumanBodyBones.LeftThumbIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.LeftThumbDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbDistal];
+                animator.GetBoneTransform(HumanBodyBones.LeftIndexIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.LeftIndexProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexProximal];
+                animator.GetBoneTransform(HumanBodyBones.LeftIndexDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexDistal];
+                animator.GetBoneTransform(HumanBodyBones.LeftMiddleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.LeftMiddleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleProximal];
+                animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleDistal];
+                animator.GetBoneTransform(HumanBodyBones.LeftRingIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.LeftRingProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingProximal];
+                animator.GetBoneTransform(HumanBodyBones.LeftRingDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingDistal];
+                animator.GetBoneTransform(HumanBodyBones.LeftLittleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.LeftLittleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleProximal];
+                animator.GetBoneTransform(HumanBodyBones.LeftLittleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleDistal];
+
+                animator.GetBoneTransform(HumanBodyBones.RightThumbProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbProximal];
+                animator.GetBoneTransform(HumanBodyBones.RightThumbIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.RightThumbDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbDistal];
+                animator.GetBoneTransform(HumanBodyBones.RightIndexIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.RightIndexProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexProximal];
+                animator.GetBoneTransform(HumanBodyBones.RightIndexDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexDistal];
+                animator.GetBoneTransform(HumanBodyBones.RightMiddleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.RightMiddleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleProximal];
+                animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleDistal];
+                animator.GetBoneTransform(HumanBodyBones.RightRingIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.RightRingProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingProximal];
+                animator.GetBoneTransform(HumanBodyBones.RightRingDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingDistal];
+                animator.GetBoneTransform(HumanBodyBones.RightLittleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleIntermediate];
+                animator.GetBoneTransform(HumanBodyBones.RightLittleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleProximal];
+                animator.GetBoneTransform(HumanBodyBones.RightLittleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleDistal];
+            }
+            catch {}
         }
 
         void ApplyIkTarget(AvatarPoseData pose)
