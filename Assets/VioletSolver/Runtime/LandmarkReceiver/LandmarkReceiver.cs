@@ -11,20 +11,13 @@ namespace VioletSolver.Network
         UdpClient _udpClient;
         [SerializeField] int _port = 9000;
 
-        readonly Action<SocketException> _SocketEcxeptionCallback;
-        readonly Action<ObjectDisposedException> _ObjectDisposedExceptionCallback;
-
-        HolisticPose.HolisticLandmarks _results;
-        internal HolisticPose.HolisticLandmarks Results => _results;
+        public event Action<HolisticPose.HolisticLandmarks, float> OnLandmarksReceived;
 
         float _time = 0f;
         internal float Time => _time;
 
-        // Start is called before the first frame update
         void Start()
         {
-            _time = UnityEngine.Time.time;
-            _results = new HolisticPose.HolisticLandmarks();
             _udpClient = new UdpClient(_port);
             var token = this.GetCancellationTokenOnDestroy();
             OnReceived(token).Forget();
@@ -46,19 +39,20 @@ namespace VioletSolver.Network
                 try
                 {
                     byte[] getByte = await ReceiveByte(token);
-                    _results = HolisticPose.HolisticLandmarks.Parser.ParseFrom(getByte);
+                    var receivedLandmarks = HolisticPose.HolisticLandmarks.Parser.ParseFrom(getByte);
                     await UniTask.SwitchToMainThread();
-                    _time = UnityEngine.Time.time;  // NOTE: This process works only main thread.
+                    var receivedTime = UnityEngine.Time.time;  // NOTE: This process works only main thread.
+                    OnLandmarksReceived?.Invoke(receivedLandmarks, receivedTime);
                     await UniTask.SwitchToThreadPool();
                 }
                 catch (SocketException e)
                 {
-                    _SocketEcxeptionCallback(e);
+                    Debug.LogError($"SocketException: {e.Message}");
                     return;
                 }
                 catch (ObjectDisposedException e)
                 {
-                    _ObjectDisposedExceptionCallback(e);
+                    Debug.LogWarning($"ObjectDisposedException: {e.Message}");
                     return;
                 }
             }

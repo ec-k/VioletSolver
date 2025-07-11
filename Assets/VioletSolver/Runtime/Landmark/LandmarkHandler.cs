@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using VioletSolver.Network;
 using VioletSolver.Landmarks;
 using Cysharp.Threading.Tasks;
@@ -12,70 +11,39 @@ namespace VioletSolver
     // This class does
     //  1. gets landmarks
     //  2. filters landmarks
-    [Serializable]
     public class LandmarkHandler
     {
-        IHolisticLandmarks _landmarks;
-        public IHolisticLandmarks Landmarks => _landmarks;
+        public IHolisticLandmarks Landmarks { get; private set; }
         public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
         List<ILandmarkFilter> _poseLandmarkFilters;
         List<ILandmarkFilter> _leftHandLandmarkFilters;
         List<ILandmarkFilter> _rightHandLandmarkFilters;
         List<ILandmarkFilter> _faceLandmarkFilters;
-        [SerializeField] LandmarkReceiver _landmarkReceiveServer;
 
-        // for debugging
-        GameObject[] _balls;
-
-        internal LandmarkHandler()
+        internal LandmarkHandler(LandmarkReceiver receiver)
         {
             var faceLandmarkLength = 478; 
-            //var poseLength = (int)HolisticPose.PoseLandmarks.Types.LandmarkIndex.PoseLandmarkLength;
-            //var handLength = (int)HolisticPose.HandLandmarks.Types.LandmarkIndex.HandLandmarkLength;
-            _landmarks = new HolisticLandmarks(faceLandmarkLength);
+            Landmarks = new HolisticLandmarks(faceLandmarkLength);
             _poseLandmarkFilters = new();
             _leftHandLandmarkFilters = new();
             _rightHandLandmarkFilters = new();
             _faceLandmarkFilters = new();
             MpBlendshapes = new();
 
-            //var cutConfidence = 0.3f;
-            //var minCutoff = 1f;
-            //var slope = 0.1f;
-            //var dCutoff = 1f;
-
-            //_poseLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            //_poseLandmarkFilters.Add(new OneEuroFilter(poseLength, 20f, 1f, 20f));
-
-            //_leftHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            //_leftHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
-
-            //_rightHandLandmarkFilters.Add(new ConfidenceFilter(0.3f, 0.05f, cutConfidence));
-            //_rightHandLandmarkFilters.Add(new OneEuroFilter(handLength, minCutoff, slope, dCutoff));
-
-
-            //_faceLandmarkFilters.Add(new SingleExponentialSmoothingFilter(faceLandmarkLength, smoothingFactor));
-            //_faceLandmarkFilters.Add(new OneEuroFilter(faceLandmarkLength, minCutoff, slope, dCutoff));
-
-        }
-        internal LandmarkHandler(IHolisticLandmarks landmarks)
-        {
-            _landmarks = landmarks;
+            receiver.OnLandmarksReceived += (results, receivedTime) => OnLandmarkReceived(results, receivedTime).Forget();
         }
 
         /// <summary>
         ///     Update landmarks: gets landmarks, filters them and assign to this.Landmarks.
         /// </summary>
-        /// 
-        async internal void Update() 
+        internal async UniTask OnLandmarkReceived(HolisticPose.HolisticLandmarks results, float receivedTime)
         {
             // Update landmarks.
-            var results = _landmarkReceiveServer.Results;
-            if (results == null || 
-                results.PoseLandmarks == null) 
+            if (results == null ||
+                results.PoseLandmarks == null)
                 return;
-            _landmarks.UpdateLandmarks(results, _landmarkReceiveServer.Time);
-            var resultedLandmarks = _landmarks;
+            Landmarks.UpdateLandmarks(results, receivedTime);
+            var resultedLandmarks = Landmarks;
 
             //// Apply filters
             {
@@ -86,7 +54,8 @@ namespace VioletSolver
                     UniTask.RunOnThreadPool(() => ApplyFilters(_faceLandmarkFilters, resultedLandmarks.Face)));
             }
 
-            _landmarks = resultedLandmarks;
+            Landmarks = resultedLandmarks;
+            UpdateBlendshapes(results);
         }
 
         void ApplyFilters(List<ILandmarkFilter> filters, ILandmarks landmarks)
@@ -96,10 +65,9 @@ namespace VioletSolver
                     landmarks = filter.Filter(landmarks);
         }
 
-        internal void UpdateBlendshapes()
+        internal void UpdateBlendshapes(HolisticPose.HolisticLandmarks results)
         {
             // Update blendshapes
-            var results = _landmarkReceiveServer.Results;
             if (results.FaceResults == null ||
                 results.FaceResults.Blendshapes == null ||
                 results.FaceResults.Blendshapes.Scores == null)
@@ -116,7 +84,6 @@ namespace VioletSolver
                     catch { }
                 }
             }
-
         }
     }
 }
