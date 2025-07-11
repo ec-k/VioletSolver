@@ -6,8 +6,8 @@ namespace VioletSolver.Development
 {
     internal class LandmarkVisualizer : MonoBehaviour
     {
-        [SerializeField] AvatarAnimator _avatarAnimator;
         LandmarkHandler _landmarkHandler;
+
         List<GameObject> _poseTargets;
         List<GameObject> _lHandTargets;
         List<GameObject> _rHandTargets;
@@ -26,8 +26,27 @@ namespace VioletSolver.Development
         [SerializeField] Material _poseVisualMaterial;
         [SerializeField] Material _handVisualMaterial;
 
+        // NOTE: Call this in Awake.
+        public void Initialize(LandmarkHandler handler)
+        {
+            if(handler is null)
+            {
+                Debug.LogError("LandmarkHandler passed to LandmarkVisualizer.Initialize is null.", this);
+                enabled = false;
+                return;
+            }
+            _landmarkHandler = handler;
+        }
+
         void Start()
         {
+            if(_landmarkHandler is null)
+            {
+                Debug.LogError("LandmarkHandler is not assigned to LandmarkVisualizer.", this);
+                enabled = false;
+                return;
+            }
+
             var poseNodeVisual = new NodeVisualOption(_poseTargetSize);
             var handNodeVisual = new NodeVisualOption(_handTargetSize);
 
@@ -45,8 +64,6 @@ namespace VioletSolver.Development
             _posePosOffset  = new(0     , 0, 1f);
             _lHandPosOffset = new(-0.5f , 0, 0.5f);
             _rHandPosOffset = new(0.5f  , 0, 0.5f);
-
-            _landmarkHandler = _avatarAnimator.Landmarks;
         }
 
         void Update()
