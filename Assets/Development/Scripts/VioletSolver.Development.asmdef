@@ -2,7 +2,11 @@
     "name": "VioletSolver.Development",
     "rootNamespace": "VioletSolver.Development",
     "references": [
-        "GUID:17e83ec02bf75d441b1b742a85b6af46"
+        "GUID:17e83ec02bf75d441b1b742a85b6af46",
+        "GUID:05dd262a0c0a2f841b8252c8c3815582",
+        "GUID:e47c917724578cc43b5506c17a27e9a0",
+        "GUID:e8063cf3a345f9c46b7c7c4f14d54285",
+        "GUID:3ecfec6aa8adbfc4db28f4fb1538f324"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
