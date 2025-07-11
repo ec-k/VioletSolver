@@ -19,7 +19,6 @@ namespace VioletSolver
         readonly GameObject _ikRigRoot;
         readonly Animator _animator;
         readonly VRMBlendShapeProxy _blendshapeProxy;
-        readonly bool _animateLeg = false;
         readonly bool _isPerfectSyncEnabled = false;
 
         readonly LandmarkHandler _landmarkHandler;
@@ -41,7 +40,6 @@ namespace VioletSolver
             Animator animator,
             VRMBlendShapeProxy blendShapeProxy,
             LandmarkHandler landmarkHandler,
-            bool animateLeg,
             bool isPerfectSyncEnabled)
         {
             _landmarkHandler = landmarkHandler;
@@ -50,7 +48,6 @@ namespace VioletSolver
             _ikRigRoot = ikRigRoot;
             _animator = animator;
             _blendshapeProxy = blendShapeProxy;
-            _animateLeg = animateLeg;
             _isPerfectSyncEnabled = isPerfectSyncEnabled;
 
             _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
@@ -93,12 +90,12 @@ namespace VioletSolver
             };
         }
 
-        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled) 
+        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled, bool animateLeg)
         {
             _leftArmIk.enabled = isIkEnabled;
             _rightArmIk.enabled = isIkEnabled;
 
-            AnimateAvatar(_animator, data.PoseData, isIkEnabled);
+            AnimateAvatar(_animator, data.PoseData, isIkEnabled, animateLeg);
 
             if (_isPerfectSyncEnabled)
                 if(data.PerfectSyncBlendshapes is not null)
@@ -140,7 +137,7 @@ namespace VioletSolver
             _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
         }
 
-        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled)
+        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool animateLeg)
         {
             animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
 
@@ -149,7 +146,7 @@ namespace VioletSolver
                 ApplyGlobal(animator, pose, bone);
 
             // Legs
-            if (_animateLeg)
+            if (animateLeg)
                 foreach(var bone in BodyPartsBones.Legs)
                     ApplyGlobal(animator, pose, bone);
 
