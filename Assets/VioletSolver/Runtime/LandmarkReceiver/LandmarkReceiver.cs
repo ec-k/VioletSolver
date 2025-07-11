@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 
 namespace VioletSolver.Network 
 {
-    internal class LandmarkReceiver : MonoBehaviour
+    public class LandmarkReceiver : MonoBehaviour
     {
         UdpClient _udpClient;
         [SerializeField] int _port = 9000;
@@ -14,7 +14,7 @@ namespace VioletSolver.Network
         public event Action<HolisticPose.HolisticLandmarks, float> OnLandmarksReceived;
 
         float _time = 0f;
-        internal float Time => _time;
+        public float Time => _time;
 
         void Start()
         {

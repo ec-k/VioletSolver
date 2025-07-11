@@ -20,7 +20,7 @@ namespace VioletSolver
         List<ILandmarkFilter> _rightHandLandmarkFilters;
         List<ILandmarkFilter> _faceLandmarkFilters;
 
-        internal LandmarkHandler(LandmarkReceiver receiver)
+        public LandmarkHandler(LandmarkReceiver receiver)
         {
             var faceLandmarkLength = 478; 
             Landmarks = new HolisticLandmarks(faceLandmarkLength);
