@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VRM;
+using RootMotion.FinalIK;
 
 using VioletSolver.Pose;
 using VioletSolver.Solver;
 using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
-using RootMotion.FinalIK;
-
-using VioletSolver.Network;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
@@ -16,42 +14,46 @@ using VioletSolver.Network;
 //  3. filters pose and apply pose to avatar (in _avatarPoseHandler)
 namespace VioletSolver 
 {
-    [Serializable]
     public class AvatarAnimator
     {
-        [SerializeField] GameObject _ikRigRoot;
-        [SerializeField] Animator _animator;
-        [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
-        [SerializeField] bool _isAnimating = false;
-        [SerializeField] bool _animateLeg = false;
-        [SerializeField] bool _isPerfectSyncEnabled = false;
-        [SerializeField] bool _useIk = true;
-        
-        public LandmarkHandler Landmarks => _landmarkHandler;
-        LandmarkHandler _landmarkHandler;
-        PoseHandler _avatarPoseHandler;
-        AvatarBonePositions _restBonePositions;
+        readonly GameObject _ikRigRoot;
+        readonly Animator _animator;
+        readonly VRMBlendShapeProxy _blendshapeProxy;
+        readonly bool _animateLeg = false;
+        readonly bool _isPerfectSyncEnabled = false;
 
-        ArmIK _leftArmIk;
-        ArmIK _rightArmIk;
+        readonly LandmarkHandler _landmarkHandler;
+        readonly PoseHandler _avatarPoseHandler;
+        readonly AvatarBonePositions _restBonePositions;
+
+        readonly ArmIK _leftArmIk;
+        readonly ArmIK _rightArmIk;
         // IK Targets
-        Transform _leftShoulderTarget;
-        Transform _leftElbowTarget;
-        Transform _leftHandTarget;
-        Transform _rightShoulderTarget;
-        Transform _rightElbowTarget;
-        Transform _rightHandTarget;
+        readonly Transform _leftShoulderTarget;
+        readonly Transform _leftElbowTarget;
+        readonly Transform _leftHandTarget;
+        readonly Transform _rightShoulderTarget;
+        readonly Transform _rightElbowTarget;
+        readonly Transform _rightHandTarget;
 
-        float _timer = 0f;
-        float _thresholdTime = 1f;
-        bool _doOverride = false;
-
-        public AvatarAnimator()
+        public AvatarAnimator(
+            GameObject ikRigRoot,
+            Animator animator,
+            VRMBlendShapeProxy blendShapeProxy,
+            LandmarkHandler landmarkHandler,
+            bool animateLeg,
+            bool isPerfectSyncEnabled)
         {
-            _landmarkHandler = new();
+            _landmarkHandler = landmarkHandler;
             _avatarPoseHandler = new();
 
-            SetBonePositions(_animator);
+            _ikRigRoot = ikRigRoot;
+            _animator = animator;
+            _blendshapeProxy = blendShapeProxy;
+            _animateLeg = animateLeg;
+            _isPerfectSyncEnabled = isPerfectSyncEnabled;
+
+            _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
 
             ArmIKSetup.Initialize(
                 _ikRigRoot,
@@ -66,186 +68,105 @@ namespace VioletSolver
                 out _rightArmIk);
         }
 
-        void Update() 
+        public AnimationResultData CalculateAnimationData(bool isIkEnabled)
         {
-            {
-                _leftArmIk.enabled = _useIk;
-                _rightArmIk.enabled = _useIk;
-            }
-            if( _isAnimating)
-            {
-                _landmarkHandler.Update(); 
-                _landmarkHandler.UpdateBlendshapes();
+            UpdatePose(isIkEnabled);
 
-                UpdatePose();
-                if (_isPerfectSyncEnabled)
-                    UpdateBlendshapesPerfectly();
-                else
-                    UpdateBlendshapes();
-
-                AnimateAvatar(_animator, _avatarPoseHandler.PoseData);
-                if (_isPerfectSyncEnabled)
-                    AnimateFace(_blendshapeProxy, _avatarPoseHandler.PerfectSyncWeights);
-                else
-                    AnimateFace(_blendshapeProxy, _avatarPoseHandler.BlendshapeWeights);
+            Dictionary<BlendShapePreset, float> vrmBs = null;
+            Dictionary<mpBlendshapes, float> mpBs = null;
+            if (_isPerfectSyncEnabled)
+            {
+                UpdateBlendshapesPerfectly();
+                mpBs = _avatarPoseHandler.PerfectSyncWeights;
             }
+            else
+            {
+                UpdateBlendshapes();
+                vrmBs = _avatarPoseHandler.BlendshapeWeights;
+            }
+
+            return new AnimationResultData
+            {
+                PoseData = _avatarPoseHandler.PoseData,
+                VrmBlendshapes = vrmBs,
+                PerfectSyncBlendshapes = mpBs
+            };
+        }
+
+        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled) 
+        {
+            _leftArmIk.enabled = isIkEnabled;
+            _rightArmIk.enabled = isIkEnabled;
+
+            AnimateAvatar(_animator, data.PoseData, isIkEnabled);
+
+            if (_isPerfectSyncEnabled)
+                if(data.PerfectSyncBlendshapes is not null)
+                    AnimateFace(_blendshapeProxy, data.PerfectSyncBlendshapes);
+            else
+                if(data.VrmBlendshapes is not null)
+                    AnimateFace(_blendshapeProxy, data.VrmBlendshapes);
         }
 
         /// <summary>
         /// </summary>
         /// <returns>Whether updating landmarks is processed properly or not.</returns>
-        void UpdatePose()
+        void UpdatePose(bool isIkEnabled)
         {
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk);
+            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, isIkEnabled);
             _avatarPoseHandler.Update(pose);
         }
-        bool UpdateBlendshapes()
+        void UpdateBlendshapes()
         {
             var mpBlendshapes = _landmarkHandler.MpBlendshapes;
             if (mpBlendshapes == null ||
                 mpBlendshapes.Count <= 0)
-                return false;
+                return;
             var (blendshapes, leftEye, rightEye) = HolisticSolver.Solve(mpBlendshapes);
             _avatarPoseHandler.Update(blendshapes);
-
             _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
             _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
-
-            return true;
         }
-        bool UpdateBlendshapesPerfectly()
+        void UpdateBlendshapesPerfectly()
         {
             var mpBlendshapes = _landmarkHandler.MpBlendshapes;
             if (mpBlendshapes == null ||
                 mpBlendshapes.Count <= 0)
-                return false;
+                return;
             var (blendshapes, leftEye, rightEye) = HolisticSolver.SolvePerfectly(mpBlendshapes);
             _avatarPoseHandler.Update(blendshapes);
-
             _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
             _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
-
-            return true;
         }
 
-        void AnimateAvatar(Animator animator, AvatarPoseData pose)
+        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled)
         {
             animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
 
-            ApplyGlobal(animator, pose, HumanBodyBones.Hips);
-            ApplyGlobal(animator, pose, HumanBodyBones.Spine );
-            ApplyGlobal(animator, pose, HumanBodyBones.Chest );
-            ApplyGlobal(animator, pose, HumanBodyBones.UpperChest );
-            ApplyGlobal(animator, pose, HumanBodyBones.Neck );
-            ApplyGlobal(animator, pose, HumanBodyBones.Head );
+            // Spines
+            foreach (var bone in BodyPartsBones.Spines)
+                ApplyGlobal(animator, pose, bone);
+
+            // Legs
             if (_animateLeg)
-            {
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperLeg);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightUpperLeg);
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerLeg);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightLowerLeg);
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftFoot);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightFoot);
-            }
-            if (_useIk)
+                foreach(var bone in BodyPartsBones.Legs)
+                    ApplyGlobal(animator, pose, bone);
+
+            // Arms.
+            if (isIkEnabled)
                 ApplyIkTarget(pose);
             else
-            {
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftShoulder);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightShoulder);
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftUpperArm);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightUpperArm);
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftLowerArm);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightLowerArm);
-                ApplyGlobal(animator, pose, HumanBodyBones.LeftHand);
-                ApplyGlobal(animator, pose, HumanBodyBones.RightHand);
-            }
-            
-            ApplyLocal(animator, pose, HumanBodyBones.LeftEye);
-            ApplyLocal(animator, pose, HumanBodyBones.RightEye);
+                foreach (var bone in BodyPartsBones.Arms)
+                    ApplyGlobal(animator, pose, bone);
 
-            if (_doOverride)
-            {
-                _timer += Time.deltaTime;
-                if (_timer >= _thresholdTime)
-                {
-                    _doOverride = false;
+            // Fingers
+            foreach (var bone in BodyPartsBones.Fingers)
+                ApplyLocal(animator, pose, bone);
 
-                }
-
-                try
-                {
-                    // from external output (OSC)
-                    animator.GetBoneTransform(HumanBodyBones.LeftThumbProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbProximal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftThumbIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.LeftThumbDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftThumbDistal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftIndexIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.LeftIndexProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexProximal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftIndexDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftIndexDistal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftMiddleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.LeftMiddleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleProximal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftMiddleDistal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftRingIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.LeftRingProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingProximal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftRingDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftRingDistal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftLittleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.LeftLittleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleProximal];
-                    animator.GetBoneTransform(HumanBodyBones.LeftLittleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.LeftLittleDistal];
-
-                    animator.GetBoneTransform(HumanBodyBones.RightThumbProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbProximal];
-                    animator.GetBoneTransform(HumanBodyBones.RightThumbIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.RightThumbDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightThumbDistal];
-                    animator.GetBoneTransform(HumanBodyBones.RightIndexIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.RightIndexProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexProximal];
-                    animator.GetBoneTransform(HumanBodyBones.RightIndexDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightIndexDistal];
-                    animator.GetBoneTransform(HumanBodyBones.RightMiddleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.RightMiddleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleProximal];
-                    animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightMiddleDistal];
-                    animator.GetBoneTransform(HumanBodyBones.RightRingIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.RightRingProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingProximal];
-                    animator.GetBoneTransform(HumanBodyBones.RightRingDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightRingDistal];
-                    animator.GetBoneTransform(HumanBodyBones.RightLittleIntermediate).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleIntermediate];
-                    animator.GetBoneTransform(HumanBodyBones.RightLittleProximal).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleProximal];
-                    animator.GetBoneTransform(HumanBodyBones.RightLittleDistal).localRotation = _poseReceiver.Results[HumanBodyBones.RightLittleDistal];
-                }
-                catch {}
-            }
-            else
-            {
-                // from MediaPipe.Hand landmarks
-                ApplyLocal(animator, pose, HumanBodyBones.LeftThumbProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftThumbIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftThumbDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftIndexProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftIndexIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftIndexDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftMiddleProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftMiddleIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftMiddleDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftRingProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftRingIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftRingDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftLittleProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftLittleIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.LeftLittleDistal);
-
-                ApplyLocal(animator, pose, HumanBodyBones.RightThumbProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightThumbIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.RightThumbDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightIndexProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightIndexIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.RightIndexDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightMiddleProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightMiddleIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.RightMiddleDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightRingProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightRingIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.RightRingDistal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightLittleProximal);
-                ApplyLocal(animator, pose, HumanBodyBones.RightLittleIntermediate);
-                ApplyLocal(animator, pose, HumanBodyBones.RightLittleDistal);
-            }
+            // Eyes
+            foreach (var bone in BodyPartsBones.Eyes)
+                ApplyLocal(animator, pose, bone);
         }
 
         void ApplyIkTarget(AvatarPoseData pose)
@@ -295,22 +216,6 @@ namespace VioletSolver
             }
 
             proxy.SetValues(bs);
-        }
-
-        void SetBonePositions(Animator animator)
-        {
-            var hbb = Enum.GetValues(typeof(HumanBodyBones));
-            foreach (var bone in hbb)
-            {
-                var boneName = (HumanBodyBones)bone;
-
-                try
-                {
-                    var bonePos = animator.GetBoneTransform(boneName).position;
-                    _restBonePositions[boneName] = bonePos;
-                }
-                catch { }
-            }
         }
     }
 }

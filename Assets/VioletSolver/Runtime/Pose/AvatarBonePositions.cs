@@ -37,32 +37,6 @@ namespace VioletSolver.Pose
                     _ => Vector3.zero
                 };
             }
-            set
-            {
-                switch (index)
-                {
-                    case HumanBodyBones.Hips : Hips = value; return;
-                    case HumanBodyBones.Spine : Spine = value; return;
-                    case HumanBodyBones.Chest : Chest = value; return;
-                    case HumanBodyBones.UpperChest : UpperChest = value; return;
-                    case HumanBodyBones.Neck : Neck = value; return;
-                    case HumanBodyBones.Head : Head = value; return;
-                    case HumanBodyBones.LeftUpperLeg : LeftUpperLeg = value; return;
-                    case HumanBodyBones.RightUpperLeg : RightUpperLeg = value; return;
-                    case HumanBodyBones.LeftLowerLeg : LeftLowerLeg = value; return;
-                    case HumanBodyBones.RightLowerLeg : RightLowerLeg = value; return;
-                    case HumanBodyBones.LeftFoot : LeftFoot = value; return;
-                    case HumanBodyBones.RightFoot : RightFoot = value; return;
-                    case HumanBodyBones.LeftShoulder : LeftShoulder = value; return;
-                    case HumanBodyBones.RightShoulder : RightShoulder = value; return;
-                    case HumanBodyBones.LeftUpperArm : LeftUpperArm = value; return;
-                    case HumanBodyBones.RightUpperArm : RightUpperArm = value; return;
-                    case HumanBodyBones.LeftLowerArm : LeftLowerArm = value; return;
-                    case HumanBodyBones.RightLowerArm : RightLowerArm = value; return;
-                    case HumanBodyBones.LeftHand : LeftHand = value; return;
-                    case HumanBodyBones.RightHand: RightHand = value; return;
-                }
-            }
         }
 
         internal Vector3 Hips;
@@ -87,5 +61,36 @@ namespace VioletSolver.Pose
         internal Vector3 RightLowerArm;
         internal Vector3 LeftHand;
         internal Vector3 RightHand;
+
+        public AvatarBonePositions(
+            Vector3 hips, Vector3 spine, Vector3 chest, Vector3 upperChest, Vector3 neck, Vector3 head,
+            Vector3 leftUpperLeg, Vector3 rightUpperLeg, Vector3 leftLowerLeg, Vector3 rightLowerLeg,
+            Vector3 leftFoot, Vector3 rightFoot,
+            Vector3 leftShoulder, Vector3 rightShoulder, Vector3 leftUpperArm, Vector3 rightUpperArm,
+            Vector3 leftLowerArm, Vector3 rightLowerArm, Vector3 leftHand, Vector3 rightHand)
+        {
+            Hips = hips;
+            Spine = spine;
+            Chest = chest;
+            UpperChest = upperChest;
+            Neck = neck;
+            Head = head;
+
+            LeftUpperLeg = leftUpperLeg;
+            RightUpperLeg = rightUpperLeg;
+            LeftLowerLeg = leftLowerLeg;
+            RightLowerLeg = rightLowerLeg;
+            LeftFoot = leftFoot;
+            RightFoot = rightFoot;
+
+            LeftShoulder = leftShoulder;
+            RightShoulder = rightShoulder;
+            LeftUpperArm = leftUpperArm;
+            RightUpperArm = rightUpperArm;
+            LeftLowerArm = leftLowerArm;
+            RightLowerArm = rightLowerArm;
+            LeftHand = leftHand;
+            RightHand = rightHand;
+        }
     }
 }

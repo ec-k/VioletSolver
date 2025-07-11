@@ -3,9 +3,9 @@ using UnityEngine;
 namespace VioletSolver.Pose
 {
     // TODO: This class must have operator.
-    internal struct AvatarPoseData
+    public struct AvatarPoseData
     {
-        internal Quaternion this[HumanBodyBones boneName]
+        public Quaternion this[HumanBodyBones boneName]
         {
             get
             {
@@ -137,89 +137,89 @@ namespace VioletSolver.Pose
             }
         }
 
-        internal float time;
+        public float time;
 
         // Ik Target Positions
-        internal Vector3 HipsPosition;
-        internal Vector3 HeadPosition;
+        public Vector3 HipsPosition;
+        public Vector3 HeadPosition;
 
-        internal Vector3 LeftShoulderPosition;
-        internal Vector3 LeftElbowPosition;
-        internal Vector3 LeftHandPosition;
+        public Vector3 LeftShoulderPosition;
+        public Vector3 LeftElbowPosition;
+        public Vector3 LeftHandPosition;
 
-        internal Vector3 RightShoulderPosition;
-        internal Vector3 RightElbowPosition;
-        internal Vector3 RightHandPosition;
+        public Vector3 RightShoulderPosition;
+        public Vector3 RightElbowPosition;
+        public Vector3 RightHandPosition;
 
-        internal Vector3 LeftThighPosition;
-        internal Vector3 LeftKneePosition;
-        internal Vector3 LeftFootPosition;
+        public Vector3 LeftThighPosition;
+        public Vector3 LeftKneePosition;
+        public Vector3 LeftFootPosition;
 
-        internal Vector3 RightThighPosition;
-        internal Vector3 RightKneePosition;
-        internal Vector3 RightFootPosition;
+        public Vector3 RightThighPosition;
+        public Vector3 RightKneePosition;
+        public Vector3 RightFootPosition;
 
         // Bone Rotations in solving without IK
-        internal Quaternion Hips;
-        internal Quaternion Spine;
-        internal Quaternion Chest;
-        internal Quaternion UpperChest;
-        internal Quaternion Neck;
-        internal Quaternion Head;
+        public Quaternion Hips;
+        public Quaternion Spine;
+        public Quaternion Chest;
+        public Quaternion UpperChest;
+        public Quaternion Neck;
+        public Quaternion Head;
 
-        internal Quaternion LeftUpperLeg;
-        internal Quaternion RightUpperLeg;
-        internal Quaternion LeftLowerLeg;
-        internal Quaternion RightLowerLeg;
-        internal Quaternion LeftFoot;
-        internal Quaternion RightFoot;
+        public Quaternion LeftUpperLeg;
+        public Quaternion RightUpperLeg;
+        public Quaternion LeftLowerLeg;
+        public Quaternion RightLowerLeg;
+        public Quaternion LeftFoot;
+        public Quaternion RightFoot;
 
-        internal Quaternion LeftShoulder;
-        internal Quaternion RightShoulder;
-        internal Quaternion LeftUpperArm;
-        internal Quaternion RightUpperArm;
-        internal Quaternion LeftLowerArm;
-        internal Quaternion RightLowerArm;
-        internal Quaternion LeftHand;
-        internal Quaternion RightHand;
+        public Quaternion LeftShoulder;
+        public Quaternion RightShoulder;
+        public Quaternion LeftUpperArm;
+        public Quaternion RightUpperArm;
+        public Quaternion LeftLowerArm;
+        public Quaternion RightLowerArm;
+        public Quaternion LeftHand;
+        public Quaternion RightHand;
 
-        internal Quaternion LeftThumbProximal;
-        internal Quaternion LeftThumbIntermediate;
-        internal Quaternion LeftThumbDistal;
-        internal Quaternion LeftIndexProximal;
-        internal Quaternion LeftIndexIntermediate;
-        internal Quaternion LeftIndexDistal;
-        internal Quaternion LeftMiddleProximal;
-        internal Quaternion LeftMiddleIntermediate;
-        internal Quaternion LeftMiddleDistal;
-        internal Quaternion LeftRingProximal;
-        internal Quaternion LeftRingIntermediate;
-        internal Quaternion LeftRingDistal;
-        internal Quaternion LeftLittleProximal;
-        internal Quaternion LeftLittleIntermediate;
-        internal Quaternion LeftLittleDistal;
+        public Quaternion LeftThumbProximal;
+        public Quaternion LeftThumbIntermediate;
+        public Quaternion LeftThumbDistal;
+        public Quaternion LeftIndexProximal;
+        public Quaternion LeftIndexIntermediate;
+        public Quaternion LeftIndexDistal;
+        public Quaternion LeftMiddleProximal;
+        public Quaternion LeftMiddleIntermediate;
+        public Quaternion LeftMiddleDistal;
+        public Quaternion LeftRingProximal;
+        public Quaternion LeftRingIntermediate;
+        public Quaternion LeftRingDistal;
+        public Quaternion LeftLittleProximal;
+        public Quaternion LeftLittleIntermediate;
+        public Quaternion LeftLittleDistal;
 
-        internal Quaternion RightThumbProximal;
-        internal Quaternion RightThumbIntermediate;
-        internal Quaternion RightThumbDistal;
-        internal Quaternion RightIndexProximal;
-        internal Quaternion RightIndexIntermediate;
-        internal Quaternion RightIndexDistal;
-        internal Quaternion RightMiddleProximal;
-        internal Quaternion RightMiddleIntermediate;
-        internal Quaternion RightMiddleDistal;
-        internal Quaternion RightRingProximal;
-        internal Quaternion RightRingIntermediate;
-        internal Quaternion RightRingDistal;
-        internal Quaternion RightLittleProximal;
-        internal Quaternion RightLittleIntermediate;
-        internal Quaternion RightLittleDistal;
+        public Quaternion RightThumbProximal;
+        public Quaternion RightThumbIntermediate;
+        public Quaternion RightThumbDistal;
+        public Quaternion RightIndexProximal;
+        public Quaternion RightIndexIntermediate;
+        public Quaternion RightIndexDistal;
+        public Quaternion RightMiddleProximal;
+        public Quaternion RightMiddleIntermediate;
+        public Quaternion RightMiddleDistal;
+        public Quaternion RightRingProximal;
+        public Quaternion RightRingIntermediate;
+        public Quaternion RightRingDistal;
+        public Quaternion RightLittleProximal;
+        public Quaternion RightLittleIntermediate;
+        public Quaternion RightLittleDistal;
 
-        internal Quaternion LeftEye;
-        internal Quaternion RightEye;
+        public Quaternion LeftEye;
+        public Quaternion RightEye;
 
 
-        internal void SetLeftHandData(HandData handData)
+        public void SetLeftHandData(HandData handData)
         {
             LeftHand = handData.Wrist;
             LeftThumbProximal = handData.ThumbCMC;
@@ -238,7 +238,7 @@ namespace VioletSolver.Pose
             LeftLittleIntermediate = handData.PinkyPIP;
             LeftLittleDistal = handData.PinkyDIP;
         }
-        internal void SetRightHandData(HandData handData)
+        public void SetRightHandData(HandData handData)
         {
             RightHand = handData.Wrist;
             RightThumbProximal = handData.ThumbCMC;
