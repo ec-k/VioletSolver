@@ -16,20 +16,21 @@ using VioletSolver.Network;
 //  3. filters pose and apply pose to avatar (in _avatarPoseHandler)
 namespace VioletSolver 
 {
-    public class AvatarAnimator : MonoBehaviour
+    [Serializable]
+    public class AvatarAnimator
     {
-        [SerializeField] LandmarkHandler _landmarkHandler;
-        [SerializeField] PoseHandler _avatarPoseHandler;
+        [SerializeField] GameObject _ikRigRoot;
         [SerializeField] Animator _animator;
-        [SerializeField] VRMBlendShapeProxy _proxy;
+        [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
         [SerializeField] bool _isAnimating = false;
         [SerializeField] bool _animateLeg = false;
+        [SerializeField] bool _isPerfectSyncEnabled = false;
+        [SerializeField] bool _useIk = true;
+        
+        public LandmarkHandler Landmarks => _landmarkHandler;
+        LandmarkHandler _landmarkHandler;
+        PoseHandler _avatarPoseHandler;
         AvatarBonePositions _restBonePositions;
-
-        [SerializeField] bool _enablePerfectSync = false;
-
-
-        [SerializeField]bool _useIk = true;
 
         ArmIK _leftArmIk;
         ArmIK _rightArmIk;
@@ -41,77 +42,28 @@ namespace VioletSolver
         Transform _rightElbowTarget;
         Transform _rightHandTarget;
 
-        public LandmarkHandler Landmarks => _landmarkHandler;
+        float _timer = 0f;
+        float _thresholdTime = 1f;
+        bool _doOverride = false;
 
-
-        // for testing
-        [SerializeField] PoseReceiver _poseReceiver;
-
-
-        private void Start()
+        public AvatarAnimator()
         {
+            _landmarkHandler = new();
+            _avatarPoseHandler = new();
+
             SetBonePositions(_animator);
 
-            SetupIkTargets();
-            SetupArmIk(true);
-            SetupArmIk(false);
-        }
-
-        void SetupIkTargets()
-        {
-            var targetRoot = new GameObject("ArmIK Targets").transform;
-            targetRoot.parent = gameObject.transform;
-
-            SetupIkTarget(targetRoot, "LeftShoulderTarget", ref _leftShoulderTarget);
-            SetupIkTarget(targetRoot, "LeftElbowTarget", ref _leftElbowTarget);
-            SetupIkTarget(targetRoot, "LeftHandTarget", ref _leftHandTarget);
-            SetupIkTarget(targetRoot, "RightShoulderTarget", ref _rightShoulderTarget);
-            SetupIkTarget(targetRoot, "RightElbowTarget", ref _rightElbowTarget);
-            SetupIkTarget(targetRoot, "RightHandTarget", ref _rightHandTarget);
-        }
-
-        void SetupIkTarget(Transform root, string name, ref Transform target)
-        {
-            target = new GameObject(name).transform;
-            target.parent = root;
-        }
-
-        void SetupArmIk(bool isLeft) 
-        {            
-            var armIk = gameObject.AddComponent<ArmIK>(); ;
-
-            armIk.solver.IKPositionWeight = 1f;
-            armIk.solver.IKRotationWeight = 1f;
-            armIk.solver.arm.bendGoalWeight = 1f;
-            armIk.solver.chest.transform = _animator.GetBoneTransform(HumanBodyBones.Chest);
-
-            if (isLeft) 
-            {
-                _leftArmIk = armIk;
-
-                armIk.solver.shoulder.transform = _animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
-                armIk.solver.upperArm.transform = _animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-                armIk.solver.forearm.transform  = _animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-                armIk.solver.hand.transform     = _animator.GetBoneTransform(HumanBodyBones.LeftHand);
-
-                armIk.solver.arm.target     = _leftHandTarget;
-                armIk.solver.arm.bendGoal   = _leftElbowTarget;
-                armIk.solver.isLeft         = true;
-            }
-            else
-            {
-                _rightArmIk = armIk;
-
-                armIk.solver.shoulder.transform = _animator.GetBoneTransform(HumanBodyBones.RightShoulder);
-                armIk.solver.upperArm.transform = _animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
-                armIk.solver.forearm.transform = _animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
-                armIk.solver.hand.transform = _animator.GetBoneTransform(HumanBodyBones.RightHand);
-
-                armIk.solver.arm.target     = _rightHandTarget;
-                armIk.solver.arm.bendGoal   = _rightElbowTarget;
-                armIk.solver.isLeft         = false;
-            }
-
+            ArmIKSetup.Initialize(
+                _ikRigRoot,
+                _animator,
+                out _leftShoulderTarget,
+                out _leftElbowTarget,
+                out _leftHandTarget,
+                out _rightShoulderTarget,
+                out _rightElbowTarget,
+                out _rightHandTarget,
+                out _leftArmIk,
+                out _rightArmIk);
         }
 
         void Update() 
@@ -126,16 +78,16 @@ namespace VioletSolver
                 _landmarkHandler.UpdateBlendshapes();
 
                 UpdatePose();
-                if (_enablePerfectSync)
+                if (_isPerfectSyncEnabled)
                     UpdateBlendshapesPerfectly();
                 else
                     UpdateBlendshapes();
 
                 AnimateAvatar(_animator, _avatarPoseHandler.PoseData);
-                if (_enablePerfectSync)
-                    AnimateFace(_proxy, _avatarPoseHandler.PerfectSyncWeights);
+                if (_isPerfectSyncEnabled)
+                    AnimateFace(_blendshapeProxy, _avatarPoseHandler.PerfectSyncWeights);
                 else
-                    AnimateFace(_proxy, _avatarPoseHandler.BlendshapeWeights);
+                    AnimateFace(_blendshapeProxy, _avatarPoseHandler.BlendshapeWeights);
             }
         }
 
@@ -148,7 +100,6 @@ namespace VioletSolver
             var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _useIk);
             _avatarPoseHandler.Update(pose);
         }
-
         bool UpdateBlendshapes()
         {
             var mpBlendshapes = _landmarkHandler.MpBlendshapes;
@@ -214,8 +165,15 @@ namespace VioletSolver
             ApplyLocal(animator, pose, HumanBodyBones.LeftEye);
             ApplyLocal(animator, pose, HumanBodyBones.RightEye);
 
-            if (_poseReceiver.State)
+            if (_doOverride)
             {
+                _timer += Time.deltaTime;
+                if (_timer >= _thresholdTime)
+                {
+                    _doOverride = false;
+
+                }
+
                 try
                 {
                     // from external output (OSC)
