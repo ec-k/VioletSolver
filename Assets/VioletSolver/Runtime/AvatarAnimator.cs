@@ -98,11 +98,15 @@ namespace VioletSolver
             AnimateAvatar(_animator, data.PoseData, isIkEnabled, animateLeg);
 
             if (_isPerfectSyncEnabled)
-                if(data.PerfectSyncBlendshapes is not null)
+            {
+                if (data.PerfectSyncBlendshapes is not null)
                     AnimateFace(_blendshapeProxy, data.PerfectSyncBlendshapes);
+            }
             else
-                if(data.VrmBlendshapes is not null)
+            {
+                if (data.VrmBlendshapes is not null)
                     AnimateFace(_blendshapeProxy, data.VrmBlendshapes);
+            }
         }
 
         /// <summary>
