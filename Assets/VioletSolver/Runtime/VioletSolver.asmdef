@@ -6,7 +6,7 @@
         "VRM",
         "UniTask",
         "RootMotion",
-        "HolisticProto"
+        "HumanLandmarks"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
