@@ -19,4 +19,4 @@ Fist, you must do setup procedure written above and then install this package.
 You can install this via Pakcage Manager.
 | UPM package | url|
 |-|-|
-| com.ec2k.violetsolver | https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver#v0.2.0 |
+| com.ec2k.violetsolver | https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver#v0.2.1 |

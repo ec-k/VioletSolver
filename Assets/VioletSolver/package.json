@@ -1,6 +1,6 @@
 {
   "name": "com.ec2k.violetsolver",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "displayName": "VioletSolver",
   "description": "An avatar pose solver that handles MediaPipe results.",
   "unity": "2022.3",
