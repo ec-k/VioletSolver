@@ -16,8 +16,10 @@
     "com.vrmc.univrm": "0.126.0",
     "com.vrmc.vrm": "0.126.0",
     "com.vrmc.gltf": "0.126.0",
-    "com.cysharp.unitask": "2.5.10",
-    "com.ec-k.humanlandmarks": "https://github.com/ec-k/HumanLandmarks.git"
+    "com.cysharp.unitask": "2.5.10"
+  },
+  "gitDependencies": {
+  "com.ec-k.humanlandmarks": "https://github.com/ec-k/HumanLandmarks.git"
   },
   "repository": {
     "type": "git",
