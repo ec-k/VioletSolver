@@ -4,7 +4,7 @@ using VRM;
 
 using VioletSolver.Landmarks;
 using VioletSolver.Pose;
-using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver.Solver
 {
@@ -17,7 +17,7 @@ namespace VioletSolver.Solver
             var solvedPose = new AvatarPoseData();
 
             if(ExistLandmarks(landmarks.Pose))
-                solvedPose = PoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions, useIk);
+                solvedPose = KinectPoseSolver.SolvePose(landmarks.Pose.Landmarks, restBonePositions, useIk);
             if(ExistLandmarks(landmarks.Face))
                 solvedPose.Neck = FaceSolver.Solve(landmarks.Face.Landmarks);
             if(ExistLandmarks(landmarks.LeftHand))

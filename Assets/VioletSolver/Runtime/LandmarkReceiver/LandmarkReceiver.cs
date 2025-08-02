@@ -11,7 +11,7 @@ namespace VioletSolver.Network
         UdpClient _udpClient;
         [SerializeField] int _port = 9000;
 
-        public event Action<HolisticPose.HolisticLandmarks, float> OnLandmarksReceived;
+        public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
 
         float _time = 0f;
         public float Time => _time;
@@ -39,7 +39,7 @@ namespace VioletSolver.Network
                 try
                 {
                     byte[] getByte = await ReceiveByte(token);
-                    var receivedLandmarks = HolisticPose.HolisticLandmarks.Parser.ParseFrom(getByte);
+                    var receivedLandmarks = HumanLandmarks.HolisticLandmarks.Parser.ParseFrom(getByte);
                     await UniTask.SwitchToMainThread();
                     var receivedTime = UnityEngine.Time.time;  // NOTE: This process works only main thread.
                     OnLandmarksReceived?.Invoke(receivedLandmarks, receivedTime);

@@ -1,5 +1,5 @@
-using poseIndex = HolisticPose.PoseLandmarks.Types.LandmarkIndex;
-using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
+using poseIndex = HumanLandmarks.PoseLandmarks.Types.LandmarkIndex;
+using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Development
 {

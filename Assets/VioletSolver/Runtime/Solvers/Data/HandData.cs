@@ -5,7 +5,7 @@
 // https://opensource.org/licenses/MIT.
 
 using UnityEngine;
-using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
+using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver
 {

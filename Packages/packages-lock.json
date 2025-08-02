@@ -7,12 +7,12 @@
       "dependencies": {},
       "hash": "b0d01ca75fc890b76e81202d655d17c1f4214a18"
     },
-    "com.ec2k.humanlandmarks": {
+    "com.ec-k.humanlandmarks": {
       "version": "https://github.com/ec-k/HumanLandmarks.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "161412827a7ce0d035896483ac5930b7859b61ae"
+      "hash": "7718961823e628fd7abaff9117a1a2e4d78ab77c"
     },
     "com.ec2k.humanoidooseconnector": {
       "version": "https://github.com/ec-k/HumanoidPoseConnector.git?path=/Assets/HumanoidPoseConnector#v0.2.2",

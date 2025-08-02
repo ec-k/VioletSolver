@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VioletSolver.Landmarks;
-using handIndex = HolisticPose.HandLandmarks.Types.LandmarkIndex;
+using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Solver
 {
@@ -49,8 +49,13 @@ namespace VioletSolver.Solver
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Left);
 
             {
-				Plane plane = new(hand.Landmarks[(int)handIndex.Wrist], hand.Landmarks[(int)handIndex.IndexFingerMcp], hand.Landmarks[(int)handIndex.PinkyMcp]);
-				Vector3 handUpDir = hand.Landmarks[(int)handIndex.Wrist] - hand.Landmarks[(int)handIndex.MiddleFingerMcp];
+				var wrist = hand.Landmarks[(int)handIndex.Wrist].Position;
+				var indexFingerMcp = hand.Landmarks[(int)handIndex.IndexFingerMcp].Position;
+				var pinkyMcp = hand.Landmarks[(int)handIndex.PinkyMcp].Position;
+				var middleFingerMcp = hand.Landmarks[(int)handIndex.MiddleFingerMcp].Position;
+
+                Plane plane = new(wrist, indexFingerMcp, pinkyMcp);
+				Vector3 handUpDir = wrist - middleFingerMcp;
 				Vector3 handForwardDir = plane.normal;
 
 				var rot = new Quaternion();
@@ -67,8 +72,13 @@ namespace VioletSolver.Solver
 
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Right);			
 			{
-                Plane plane = new(hand.Landmarks[(int)handIndex.Wrist], hand.Landmarks[(int)handIndex.IndexFingerMcp], hand.Landmarks[(int)handIndex.PinkyMcp]);
-                Vector3 handUpDir = hand.Landmarks[(int)handIndex.Wrist] - hand.Landmarks[(int)handIndex.MiddleFingerMcp];
+                var wrist = hand.Landmarks[(int)handIndex.Wrist].Position;
+                var indexFingerMcp = hand.Landmarks[(int)handIndex.IndexFingerMcp].Position;
+                var pinkyMcp = hand.Landmarks[(int)handIndex.PinkyMcp].Position;
+                var middleFingerMcp = hand.Landmarks[(int)handIndex.MiddleFingerMcp].Position;
+
+                Plane plane = new(wrist, indexFingerMcp, pinkyMcp);
+                Vector3 handUpDir = wrist - middleFingerMcp;
                 Vector3 handForwardDir = plane.normal;
 
                 var rot = new Quaternion();
@@ -151,9 +161,9 @@ namespace VioletSolver.Solver
 				int s = Fingers[i][0];
 				int e = Fingers[i][1];
 				fingers[i] = new Vector3[e - s + 2];
-				fingers[i][0] = hand.Landmarks[(int)handIndex.Wrist];
+				fingers[i][0] = hand.Landmarks[(int)handIndex.Wrist].Position;
 				for (int j = s; j <= e; j++) {
-					fingers[i][j - s + 1] = hand.Landmarks[j];
+					fingers[i][j - s + 1] = hand.Landmarks[j].Position;
 				}
 			}
 
@@ -211,18 +221,18 @@ namespace VioletSolver.Solver
 			float[] data = new float[20];
 
 			// Calculate the tangent of the hand
-			Vector3 tangent = hand.Landmarks[(int)handIndex.PinkyMcp] - hand.Landmarks[(int)handIndex.IndexFingerMcp];
+			Vector3 tangent = hand.Landmarks[(int)handIndex.PinkyMcp].Position - hand.Landmarks[(int)handIndex.IndexFingerMcp].Position;
 
 			// Get pips and mcps (mcps projected on tangent)
 			Vector3[] mcps = new Vector3[Fingers.Length - 1];
 			Vector3[] pips = new Vector3[Fingers.Length - 1];
 			for (int i = 0; i < Fingers.Length - 1; i++) {
-				mcps[i] = HandResolverUtil.ProjectPointOnVector(hand.Landmarks[Fingers[i + 1][0]], hand.Landmarks[(int)handIndex.IndexFingerMcp], hand.Landmarks[(int)handIndex.PinkyMcp]);
-				pips[i] = hand.Landmarks[Fingers[i + 1][1] - 2];
+				mcps[i] = HandResolverUtil.ProjectPointOnVector(hand.Landmarks[Fingers[i + 1][0]].Position, hand.Landmarks[(int)handIndex.IndexFingerMcp].Position, hand.Landmarks[(int)handIndex.PinkyMcp].Position);
+				pips[i] = hand.Landmarks[Fingers[i + 1][1] - 2].Position;
 			}
 
 			// Direction vector
-			Vector3 forwardVector = hand.Landmarks[(int)handIndex.IndexFingerMcp] - hand.Landmarks[(int)handIndex.ThumbCmc];
+			Vector3 forwardVector = hand.Landmarks[(int)handIndex.IndexFingerMcp].Position - hand.Landmarks[(int)handIndex.ThumbCmc].Position;
 
 			// For each non thumb finger
 			for (int i = 0; i < 4; i++) {

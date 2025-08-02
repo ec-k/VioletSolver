@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using VRM;
 using VioletSolver.Landmarks;
-using blendshapeIndex = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+using blendshapeIndex = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver.Solver
 {
@@ -18,9 +18,9 @@ namespace VioletSolver.Solver
 		{
 			Quaternion neckRotation = Quaternion.identity;
 			{
-				Vector3 botHead = landmarks[152];
-				Vector3 topHead = landmarks[10];
-				Plane plane = new(landmarks[109], landmarks[338], botHead);
+				Vector3 botHead = landmarks[152].Position;
+				Vector3 topHead = landmarks[10].Position;
+				Plane plane = new(landmarks[109].Position, landmarks[338].Position, botHead);
 
 				// Figure out their position on the eye socket plane
 				Vector3 forwardDir = plane.normal;

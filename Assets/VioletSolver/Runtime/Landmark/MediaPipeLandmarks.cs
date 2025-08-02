@@ -15,15 +15,15 @@ namespace VioletSolver.Landmarks
 
         public HolisticLandmarks(int faceLandmarkLength)
         {
-            var poseLength = (int)HolisticPose.PoseLandmarks.Types.LandmarkIndex.PoseLandmarkLength;
-            var handLength = (int)HolisticPose.HandLandmarks.Types.LandmarkIndex.HandLandmarkLength;
+            var poseLength = (int)HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex.Length;
+            var handLength = (int)HumanLandmarks.HandLandmarks.Types.LandmarkIndex.Length;
 
             Pose = new PoseLandmarks(poseLength);
             LeftHand = new HandLandmarks(handLength);
             RightHand = new HandLandmarks(handLength);
             Face = new FaceLandmarks(faceLandmarkLength);
         }
-        public HolisticLandmarks(HolisticPose.HolisticLandmarks rowLandmakrs)
+        public HolisticLandmarks(HumanLandmarks.HolisticLandmarks rowLandmakrs)
         {
             Pose = new PoseLandmarks(rowLandmakrs.PoseLandmarks);
             LeftHand = new HandLandmarks(rowLandmakrs.LeftHandLandmarks);
@@ -31,7 +31,7 @@ namespace VioletSolver.Landmarks
             Face = new FaceLandmarks(rowLandmakrs.FaceResults);
         }
 
-        public void UpdateLandmarks(HolisticPose.HolisticLandmarks landmarks, float time)
+        public void UpdateLandmarks(HumanLandmarks.HolisticLandmarks landmarks, float time)
         {
             var existPose       = landmarks.PoseLandmarks       != null;
             var existLefthand   = landmarks.LeftHandLandmarks   != null;
@@ -59,7 +59,7 @@ namespace VioletSolver.Landmarks
             _landmarks = new Landmark[size].ToList();
             _time = 0f;
         }
-        internal PoseLandmarks(HolisticPose.PoseLandmarks rawLandmakrs)
+        internal PoseLandmarks(HumanLandmarks.PoseLandmarks rawLandmakrs)
         {
             var count = rawLandmakrs.Landmarks.Count;
             _landmarks = new(count);
@@ -69,7 +69,17 @@ namespace VioletSolver.Landmarks
             }
             _time = 0f;
         }
-        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> rawLandmarks, float time) 
+        internal PoseLandmarks(HumanLandmarks.KinectPoseLandmarks rawLandmakrs)
+        {
+            var count = rawLandmakrs.Landmarks.Count;
+            _landmarks = new(count);
+            for (var i = 0; i < count; i++)
+            {
+                _landmarks[i] = Landmark.SetFromHolisticLandmark(rawLandmakrs.Landmarks[i]);
+            }
+            _time = 0f;
+        }
+        public void UpdateLandmarks(RepeatedField<HumanLandmarks.Landmark> rawLandmarks, float time) 
         {
             for (var i = 0; i < Count; i++)
             {
@@ -91,7 +101,7 @@ namespace VioletSolver.Landmarks
             _time = 0f;
         }
 
-        internal HandLandmarks(HolisticPose.HandLandmarks rowLandmakrs)
+        internal HandLandmarks(HumanLandmarks.HandLandmarks rowLandmakrs)
         {
             var count = rowLandmakrs.Landmarks.Count;
             _landmarks = new(count);
@@ -101,7 +111,7 @@ namespace VioletSolver.Landmarks
             }
             _time = 0f;
         }
-        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> rawLandmarks, float time)
+        public void UpdateLandmarks(RepeatedField<HumanLandmarks.Landmark> rawLandmarks, float time)
         {
             for (var i = 0; i < Count; i++)
             {
@@ -122,7 +132,7 @@ namespace VioletSolver.Landmarks
             _landmarks = new Landmark[size].ToList();
             _time = 0f;
         }
-        internal FaceLandmarks(HolisticPose.FaceResults faceResults)
+        internal FaceLandmarks(HumanLandmarks.FaceResults faceResults)
         {
             var count = faceResults.Landmarks.Count;
             _landmarks = new(count);
@@ -132,7 +142,7 @@ namespace VioletSolver.Landmarks
             }
             _time = 0f;
         }
-        public void UpdateLandmarks(RepeatedField<HolisticPose.Landmark> rawLandmarks, float time)
+        public void UpdateLandmarks(RepeatedField<HumanLandmarks.Landmark> rawLandmarks, float time)
         {
             for (var i = 0; i < Count; i++)
             {

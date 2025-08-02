@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VioletSolver.Pose;
 using VRM;
-using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {

@@ -4,7 +4,7 @@ using VioletSolver.Network;
 using VioletSolver.Landmarks;
 using Cysharp.Threading.Tasks;
 
-using MediaPipeBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
@@ -36,7 +36,7 @@ namespace VioletSolver
         /// <summary>
         ///     Update landmarks: gets landmarks, filters them and assign to this.Landmarks.
         /// </summary>
-        internal async UniTask OnLandmarkReceived(HolisticPose.HolisticLandmarks results, float receivedTime)
+        internal async UniTask OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
         {
             // Update landmarks.
             if (results == null ||
@@ -65,7 +65,7 @@ namespace VioletSolver
                     landmarks = filter.Filter(landmarks);
         }
 
-        internal void UpdateBlendshapes(HolisticPose.HolisticLandmarks results)
+        internal void UpdateBlendshapes(HumanLandmarks.HolisticLandmarks results)
         {
             // Update blendshapes
             if (results.FaceResults == null ||

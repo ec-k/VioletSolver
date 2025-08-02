@@ -6,7 +6,7 @@ using RootMotion.FinalIK;
 
 using VioletSolver.Pose;
 using VioletSolver.Solver;
-using mpBlendshapes = HolisticPose.Blendshapes.Types.BlendshapesIndex;
+using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 // This is avatar animating component which does
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
