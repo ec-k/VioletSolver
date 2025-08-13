@@ -4,17 +4,14 @@ using System.Net.Sockets;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace VioletSolver.Network 
+namespace VioletSolver.LandmarkProviders 
 {
-    public class LandmarkReceiver : MonoBehaviour
+    public class LandmarkReceiver : MonoBehaviour, ILandmarkProvider
     {
         UdpClient _udpClient;
         [SerializeField] int _port = 9000;
 
         public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
-
-        float _time = 0f;
-        public float Time => _time;
 
         void Start()
         {

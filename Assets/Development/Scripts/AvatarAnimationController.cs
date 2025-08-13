@@ -3,7 +3,7 @@ using VRM;
 using HumanoidPoseConnector;
 
 using VioletSolver.Pose;
-using VioletSolver.Network;
+using VioletSolver.LandmarkProviders;
 
 namespace VioletSolver.Development
     {

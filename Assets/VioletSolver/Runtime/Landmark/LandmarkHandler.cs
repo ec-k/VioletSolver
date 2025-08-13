@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using VioletSolver.Network;
+using VioletSolver.LandmarkProviders;
 using VioletSolver.Landmarks;
 using Cysharp.Threading.Tasks;
 
@@ -20,7 +20,7 @@ namespace VioletSolver
         List<ILandmarkFilter> _rightHandLandmarkFilters;
         List<ILandmarkFilter> _faceLandmarkFilters;
 
-        public LandmarkHandler(LandmarkReceiver receiver)
+        public LandmarkHandler(ILandmarkProvider receiver)
         {
             var faceLandmarkLength = 478; 
             Landmarks = new HolisticLandmarks(faceLandmarkLength);

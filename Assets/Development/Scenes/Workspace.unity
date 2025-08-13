@@ -1020,7 +1020,7 @@ MonoBehaviour:
   _animator: {fileID: 2070397307}
   _blendshapeProxy: {fileID: 2070397306}
   _ikRigRoot: {fileID: 594934409}
-  _landmarkReceiver: {fileID: 1839400547}
+  _landmarkReceiver: {fileID: 0}
   _landmarkVisualizer: {fileID: 849487606}
   _poseReceiver: {fileID: 1327959895}
   _isAnimationEnabled: 1
@@ -2201,7 +2201,7 @@ MonoBehaviour:
   _animator: {fileID: 1686597046}
   _blendshapeProxy: {fileID: 1471964583}
   _ikRigRoot: {fileID: 1833723635}
-  _landmarkReceiver: {fileID: 1839400547}
+  _landmarkReceiver: {fileID: 0}
   _landmarkVisualizer: {fileID: 1886205636}
   _poseReceiver: {fileID: 1327959895}
   _isAnimationEnabled: 1
