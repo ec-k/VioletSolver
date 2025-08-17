@@ -14,6 +14,7 @@ namespace VioletSolver.Development
         [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
         [SerializeField] GameObject _ikRigRoot;
         [SerializeField] LandmarkReceiver _landmarkReceiver;
+        [SerializeField] LandmarkPlaybackManager _landmarkPlaybackManager;
         [SerializeField] LandmarkVisualizer _landmarkVisualizer;
         [SerializeField] HumanoidPoseReceiver _poseReceiver;
 
@@ -26,15 +27,21 @@ namespace VioletSolver.Development
         [Header("External Input Settings")]
         [SerializeField] bool _isOverrideEnabled = false;
 
+        [Header("Misc")]
+        [SerializeField]bool _isRealtime = true;
+
+        ILandmarkProvider _landmarkProvider;
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
 
         void Awake()
         {
+            _landmarkProvider = _isRealtime? _landmarkReceiver : _landmarkPlaybackManager;
+
             if (_animator is null
                 || _blendshapeProxy is null
                 || _ikRigRoot is null
-                || _landmarkReceiver is null
+                || _landmarkProvider is null
                 || _poseReceiver is null)
             {
                 Debug.LogError("All animation dependencies must be assigned in the Inspector.", this);
@@ -42,7 +49,7 @@ namespace VioletSolver.Development
                 return;
             }
 
-            _landmarkHandler = new LandmarkHandler(_landmarkReceiver);
+            _landmarkHandler = new LandmarkHandler(_landmarkProvider);
             _avatarAnimator = new AvatarAnimator(
                 _ikRigRoot,
                 _animator,

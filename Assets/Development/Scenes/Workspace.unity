@@ -1021,6 +1021,7 @@ MonoBehaviour:
   _blendshapeProxy: {fileID: 2070397306}
   _ikRigRoot: {fileID: 594934409}
   _landmarkReceiver: {fileID: 0}
+  _landmarkPlaybackManager: {fileID: 0}
   _landmarkVisualizer: {fileID: 849487606}
   _poseReceiver: {fileID: 1327959895}
   _isAnimationEnabled: 1
@@ -1028,6 +1029,7 @@ MonoBehaviour:
   _isPerfectSyncEnabled: 1
   _isIkEnabled: 1
   _isOverrideEnabled: 0
+  _isRealtime: 1
 --- !u!1 &838616119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,6 +1640,7 @@ MonoBehaviour:
   _blendshapeProxy: {fileID: 143349904}
   _ikRigRoot: {fileID: 1939433662}
   _landmarkReceiver: {fileID: 1839400547}
+  _landmarkPlaybackManager: {fileID: 1887489782}
   _landmarkVisualizer: {fileID: 1865400452}
   _poseReceiver: {fileID: 1327959895}
   _isAnimationEnabled: 1
@@ -1645,6 +1648,7 @@ MonoBehaviour:
   _isPerfectSyncEnabled: 1
   _isIkEnabled: 1
   _isOverrideEnabled: 1
+  _isRealtime: 0
 --- !u!1 &1279761658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2202,6 +2206,7 @@ MonoBehaviour:
   _blendshapeProxy: {fileID: 1471964583}
   _ikRigRoot: {fileID: 1833723635}
   _landmarkReceiver: {fileID: 0}
+  _landmarkPlaybackManager: {fileID: 0}
   _landmarkVisualizer: {fileID: 1886205636}
   _poseReceiver: {fileID: 1327959895}
   _isAnimationEnabled: 1
@@ -2209,6 +2214,7 @@ MonoBehaviour:
   _isPerfectSyncEnabled: 0
   _isIkEnabled: 0
   _isOverrideEnabled: 0
+  _isRealtime: 1
 --- !u!1 &1640402230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2725,6 +2731,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588626826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1887489781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1887489783}
+  - component: {fileID: 1887489782}
+  m_Layer: 0
+  m_Name: LogReader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1887489782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887489781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebadaaf5fc44a554c800c8343b73313b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logFilePath: Landmarks_log.pb
+  playbackSpeed: 1
+--- !u!4 &1887489783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887489781}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.018421583, y: 0.88985175, z: -0.05281674}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1912034107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3096,3 +3148,4 @@ SceneRoots:
   - {fileID: 549566701}
   - {fileID: 1839400548}
   - {fileID: 1040843308}
+  - {fileID: 1887489783}
