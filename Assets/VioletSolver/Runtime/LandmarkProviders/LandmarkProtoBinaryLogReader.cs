@@ -1,14 +1,13 @@
-using System;
-using System.IO;
 using Cysharp.Threading.Tasks;
 using Google.Protobuf;
 using HumanLandmarks.Log;
+using System;
+using System.IO;
 
 namespace VioletSolver.LandmarkProviders
 {
     /// <summary>
-    /// Protobufバイナリログファイルを読み込み、アバター姿勢データを提供するリーダー。
-    /// ILandmarkLogReader インターフェースを実装し、UniTask を使用して非同期I/Oを処理する。
+    /// Reads Protobuf binary log files and provides avatar pose data.
     /// </summary>
     public class LandmarkProtoBinaryLogReader : ILandmarkLogReader
     {
@@ -30,19 +29,19 @@ namespace VioletSolver.LandmarkProviders
 
         public float PlaybackSpeed { get; set; } = 1.0f;
         public bool IsPlaying => _isPlaying;
-        public LogHeader LogHeader { get; private set; }
+        public LogHeader LogHeader { get; set; }
 
         /// <summary>
-        /// ログファイルを初期化し、ヘッダを読み込む。
-        /// インターフェースの制約により同期メソッドとして提供するが、内部でファイルを開く。
+        /// Initializes the log file reader and reads the header.
+        /// Provided as a synchronous method due to interface constraints, but performs file opening internally.
         /// </summary>
-        /// <param name="logFilePath">ログファイルのパス。</param>
-        /// <returns>初期化が成功した場合は true、それ以外は false。</returns>
+        /// <param name="logFilePath">The path to the log file.</param>
+        /// <returns>True if initialization was successful, otherwise false.</returns>
         public bool Initialize(string logFilePath)
         {
             if (_isInitialized)
             {
-                UnityEngine.Debug.LogWarning("LandmarkProtoBinaryLogReader は既に初期化されています。");
+                UnityEngine.Debug.LogWarning("LandmarkProtoBinaryLogReader is already initialized.");
                 return true;
             }
 
@@ -50,15 +49,12 @@ namespace VioletSolver.LandmarkProviders
 
             try
             {
-                // FileShare.Read を指定して、他のプロセスが読み取り可能にする
                 _fileStream = new FileStream(_logFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 _binaryReader = new BinaryReader(_fileStream);
 
-                // LogHeader を読み込む
-                // 4バイトの長さプレフィックスを読み込む
                 if (_binaryReader.BaseStream.Length < 4)
                 {
-                    UnityEngine.Debug.LogError("ログファイルが短すぎます。ヘッダの長さプレフィックスが読み取れません: " + _logFilePath);
+                    UnityEngine.Debug.LogError($"Log file is too short.Cannot read header length prefix: {_logFilePath}");
                     Dispose();
                     return false;
                 }
@@ -66,7 +62,7 @@ namespace VioletSolver.LandmarkProviders
 
                 if (_binaryReader.BaseStream.Length < _binaryReader.BaseStream.Position + headerLength)
                 {
-                    UnityEngine.Debug.LogError("ログファイルのヘッダ部分が破損しているか、不完全です: " + _logFilePath);
+                    UnityEngine.Debug.LogError($"Log file header is corrupted or incomplete: {_logFilePath}");
                     Dispose();
                     return false;
                 }
@@ -75,20 +71,20 @@ namespace VioletSolver.LandmarkProviders
                 LogHeader = _logHeaderParser.ParseFrom(headerBytes);
                 if (LogHeader == null)
                 {
-                    UnityEngine.Debug.LogError("LogHeader のデシリアライズに失敗しました: " + _logFilePath);
+                    UnityEngine.Debug.LogError($"Failed to deserialize LogHeader: {_logFilePath}");
                     Dispose();
                     return false;
                 }
 
-                // 最初のフレームデータの位置を記憶する
+                // Record the initial position for the next frame read.
                 _nextFrameOffset = _fileStream.Position;
                 _isInitialized = true;
-                UnityEngine.Debug.Log("LandmarkProtoBinaryLogReader が初期化されました。");
+                UnityEngine.Debug.Log("LandmarkProtoBinaryLogReader initialized.");
                 return true;
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError($"LandmarkProtoBinaryLogReader の初期化に失敗しました: {ex.Message}");
+                UnityEngine.Debug.LogError($"Failed to initialize LandmarkProtoBinaryLogReader: {ex.Message}");
                 Dispose();
                 return false;
             }
@@ -98,119 +94,110 @@ namespace VioletSolver.LandmarkProviders
         {
             if (!_isInitialized)
             {
-                UnityEngine.Debug.LogWarning("リーダーが初期化されていません。Initialize() を先に呼び出してください。");
+                UnityEngine.Debug.LogWarning("Reader is not initialized. Call Initialize() first.");
                 return;
             }
             _isPlaying = true;
-            UnityEngine.Debug.Log("再生を開始しました。");
+            UnityEngine.Debug.Log("Playback started.");
         }
 
         public void StopPlayback()
         {
             _isPlaying = false;
-            UnityEngine.Debug.Log("再生を停止しました。");
+            UnityEngine.Debug.Log("Playback stopped.");
         }
 
         public void ResetPlayback()
         {
             if (!_isInitialized) return;
-            StopPlayback(); // 再生を停止
-            _fileStream.Seek(_nextFrameOffset, SeekOrigin.Begin); // ヘッダの直後に戻る
-            _firstTimestampMillis = null; // 最初のタイムスタンプをリセット
-            _currentFrameDataBuffer = null; // バッファをクリア
-            UnityEngine.Debug.Log("再生を巻き戻しました。");
+            StopPlayback();
+            _fileStream.Seek(_nextFrameOffset, SeekOrigin.Begin); // Return to the start of the body.
+            _firstTimestampMillis = null;
+            _currentFrameDataBuffer = null;
+            UnityEngine.Debug.Log("Playback reset.");
         }
 
         /// <summary>
-        /// 毎フレーム呼び出され、ログデータを読み込み、イベントを発火する。
+        /// Called every frame to read log data and fire events.
         /// </summary>
-        /// <param name="deltaTime">前フレームからの経過時間 (秒)。</param>
-        public async UniTask Update(float deltaTime) // async void はエラーハンドリングに注意が必要
+        /// <param name="deltaTime">The time elapsed since the last frame in seconds.</param>
+        public async UniTask Update(float deltaTime)
         {
             if (!_isInitialized || !_isPlaying) return;
 
-            // リアルタイムと再生速度に基づいてターゲット再生時間を進める
-            // deltaTime は秒なので、ミリ秒に変換
-            // PlaybackSpeed はここで乗算し、GetRelativeTimestampでは純粋な時間差を扱う
-            double currentUnityTimeMs = (UnityEngine.Time.timeAsDouble * 1000.0 * PlaybackSpeed);
 
-            // ターゲット時間に追いつくまで、またはファイルの終端に達するまでフレームを読み込む
+            var currentUnityTimeMs = (UnityEngine.Time.timeAsDouble * 1000.0 * PlaybackSpeed);
+
+            // Current playback time in Unity (milliseconds, considering playback speed).
+            // The loop continues to process log frames that should have occurred by this time.
+            // This ensures playback catches up even if the log's framerate is higher than Unity's.
             while (_isInitialized && _isPlaying)
             {
                 LogFrameData frameToProcess = _currentFrameDataBuffer;
-                if (frameToProcess == null)
+                if (frameToProcess is null)
                 {
-                    // 次のフレームデータを非同期で読み込む
                     bool _;
-                    (_, frameToProcess) = await ReadNextFrameUniTaskAsync().SuppressCancellationThrow(); // キャンセル例外を抑制
+                    (_, frameToProcess) = await ReadNextFrameUniTaskAsync().SuppressCancellationThrow();
 
-                    if (frameToProcess == null)
+                    if (frameToProcess is null)
                     {
-                        UnityEngine.Debug.Log("ログファイルの終端に達しました。");
-                        _isPlaying = false; // ファイル終端で再生を停止
+                        UnityEngine.Debug.Log("End of log file reached.");
+                        _isPlaying = false; // Stop playback at the end of the file.
                         _currentFrameDataBuffer = null;
                         break;
                     }
 
-                    // 最初のフレームタイムスタンプを記録
+                    // Record the timestamp of the first frame if not already set.
                     if (!_firstTimestampMillis.HasValue)
                     {
                         _firstTimestampMillis = frameToProcess.TimestampMs;
                     }
                 }
 
-                // 最初のフレームからの相対タイムスタンプを計算
-                // この `relativeTimestampMs` は、ログの記録時からの経過時間 (ミリ秒)
+                // Calculate the relative timestamp from the first frame's timestamp (in milliseconds).
+                // This `relativeTimestampMs` indicates the elapsed time from the log recording's start.
                 double relativeTimestampMs = frameToProcess.TimestampMs - _firstTimestampMillis.Value;
 
-                // Unityの時間とログの相対時間を比較
                 if (relativeTimestampMs <= currentUnityTimeMs)
                 {
-                    // 現在のUnity時間に間に合うフレームなので処理する
-                    // イベント発火: HolisticLandmarks と float 型の相対タイムスタンプ (ミリ秒)
                     OnLandmarksReceived?.Invoke(frameToProcess.HolisticLandmarks, (float)relativeTimestampMs);
-                    _currentFrameDataBuffer = null; // このフレームは処理されたのでバッファをクリア
-                    // UnityEngine.Debug.Log($"フレーム {frameToProcess.FrameNumber} を処理しました ({frameToProcess.TimestampMs}ms, 相対: {(float)relativeTimestampMs}ms)");
+                    _currentFrameDataBuffer = null;
                 }
                 else
                 {
-                    // このフレームはUnityの現在の時間より進んでいるので、次回のためにバッファして待つ
+                    // This frame is in the future relative to Unity's current time, so buffer it and wait.
                     _currentFrameDataBuffer = frameToProcess;
-                    break; // 次の Update サイクルでこのフレームを待つ
+                    break;
                 }
             }
         }
 
         /// <summary>
-        /// 次のログフレームデータを非同期で読み込む (UniTask 版)。ファイルの終端に達したら null を返す。
+        /// Asynchronously reads the next log frame data.
+        /// Returns (false, null) if the end of the file is reached or an error occurs.
         /// </summary>
-        private async UniTask<LogFrameData> ReadNextFrameUniTaskAsync()
+        async UniTask<LogFrameData> ReadNextFrameUniTaskAsync()
         {
             if (!_isInitialized)
-            {
-                throw new InvalidOperationException("リーダーが初期化されていません。Initialize を先に呼び出してください。");
-            }
+                throw new InvalidOperationException("The reader is not initialized. Call Initialize first.");
 
-            // UniTask.Yield() を挟むことで、次のフレーム読み込みを待機中にUnityがフリーズしないようにする
-            // 非常に大きなファイルを読み込む場合などに有効。
-            await UniTask.Yield(PlayerLoopTiming.Update); // または FixedUpdate, PostLateUpdate など適切に
+            // Prevnts Unity from freezing during file read operations.
+            await UniTask.Yield(PlayerLoopTiming.Update);
 
-            // 次のフレームデータの位置から読み込みを再開する
+            // Reset the position to the next frame offset
             _fileStream.Seek(_nextFrameOffset, SeekOrigin.Begin);
 
+            // Reached the end of the file or cannot read the next length prefix.
             if (_fileStream.Position + 4 > _fileStream.Length)
-            {
-                // ファイルの終端に達したか、次の長さプレフィックスが読み取れない
                 return null;
-            }
 
             byte[] lengthBytes = _binaryReader.ReadBytes(4);
-            if (lengthBytes.Length < 4) return null; // 読み込めなかった場合
+            if (lengthBytes.Length < 4) return null; // If we can't read the length prefix, return null.
             int frameLength = BitConverter.ToInt32(lengthBytes, 0);
 
             if (_fileStream.Position + frameLength > _fileStream.Length)
             {
-                UnityEngine.Debug.LogError($"警告: フレームデータが不完全です。期待される長さ: {frameLength}, 残りバイト: {_fileStream.Length - _fileStream.Position}");
+                UnityEngine.Debug.LogError($"Incomplete frame data. Expected length: {frameLength}, remaining bytes: {_fileStream.Length - _fileStream.Position}");
                 return null;
             }
 
@@ -218,14 +205,14 @@ namespace VioletSolver.LandmarkProviders
 
             LogFrameData frameData = _logFrameDataParser.ParseFrom(frameBytes);
 
-            // 次の読み込みのためにストリーム位置を更新する
+            // Update position for the next frame read
             _nextFrameOffset = _fileStream.Position;
 
             return frameData;
         }
 
         /// <summary>
-        /// リソースを解放する。
+        /// Releases managed and unmanaged resources.
         /// </summary>
         public void Dispose()
         {
@@ -237,7 +224,7 @@ namespace VioletSolver.LandmarkProviders
             _fileStream = null;
             _isInitialized = false;
             _isPlaying = false;
-            UnityEngine.Debug.Log("LandmarkProtoBinaryLogReader が Dispose されました。");
+            UnityEngine.Debug.Log("LandmarkProtoBinaryLogReader disposed.");
         }
     }
 }
