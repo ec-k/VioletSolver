@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "7718961823e628fd7abaff9117a1a2e4d78ab77c"
+      "hash": "d544e70ee1e8b2a0d43d40faf4364aa6031ea5a9"
     },
     "com.ec2k.humanoidooseconnector": {
       "version": "https://github.com/ec-k/HumanoidPoseConnector.git?path=/Assets/HumanoidPoseConnector#v0.2.2",
