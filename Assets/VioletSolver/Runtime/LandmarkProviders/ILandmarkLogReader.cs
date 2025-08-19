@@ -14,6 +14,6 @@ namespace VioletSolver.LandmarkProviders
         void StartPlayback();
         void PausePlayback();
         void ResetPlayback();
-        UniTask Update(float deltaTime);
+        UniTask Update();
     }
 }

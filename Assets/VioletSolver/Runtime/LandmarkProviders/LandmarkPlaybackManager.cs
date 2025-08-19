@@ -21,6 +21,7 @@ namespace VioletSolver.LandmarkProviders
         ILandmarkLogReader _logFileReader;
 
         public bool IsPlayingLog => _logFileReader?.IsPlaying ?? false;
+
         public float CurrentPlaybackSpeed
         {
             get => _logFileReader?.PlaybackSpeed ?? 0f;
@@ -62,25 +63,8 @@ namespace VioletSolver.LandmarkProviders
 
         void Update()
         {
-            if (!enabled) return;
-
-            _logFileReader?.Update(Time.deltaTime);
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (IsPlayingLog)
-                {
-                    _logFileReader?.PausePlayback();
-                }
-                else
-                {
-                    _logFileReader?.StartPlayback();
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                _logFileReader?.ResetPlayback();
-            }
+            if (enabled)
+                _logFileReader?.Update();
         }
 
         void OnLogLandmarksReceived(HumanLandmarks.HolisticLandmarks landmarks, float relativeTime)

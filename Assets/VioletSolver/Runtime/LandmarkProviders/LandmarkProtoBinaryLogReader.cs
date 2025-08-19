@@ -131,8 +131,7 @@ namespace VioletSolver.LandmarkProviders
         /// <summary>
         /// Called every frame to read log data and fire events.
         /// </summary>
-        /// <param name="deltaTime">The time elapsed since the last frame in seconds.</param>
-        public async UniTask Update(float deltaTime)
+        public async UniTask Update()
         {
             _playbackTimer.Update();
             if (!_isInitialized || !_isPlaying) return;
