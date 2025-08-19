@@ -36,8 +36,8 @@ namespace VioletSolver.LandmarkProviders
 
         public LogHeader LogHeader => _logFileReader?.LogHeader;
 
-        public void Play() => _logFileReader?.StartPlayback();
-        public void Pause() => _logFileReader?.StopPlayback();
+        public void StartPlayback() => _logFileReader?.StartPlayback();
+        public void PausePlayback() => _logFileReader?.PausePlayback();
         public void ResetPlayback() => _logFileReader?.ResetPlayback();
 
         void Awake()
@@ -70,7 +70,7 @@ namespace VioletSolver.LandmarkProviders
             {
                 if (IsPlayingLog)
                 {
-                    _logFileReader?.StopPlayback();
+                    _logFileReader?.PausePlayback();
                 }
                 else
                 {

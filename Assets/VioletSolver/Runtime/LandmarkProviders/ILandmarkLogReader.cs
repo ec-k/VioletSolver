@@ -12,7 +12,7 @@ namespace VioletSolver.LandmarkProviders
 
         bool Initialize(string logFilePath);
         void StartPlayback();
-        void StopPlayback();
+        void PausePlayback();
         void ResetPlayback();
         UniTask Update(float deltaTime);
     }

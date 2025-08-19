@@ -109,7 +109,7 @@ namespace VioletSolver.LandmarkProviders
             UnityEngine.Debug.Log("Playback started.");
         }
 
-        public void StopPlayback()
+        public void PausePlayback()
         {
             _isPlaying = false;
             _playbackTimer.Pause();
@@ -119,7 +119,7 @@ namespace VioletSolver.LandmarkProviders
         public void ResetPlayback()
         {
             if (!_isInitialized) return;
-            StopPlayback();
+            PausePlayback();
             _fileStream.Seek(_startingPointOfBody, SeekOrigin.Begin); // Return to the start of the body.
             _nextFrameOffset = _startingPointOfBody; // Reset the next frame offset to the start of the body.
             _firstTimestampMillis = null;
