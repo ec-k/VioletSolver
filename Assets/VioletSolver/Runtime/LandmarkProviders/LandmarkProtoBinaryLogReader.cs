@@ -18,7 +18,7 @@ namespace VioletSolver.LandmarkProviders
         long _startingPointOfBody = 0;
         long _nextFrameOffset = 0;
         double? _firstTimestampMillis = null;
-        double _relativeTimeFromStartMs = 0;
+        PlaybackTimer _playbackTimer = new();
 
         LogFrameData _currentFrameDataBuffer;
 
@@ -29,8 +29,12 @@ namespace VioletSolver.LandmarkProviders
 
         public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
 
-        public float PlaybackSpeed { get; set; } = 1.0f;
-        public bool IsPlaying => _isPlaying;
+        public float PlaybackSpeed
+        {
+            get => _playbackTimer.PlaybackSpeed;
+            set { _playbackTimer.PlaybackSpeed = value; }
+        }
+        public bool IsPlaying => _playbackTimer.IsPlaying;
         public LogHeader LogHeader { get; set; }
 
         /// <summary>
@@ -101,13 +105,14 @@ namespace VioletSolver.LandmarkProviders
                 return;
             }
             _isPlaying = true;
-            _relativeTimeFromStartMs = UnityEngine.Time.timeAsDouble * 1000.0;
+            _playbackTimer.Start();
             UnityEngine.Debug.Log("Playback started.");
         }
 
         public void StopPlayback()
         {
             _isPlaying = false;
+            _playbackTimer.Pause();
             UnityEngine.Debug.Log("Playback stopped.");
         }
 
@@ -119,6 +124,7 @@ namespace VioletSolver.LandmarkProviders
             _nextFrameOffset = _startingPointOfBody; // Reset the next frame offset to the start of the body.
             _firstTimestampMillis = null;
             _currentFrameDataBuffer = null;
+            _playbackTimer.Reset();
             UnityEngine.Debug.Log("Playback reset.");
         }
 
@@ -128,10 +134,10 @@ namespace VioletSolver.LandmarkProviders
         /// <param name="deltaTime">The time elapsed since the last frame in seconds.</param>
         public async UniTask Update(float deltaTime)
         {
+            _playbackTimer.Update();
             if (!_isInitialized || !_isPlaying) return;
 
-
-            var currentUnityTimeMs = (UnityEngine.Time.timeAsDouble * 1000.0 * PlaybackSpeed) - _relativeTimeFromStartMs;
+            var currentUnityTimeMs = _playbackTimer.CurrentTimeMs;
 
             // Current playback time in Unity (milliseconds, considering playback speed).
             // The loop continues to process log frames that should have occurred by this time.
