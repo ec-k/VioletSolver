@@ -15,8 +15,10 @@ namespace VioletSolver.LandmarkProviders
         BinaryReader _binaryReader;
         string _logFilePath;
         bool _isInitialized = false;
+        long _startingPointOfBody = 0;
         long _nextFrameOffset = 0;
         double? _firstTimestampMillis = null;
+        double _relativeTimeFromStartMs = 0;
 
         LogFrameData _currentFrameDataBuffer;
 
@@ -77,6 +79,7 @@ namespace VioletSolver.LandmarkProviders
                 }
 
                 // Record the initial position for the next frame read.
+                _startingPointOfBody = _fileStream.Position;
                 _nextFrameOffset = _fileStream.Position;
                 _isInitialized = true;
                 UnityEngine.Debug.Log("LandmarkProtoBinaryLogReader initialized.");
@@ -98,6 +101,7 @@ namespace VioletSolver.LandmarkProviders
                 return;
             }
             _isPlaying = true;
+            _relativeTimeFromStartMs = UnityEngine.Time.timeAsDouble * 1000.0;
             UnityEngine.Debug.Log("Playback started.");
         }
 
@@ -111,7 +115,8 @@ namespace VioletSolver.LandmarkProviders
         {
             if (!_isInitialized) return;
             StopPlayback();
-            _fileStream.Seek(_nextFrameOffset, SeekOrigin.Begin); // Return to the start of the body.
+            _fileStream.Seek(_startingPointOfBody, SeekOrigin.Begin); // Return to the start of the body.
+            _nextFrameOffset = _startingPointOfBody; // Reset the next frame offset to the start of the body.
             _firstTimestampMillis = null;
             _currentFrameDataBuffer = null;
             UnityEngine.Debug.Log("Playback reset.");
@@ -126,7 +131,7 @@ namespace VioletSolver.LandmarkProviders
             if (!_isInitialized || !_isPlaying) return;
 
 
-            var currentUnityTimeMs = (UnityEngine.Time.timeAsDouble * 1000.0 * PlaybackSpeed);
+            var currentUnityTimeMs = (UnityEngine.Time.timeAsDouble * 1000.0 * PlaybackSpeed) - _relativeTimeFromStartMs;
 
             // Current playback time in Unity (milliseconds, considering playback speed).
             // The loop continues to process log frames that should have occurred by this time.
