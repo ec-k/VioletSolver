@@ -38,7 +38,7 @@ namespace VioletSolver.LandmarkProviders
 
         public void Play() => _logFileReader?.StartPlayback();
         public void Pause() => _logFileReader?.StopPlayback();
-        public void Rewind() => _logFileReader?.ResetPlayback();
+        public void ResetPlayback() => _logFileReader?.ResetPlayback();
 
         void Awake()
         {
