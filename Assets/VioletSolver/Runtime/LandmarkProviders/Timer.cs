@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VioletSolver
 {
-    public class PlaybackTimer
+    public class Timer
     {
         public double CurrentTimeMs { get; private set; }
         public bool IsPlaying { get; private set; }
