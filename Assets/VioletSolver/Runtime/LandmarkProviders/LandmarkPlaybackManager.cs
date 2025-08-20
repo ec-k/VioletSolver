@@ -10,6 +10,7 @@ namespace VioletSolver.LandmarkProviders
     public class LandmarkPlaybackManager : MonoBehaviour, ILandmarkProvider
     {
         public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
+        public event Action OnReachedToEnd;
 
         [Tooltip("Path to the log file for playback. Can be an asset path or an absolute path.")]
         public string logFilePath;
@@ -45,6 +46,7 @@ namespace VioletSolver.LandmarkProviders
         {
             _logFileReader = new LandmarkProtoBinaryLogReader();
             _logFileReader.OnLandmarksReceived += OnLogLandmarksReceived;
+            _logFileReader.OnReachedToEnd += OnLogReachedToEnd;
         }
 
         void Start()
@@ -70,6 +72,11 @@ namespace VioletSolver.LandmarkProviders
         void OnLogLandmarksReceived(HumanLandmarks.HolisticLandmarks landmarks, float relativeTime)
         {
             OnLandmarksReceived?.Invoke(landmarks, relativeTime);
+        }
+        
+        void OnLogReachedToEnd()
+        {
+            OnReachedToEnd?.Invoke();
         }
 
         // Release resources

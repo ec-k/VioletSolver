@@ -18,7 +18,7 @@ namespace VioletSolver.LandmarkProviders
         long _startingPointOfBody = 0;
         long _nextFrameOffset = 0;
         double? _firstTimestampMillis = null;
-        PlaybackTimer _playbackTimer = new();
+        Timer _playbackTimer = new();
 
         LogFrameData _currentFrameDataBuffer;
 
@@ -28,6 +28,7 @@ namespace VioletSolver.LandmarkProviders
         MessageParser<LogFrameData> _logFrameDataParser = new MessageParser<LogFrameData>(() => new LogFrameData());
 
         public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
+        public event Action OnReachedToEnd;
 
         public float PlaybackSpeed
         {
@@ -152,6 +153,7 @@ namespace VioletSolver.LandmarkProviders
                     if (frameToProcess is null)
                     {
                         UnityEngine.Debug.Log("End of log file reached.");
+                        OnReachedToEnd?.Invoke();
                         _isPlaying = false; // Stop playback at the end of the file.
                         _currentFrameDataBuffer = null;
                         break;
