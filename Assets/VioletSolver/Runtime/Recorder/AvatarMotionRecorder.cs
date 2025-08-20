@@ -1,5 +1,6 @@
 using Google.Protobuf;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,12 +23,13 @@ namespace VioletSolver.Recorder
         uint _frameNumber = 1;
         Dictionary<BlendShapeKey, float> _blendshapes;
         FileStream _fileStream;
-        BinaryWriter _writer;
         string _logFilePath;
         bool _isInitialized = false;
         bool _isRecording = false;
 
         Timer _timer = new();
+
+        byte[] _lengthBuffer = new byte[4];
 
         public AvatarMotionRecorder(Animator avatarAnimator, VRMBlendShapeProxy blendShapeProxy, string avatarName, string avatarVersion)
         {
@@ -51,7 +53,6 @@ namespace VioletSolver.Recorder
             try
             {
                 _fileStream = new FileStream(_logFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                _writer = new BinaryWriter(_fileStream, System.Text.Encoding.UTF8, true);
                 _isInitialized = true;
                 WriteHeader();
                 return true;
@@ -100,7 +101,8 @@ namespace VioletSolver.Recorder
                 AvatarVersion = _avatarVersion,
             };
             var headerBytes = header.ToByteArray();
-            _writer.Write(headerBytes);
+            WriteBytes(headerBytes);
+            _fileStream.Flush();
         }
 
         public void Update()
@@ -194,7 +196,7 @@ namespace VioletSolver.Recorder
             };
             _frameNumber++;
 
-            _writer.Write(frameData.ToByteArray());
+            WriteBytes(frameData.ToByteArray());
         }
 
         public void StopRecording()
@@ -206,21 +208,29 @@ namespace VioletSolver.Recorder
             }
             _timer.Pause();
             _timer.Reset();
-            _writer.Flush();
             Dispose();
             Debug.Log($"AvatarMotionRecorder stopped recording. Total frames: {_frameNumber - 1}");
         }
 
+        void WriteBytes(byte[] message)
+        {
+            BinaryPrimitives.WriteInt32LittleEndian(_lengthBuffer, message.Length); // Set the length of the message in the first 4 bytes
+            _fileStream.Write(_lengthBuffer, 0, 4);                                 // Write the length of the message
+            _fileStream.Write(message, 0, message.Length);                          // Write the message
+        }
+
         public void Dispose()
         {
-            _writer?.Close();
-            _writer?.Dispose();
-            _writer = null;
-            _fileStream?.Close();
-            _fileStream?.Dispose();
-            _fileStream = null;
+            if (_fileStream is not null)
+            {
+                _fileStream?.Flush();
+                _fileStream?.Close();
+                _fileStream?.Dispose();
+                _fileStream = null;
+            }
             _isInitialized = false;
             _isRecording = false;
+            GC.SuppressFinalize(this);
             Debug.Log($"AvatarMotionRecorder disposed");
         }
     }
