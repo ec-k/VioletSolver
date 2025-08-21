@@ -1,11 +1,14 @@
+using Cysharp.Threading.Tasks;
+using RootMotion.FinalIK;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
-using VRM;
-using RootMotion.FinalIK;
-
+using UniVRM10;
 using VioletSolver.Pose;
 using VioletSolver.Solver;
+using VRM;
 using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 // This is avatar animating component which does
@@ -19,6 +22,7 @@ namespace VioletSolver
         readonly GameObject _ikRigRoot;
         readonly Animator _animator;
         readonly VRMBlendShapeProxy _blendshapeProxy;
+        readonly Vrm10RuntimeExpression _expression;
         readonly bool _isPerfectSyncEnabled = false;
 
         readonly LandmarkHandler _landmarkHandler;
@@ -34,6 +38,8 @@ namespace VioletSolver
         readonly Transform _rightShoulderTarget;
         readonly Transform _rightElbowTarget;
         readonly Transform _rightHandTarget;
+
+        bool _isVrm10;
 
         public AvatarAnimator(
             GameObject ikRigRoot,
@@ -63,6 +69,40 @@ namespace VioletSolver
                 out _rightHandTarget,
                 out _leftArmIk,
                 out _rightArmIk);
+            
+            _isVrm10 = false;
+        }
+
+        public AvatarAnimator(
+            GameObject ikRigRoot,
+            Animator animator,
+            Vrm10RuntimeExpression expression,
+            LandmarkHandler landmarkHandler,
+            bool isPerfectSyncEnabled)
+        {
+            _landmarkHandler = landmarkHandler;
+            _avatarPoseHandler = new();
+
+            _ikRigRoot = ikRigRoot;
+            _animator = animator;
+            _expression = expression;
+            _isPerfectSyncEnabled = isPerfectSyncEnabled;
+
+            _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
+
+            ArmIKSetup.Initialize(
+                _ikRigRoot,
+                _animator,
+                out _leftShoulderTarget,
+                out _leftElbowTarget,
+                out _leftHandTarget,
+                out _rightShoulderTarget,
+                out _rightElbowTarget,
+                out _rightHandTarget,
+                out _leftArmIk,
+                out _rightArmIk);
+
+            _isVrm10 = true;
         }
 
         public AnimationResultData CalculateAnimationData(bool isIkEnabled)
@@ -99,12 +139,20 @@ namespace VioletSolver
 
             if (_isPerfectSyncEnabled)
             {
-                if (data.PerfectSyncBlendshapes is not null)
+                if (data.PerfectSyncBlendshapes is null) return;
+
+                if (_isVrm10)
+                    AnimateFace(_expression, data.PerfectSyncBlendshapes);
+                else
                     AnimateFace(_blendshapeProxy, data.PerfectSyncBlendshapes);
             }
             else
             {
-                if (data.VrmBlendshapes is not null)
+                if (data.VrmBlendshapes is null) return;
+
+                if(_isVrm10)
+                    AnimateFace(_expression, data.VrmBlendshapes);
+                else
                     AnimateFace(_blendshapeProxy, data.VrmBlendshapes);
             }
         }
@@ -217,6 +265,64 @@ namespace VioletSolver
             }
 
             proxy.SetValues(bs);
+        }
+
+        void AnimateFace(Vrm10RuntimeExpression expression, Dictionary<BlendShapePreset, float> blendshapes)
+        {
+            var expressionDicrionary = Enumerable.Range(0, Enum.GetValues(typeof(BlendShapePreset)).Length)
+                .Select(i =>
+                {
+                    var vrm0xKey = (BlendShapePreset)i;
+
+                    // NOTE: This process can NOT handles new expression "surprised".
+                    var vrm10Key = vrm0xKey switch
+                    {
+                        BlendShapePreset.Joy => ExpressionPreset.happy,
+                        BlendShapePreset.Angry => ExpressionPreset.angry,
+                        BlendShapePreset.Sorrow => ExpressionPreset.sad,
+                        BlendShapePreset.Fun => ExpressionPreset.relaxed,
+                        BlendShapePreset.A => ExpressionPreset.aa,
+                        BlendShapePreset.I => ExpressionPreset.ih,
+                        BlendShapePreset.U => ExpressionPreset.ou,
+                        BlendShapePreset.E => ExpressionPreset.ee,
+                        BlendShapePreset.O => ExpressionPreset.oh,
+                        _ => ExpressionPreset.custom
+                    };
+
+                    return new KeyValuePair<ExpressionKey, float>
+                    (
+                        ExpressionKey.CreateFromPreset(vrm10Key),
+                        blendshapes[(BlendShapePreset)i]
+                    );
+                })
+                .ToDictionary(
+                    item => item.Key,
+                    item => item.Value
+                );
+
+            foreach (var kvp in expressionDicrionary)
+                expression.SetWeight(kvp.Key, kvp.Value);
+        }
+
+        void AnimateFace(Vrm10RuntimeExpression expression, Dictionary<mpBlendshapes, float> blendshapes)
+        {
+            var expressionDicrionary = Enumerable.Range(0, (int)mpBlendshapes.Length)
+                .Select(i =>
+                {
+                    var key = Enum.GetName(typeof(mpBlendshapes), i);
+                    return new KeyValuePair<ExpressionKey, float>
+                    (
+                        ExpressionKey.CreateCustom(key),
+                        blendshapes[(mpBlendshapes)i]
+                    );
+                })
+                .ToDictionary(
+                    item => item.Key,
+                    item => item.Value
+                );
+
+            foreach (var kvp in  expressionDicrionary)
+                expression.SetWeight(kvp.Key, kvp.Value);
         }
     }
 }

@@ -4,6 +4,7 @@
     "references": [
         "Unity.Animation.Rigging",
         "VRM",
+        "VRM10",
         "UniTask",
         "RootMotion",
         "HumanLandmarks"
