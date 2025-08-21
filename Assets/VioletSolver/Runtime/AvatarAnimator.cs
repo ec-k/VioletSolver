@@ -307,18 +307,11 @@ namespace VioletSolver
         void AnimateFace(Vrm10RuntimeExpression expression, Dictionary<mpBlendshapes, float> blendshapes)
         {
             var expressionDicrionary = Enumerable.Range(0, (int)mpBlendshapes.Length)
-                .Select(i =>
-                {
-                    var key = Enum.GetName(typeof(mpBlendshapes), i);
-                    return new KeyValuePair<ExpressionKey, float>
-                    (
-                        ExpressionKey.CreateCustom(key),
-                        blendshapes[(mpBlendshapes)i]
-                    );
-                })
+                .Select(i => (mpBlendshapes)i)
+                .Where(mpKey => blendshapes.ContainsKey(mpKey))
                 .ToDictionary(
-                    item => item.Key,
-                    item => item.Value
+                    mpKey => ExpressionKey.CreateCustom(Enum.GetName(typeof(mpBlendshapes), mpKey)),
+                    mpKey => blendshapes[mpKey]
                 );
 
             foreach (var kvp in  expressionDicrionary)
