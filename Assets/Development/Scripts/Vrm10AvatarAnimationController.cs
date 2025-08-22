@@ -29,14 +29,17 @@ namespace VioletSolver.Development
 
         [Header("Misc")]
         [SerializeField] bool _isRealtime = true;
+        [SerializeField] SkinnedMeshRenderer _faceAssetObject;
+        [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
 
         ILandmarkProvider _landmarkProvider;
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
+        AssetsPositionAdjuster _assetsPositionSynchronizer;
 
         void Awake()
         {
-            _landmarkProvider = _isRealtime? _landmarkReceiver : _landmarkPlaybackManager;
+            _landmarkProvider = _isRealtime ? _landmarkReceiver : _landmarkPlaybackManager;
 
             if (_animator is null
                 || _vrm10Instance is null
@@ -48,6 +51,14 @@ namespace VioletSolver.Development
                 enabled = false;
                 return;
             }
+
+            _assetsPositionSynchronizer = new AssetsPositionAdjuster
+            {
+                Animator = _animator,
+                Face = _faceAssetObject,
+                Body = _bodyAssetObject
+            };
+            _assetsPositionSynchronizer.Adjust();
 
             _landmarkHandler = new LandmarkHandler(_landmarkProvider);
             _avatarAnimator = new AvatarAnimator(

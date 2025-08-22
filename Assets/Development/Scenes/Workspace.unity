@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2881,6 +2881,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 769125388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1647573500 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5694092435888646316, guid: 8db7200cb1dc10a4f880a51c46ece4d9, type: 3}
+  m_PrefabInstance: {fileID: 1894737813}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1686597046 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 475900956113721332, guid: 6466abbcc1656354296c781b3024314d, type: 3}
@@ -2995,6 +3000,8 @@ MonoBehaviour:
   _isIkEnabled: 1
   _isOverrideEnabled: 0
   _isRealtime: 1
+  _faceAssetObject: {fileID: 2004175113}
+  _bodyAssetObject: {fileID: 1647573500}
 --- !u!4 &1714997839
 Transform:
   m_ObjectHideFlags: 0
@@ -3787,6 +3794,11 @@ Transform:
   - {fileID: 1835056112}
   m_Father: {fileID: 1833723636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &2004175113 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7140606858727328969, guid: 8db7200cb1dc10a4f880a51c46ece4d9, type: 3}
+  m_PrefabInstance: {fileID: 1894737813}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2022104613
 GameObject:
   m_ObjectHideFlags: 0
