@@ -10,11 +10,13 @@ namespace VioletSolver
         public Animator Animator;
         public SkinnedMeshRenderer Face;
         public SkinnedMeshRenderer Body;
+        public SkinnedMeshRenderer Hair;
 
         public void Adjust()
         {
             if (Face != null) AdjustOneBounds(Face, Animator, HumanBodyBones.Head);
             if (Body != null) AdjustOneBounds(Body, Animator, HumanBodyBones.Hips);
+            if (Hair != null) AdjustOneBounds(Hair, Animator, HumanBodyBones.Head);
         }
 
         void AdjustOneBounds(SkinnedMeshRenderer target, Animator avatarAnimator, HumanBodyBones rootBoneType)
