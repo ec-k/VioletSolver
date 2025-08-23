@@ -19,10 +19,10 @@ namespace VioletSolver
 {
     public class AvatarAnimator
     {
+        public Animator Animator { get; set; }
+        public VRMBlendShapeProxy BlendShapeProxy { get; set; }
+        public Vrm10RuntimeExpression Expression { get; set; }
         readonly GameObject _ikRigRoot;
-        readonly Animator _animator;
-        readonly VRMBlendShapeProxy _blendshapeProxy;
-        readonly Vrm10RuntimeExpression _expression;
         readonly bool _isPerfectSyncEnabled = false;
 
         readonly LandmarkHandler _landmarkHandler;
@@ -52,15 +52,15 @@ namespace VioletSolver
             _avatarPoseHandler = new();
 
             _ikRigRoot = ikRigRoot;
-            _animator = animator;
-            _blendshapeProxy = blendShapeProxy;
+            Animator = animator;
+            BlendShapeProxy = blendShapeProxy;
             _isPerfectSyncEnabled = isPerfectSyncEnabled;
 
             _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
 
             ArmIKSetup.Initialize(
                 _ikRigRoot,
-                _animator,
+                Animator,
                 out _leftShoulderTarget,
                 out _leftElbowTarget,
                 out _leftHandTarget,
@@ -84,15 +84,15 @@ namespace VioletSolver
             _avatarPoseHandler = new();
 
             _ikRigRoot = ikRigRoot;
-            _animator = animator;
-            _expression = expression;
+            Animator = animator;
+            Expression = expression;
             _isPerfectSyncEnabled = isPerfectSyncEnabled;
 
             _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
 
             ArmIKSetup.Initialize(
                 _ikRigRoot,
-                _animator,
+                Animator,
                 out _leftShoulderTarget,
                 out _leftElbowTarget,
                 out _leftHandTarget,
@@ -135,25 +135,25 @@ namespace VioletSolver
             _leftArmIk.enabled = isIkEnabled;
             _rightArmIk.enabled = isIkEnabled;
 
-            AnimateAvatar(_animator, data.PoseData, isIkEnabled, animateLeg);
+            AnimateAvatar(Animator, data.PoseData, isIkEnabled, animateLeg);
 
             if (_isPerfectSyncEnabled)
             {
                 if (data.PerfectSyncBlendshapes is null) return;
 
                 if (_isVrm10)
-                    AnimateFace(_expression, data.PerfectSyncBlendshapes);
+                    AnimateFace(Expression, data.PerfectSyncBlendshapes);
                 else
-                    AnimateFace(_blendshapeProxy, data.PerfectSyncBlendshapes);
+                    AnimateFace(BlendShapeProxy, data.PerfectSyncBlendshapes);
             }
             else
             {
                 if (data.VrmBlendshapes is null) return;
 
                 if(_isVrm10)
-                    AnimateFace(_expression, data.VrmBlendshapes);
+                    AnimateFace(Expression, data.VrmBlendshapes);
                 else
-                    AnimateFace(_blendshapeProxy, data.VrmBlendshapes);
+                    AnimateFace(BlendShapeProxy, data.VrmBlendshapes);
             }
         }
 
