@@ -3002,6 +3002,7 @@ MonoBehaviour:
   _isRealtime: 1
   _faceAssetObject: {fileID: 2004175113}
   _bodyAssetObject: {fileID: 1647573500}
+  _hairAssetObject: {fileID: 0}
 --- !u!4 &1714997839
 Transform:
   m_ObjectHideFlags: 0

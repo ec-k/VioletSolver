@@ -31,6 +31,7 @@ namespace VioletSolver.Development
         [SerializeField] bool _isRealtime = true;
         [SerializeField] SkinnedMeshRenderer _faceAssetObject;
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
+        [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
         ILandmarkProvider _landmarkProvider;
         LandmarkHandler _landmarkHandler;
@@ -56,7 +57,8 @@ namespace VioletSolver.Development
             {
                 Animator = _animator,
                 Face = _faceAssetObject,
-                Body = _bodyAssetObject
+                Body = _bodyAssetObject,
+                Hair = _hairAssetObject,
             };
             _assetsPositionSynchronizer.Adjust();
 
