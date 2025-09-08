@@ -5,6 +5,7 @@
     "com.ec2k.humanoidooseconnector": "https://github.com/ec-k/HumanoidPoseConnector.git?path=/Assets/HumanoidPoseConnector#v0.2.2",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.hecomi.uosc": "https://github.com/hecomi/uOSC.git#upm",
+    "com.ncdev.third-party-notices-generator": "https://github.com/chernyadev/third-party-notices-generator.git",
     "com.unity.animation.rigging": "1.2.1",
     "com.unity.collab-proxy": "2.5.1",
     "com.unity.feature.development": "1.0.1",
