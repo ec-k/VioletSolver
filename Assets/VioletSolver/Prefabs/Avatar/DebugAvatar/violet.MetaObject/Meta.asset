@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b589176a34b344b9ccbee2b7e7114a, type: 3}
   m_Name: Meta
   m_EditorClassIdentifier: 
-  ExporterVersion: VRoid Studio-1.29.2
+  ExporterVersion: VRoid Studio-2.4.0
   Title: Violet
-  Version: 0.1.0
+  Version: 
   Author: EC-K
   ContactInformation: 
   Reference: 
