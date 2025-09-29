@@ -164,6 +164,7 @@ namespace VioletSolver
         {
             var landmarks = _landmarkHandler.Landmarks;
             var pose = HolisticSolver.Solve(landmarks, _restBonePositions, isIkEnabled);
+            pose.time = landmarks.Pose.Time;
             _avatarPoseHandler.Update(pose);
         }
         void UpdateBlendshapes()

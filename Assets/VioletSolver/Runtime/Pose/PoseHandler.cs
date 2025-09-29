@@ -29,6 +29,7 @@ namespace VioletSolver.Pose
             PerfectSyncWeights = new();
 
             _vrmPoseFilters = new();
+            _vrmPoseFilters.Add(new PoseUpSampler());
             //_vrmPoseFilters.Add(new LowPassFilter(0.6f));
             //_vrmPoseFilters.Add(new Interpolator());
 
@@ -38,7 +39,7 @@ namespace VioletSolver.Pose
             _blendshapeFilters.Add(new Blendshapes.EyeCloser(0.85f));   // completely closeing is 1.0
         }
 
-        // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
+        // NOTE: The arguments are copied once to the variable "result" so that the data are stored as they are when there is no filter.
         internal void Update(AvatarPoseData pose)
         {
             var result = pose;
@@ -56,7 +57,7 @@ namespace VioletSolver.Pose
         }
 
 
-        // NOTE: The arguments are copied once to the variable ÅgresultÅh so that the data are stored as they are when there is no filter.
+        // NOTE: The arguments are copied once to the variable "result" so that the data are stored as they are when there is no filter.
         internal void Update(Dictionary<BlendShapePreset, float> weights)
         {
             var result = weights;
