@@ -101,15 +101,11 @@ namespace VioletSolver.Development
                                 
                 animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
 
-                if (animationData.VrmBlendshapes != null)
-                {
-                    animationData.VrmBlendshapes = _vrmBlendshapeInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
-                }
-                if (animationData.PerfectSyncBlendshapes != null)
-                {
+                if (animationData.PerfectSyncBlendshapes != null && _isPerfectSyncEnabled)
                     animationData.PerfectSyncBlendshapes = _perfectSyncBlendshapeInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
-                }
-                
+                else if (animationData.VrmBlendshapes != null)
+                    animationData.VrmBlendshapes = _vrmBlendshapeInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);                
+
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false);
             }
         }
