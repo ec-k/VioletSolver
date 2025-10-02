@@ -98,9 +98,8 @@ namespace VioletSolver.Development
                             animationData.PoseData[bone] = boneTransform.rot;
                     }
                 }
-                                
-                animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
 
+                animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
                 if (animationData.PerfectSyncBlendshapes != null && _isPerfectSyncEnabled)
                     animationData.PerfectSyncBlendshapes = _perfectSyncBlendshapeInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
                 else if (animationData.VrmBlendshapes != null)

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 using VioletSolver.Pose;
 using VRM;
 using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
