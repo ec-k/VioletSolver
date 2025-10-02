@@ -4,6 +4,7 @@ using HumanoidPoseConnector;
 
 using VioletSolver.Pose;
 using VioletSolver.LandmarkProviders;
+using VRM;
 
 namespace VioletSolver.Development
     {
@@ -37,6 +38,9 @@ namespace VioletSolver.Development
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
+        PoseInterpolator _poseInterpolator;
+        BlendshapeInterpolator<BlendShapePreset> _vrmExpressionInterpolator;
+        BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex> _perfectSyncExpressionInterpolator;
 
         void Awake()
         {
@@ -70,6 +74,9 @@ namespace VioletSolver.Development
                 _landmarkHandler,
                 _isPerfectSyncEnabled
             );
+            _poseInterpolator = new PoseInterpolator();
+            _vrmExpressionInterpolator = new BlendshapeInterpolator<BlendShapePreset>();
+            _perfectSyncExpressionInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
 
             if (_landmarkVisualizer is not null)
                 _landmarkVisualizer.Initialize(_landmarkHandler);
@@ -86,12 +93,18 @@ namespace VioletSolver.Development
                 if (_isOverrideEnabled && _poseReceiver.IsAvailable)
                 {
                     var externalPoseResults = _poseReceiver.PoseResults;
-                    foreach(var bone in BodyPartsBones.Fingers)
+                    foreach (var bone in BodyPartsBones.Fingers)
                     {
                         if (externalPoseResults.TryGetValue(bone, out (Vector3 pos, Quaternion rot) boneTransform))
                             animationData.PoseData[bone] = boneTransform.rot;
                     }
                 }
+
+                animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
+                if (animationData.PerfectSyncBlendshapes != null && _isPerfectSyncEnabled)
+                    animationData.PerfectSyncBlendshapes = _perfectSyncExpressionInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
+                else if (animationData.VrmBlendshapes != null)
+                    animationData.VrmBlendshapes = _vrmExpressionInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
 
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false);
             }
