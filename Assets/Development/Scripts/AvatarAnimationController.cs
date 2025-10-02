@@ -37,6 +37,7 @@ namespace VioletSolver.Development
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
+        PoseUpSampler _poseUpSampler;
 
         void Awake()
         {
@@ -70,6 +71,7 @@ namespace VioletSolver.Development
                 _landmarkHandler,
                 _isPerfectSyncEnabled
             );
+            _poseUpSampler = new PoseUpSampler();
 
             if (_landmarkVisualizer is not null)
                 _landmarkVisualizer.Initialize(_landmarkHandler);
@@ -82,7 +84,7 @@ namespace VioletSolver.Development
             if (_isAnimationEnabled)
             {
                 var animationData = _avatarAnimator.CalculateAnimationData(_isIkEnabled);
-
+                
                 if (_isOverrideEnabled && _poseReceiver.IsAvailable)
                 {
                     var externalPoseResults = _poseReceiver.PoseResults;
@@ -92,7 +94,9 @@ namespace VioletSolver.Development
                             animationData.PoseData[bone] = boneTransform.rot;
                     }
                 }
-
+                                
+                animationData.PoseData = _poseUpSampler.UpdateAndInterpolate(animationData.PoseData);
+                
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false);
             }
         }

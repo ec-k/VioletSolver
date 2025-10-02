@@ -21,7 +21,6 @@ namespace VioletSolver.Pose
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
 
-
         internal PoseHandler()
         {
             _poseData = new();
@@ -29,7 +28,6 @@ namespace VioletSolver.Pose
             PerfectSyncWeights = new();
 
             _vrmPoseFilters = new();
-            _vrmPoseFilters.Add(new PoseUpSampler());
             //_vrmPoseFilters.Add(new LowPassFilter(0.6f));
             //_vrmPoseFilters.Add(new Interpolator());
 

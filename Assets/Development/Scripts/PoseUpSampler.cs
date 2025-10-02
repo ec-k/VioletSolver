@@ -1,13 +1,13 @@
 using UnityEngine;
-
-namespace VioletSolver.Pose
+using VioletSolver.Pose;
+namespace VioletSolver.Development
 {
-    internal class PoseUpSampler : IAvatarPoseFilter
+    internal class PoseUpSampler
     {
         private AvatarPoseData _prevPoseData;
         private AvatarPoseData _nextPoseData;
         private float _lastProcessedTime;
-        private const float _dataInterval = 1f / 30f; // 30Hzデータの時間間隔
+        private const float _dataInterval = 1f / 30f;
 
         public PoseUpSampler()
         {
@@ -16,15 +16,13 @@ namespace VioletSolver.Pose
             _lastProcessedTime = 0f;
         }
 
-        public AvatarPoseData Filter(AvatarPoseData boneRotations)
+        public AvatarPoseData UpdateAndInterpolate(AvatarPoseData newInputPose)
         {
-            AvatarPoseData inputPose = boneRotations;
-
-            if (inputPose.time > _lastProcessedTime)
+            if (newInputPose.time > _lastProcessedTime)
             {
                 _prevPoseData = _nextPoseData;
-                _nextPoseData = inputPose;
-                _lastProcessedTime = inputPose.time;
+                _nextPoseData = newInputPose;
+                _lastProcessedTime = newInputPose.time;
             }
 
             float interpolationAmount = Mathf.Clamp01((Time.time - _lastProcessedTime) / _dataInterval);
