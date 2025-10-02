@@ -37,7 +37,9 @@ namespace VioletSolver.Development
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
-        PoseInterpolator _poseUpSampler;
+        PoseInterpolator _poseInterpolator;
+        BlendshapeInterpolator<VRM.BlendShapePreset> _vrmBlendshapeInterpolator;
+        BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex> _perfectSyncBlendshapeInterpolator;
 
         void Awake()
         {
@@ -71,7 +73,9 @@ namespace VioletSolver.Development
                 _landmarkHandler,
                 _isPerfectSyncEnabled
             );
-            _poseUpSampler = new PoseInterpolator();
+            _poseInterpolator = new PoseInterpolator();
+            _vrmBlendshapeInterpolator = new BlendshapeInterpolator<VRM.BlendShapePreset>();
+            _perfectSyncBlendshapeInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
 
             if (_landmarkVisualizer is not null)
                 _landmarkVisualizer.Initialize(_landmarkHandler);
@@ -95,7 +99,16 @@ namespace VioletSolver.Development
                     }
                 }
                                 
-                animationData.PoseData = _poseUpSampler.UpdateAndInterpolate(animationData.PoseData);
+                animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
+
+                if (animationData.VrmBlendshapes != null)
+                {
+                    animationData.VrmBlendshapes = _vrmBlendshapeInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
+                }
+                if (animationData.PerfectSyncBlendshapes != null)
+                {
+                    animationData.PerfectSyncBlendshapes = _perfectSyncBlendshapeInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
+                }
                 
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false);
             }

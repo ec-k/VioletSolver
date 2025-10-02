@@ -29,6 +29,8 @@ namespace VioletSolver.Development
 
             AvatarPoseData result = new AvatarPoseData();
 
+            result.time = newInputPose.time;
+
             // Hips Position
             result.HipsPosition = Vector3.Lerp(_prevPoseData.HipsPosition, _nextPoseData.HipsPosition, interpolationAmount);
             result.HeadPosition = Vector3.Lerp(_prevPoseData.HeadPosition, _nextPoseData.HeadPosition, interpolationAmount);
