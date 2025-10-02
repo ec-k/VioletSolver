@@ -37,7 +37,7 @@ namespace VioletSolver.Development
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
-        PoseUpSampler _poseUpSampler;
+        PoseInterpolator _poseUpSampler;
 
         void Awake()
         {
@@ -71,7 +71,7 @@ namespace VioletSolver.Development
                 _landmarkHandler,
                 _isPerfectSyncEnabled
             );
-            _poseUpSampler = new PoseUpSampler();
+            _poseUpSampler = new PoseInterpolator();
 
             if (_landmarkVisualizer is not null)
                 _landmarkVisualizer.Initialize(_landmarkHandler);
