@@ -43,18 +43,16 @@ namespace VioletSolver
                 results.PoseLandmarks == null)
                 return;
             Landmarks.UpdateLandmarks(results, receivedTime);
-            var resultedLandmarks = Landmarks;
 
             //// Apply filters
             {
                 await UniTask.WhenAll(
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_poseLandmarkFilters, resultedLandmarks.Pose)),
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_rightHandLandmarkFilters, resultedLandmarks.RightHand)),
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_leftHandLandmarkFilters, resultedLandmarks.LeftHand)),
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_faceLandmarkFilters, resultedLandmarks.Face)));
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_poseLandmarkFilters, Landmarks.Pose)),
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_rightHandLandmarkFilters, Landmarks.RightHand)),
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_leftHandLandmarkFilters, Landmarks.LeftHand)),
+                    UniTask.RunOnThreadPool(() => ApplyFilters(_faceLandmarkFilters, Landmarks.Face)));
             }
 
-            Landmarks = resultedLandmarks;
             UpdateBlendshapes(results);
         }
 
