@@ -5,7 +5,7 @@ An avatar pose solver that handles MediaPipe results.
 ## Setup
 
 1. Install Google.Protobuf via NuGetForUnity
-2. Import UniVRM
+2. Import [GitDependencyResolverForUnity](https://github.com/mob-sakai/GitDependencyResolverForUnity)
 3. Import FinalIK
    1. Import FinalIK from Package Manager
    2. Import its Assembly Definition file to execute `/Assets/Plugins/RootMotion/Import Assembly Definitions`

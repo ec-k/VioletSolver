@@ -23,6 +23,10 @@ Violet Solver を使用するには、以下の依存関係をプロジェクト
 1.  Unity のパッケージマネージャーから Final IK をプロジェクトにインポートします。
 2.  インポート後、`Assets/Plugins/RootMotion/Import Assembly Definitions` を実行し、Final IK のアセンブリ定義ファイルをインポートしてください。
 
+### 3. GitDependencyResolver のインポート
+
+本パッケージが依存している OpenUPM で公開されていないパッケージを解決するため，[GitDependencyResolverForUnity](https://github.com/mob-sakai/GitDependencyResolverForUnity) をインポートしてください．
+
 ## UPM (Unity Package Manager) での導入
 
 このパッケージは Unity Package Manager を通じて Git URL から直接インポートできます。
