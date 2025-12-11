@@ -130,12 +130,12 @@ namespace VioletSolver
             };
         }
 
-        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled, bool animateLeg)
+        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled, bool animateLeg, Transform? offset = null)
         {
             _leftArmIk.enabled = isIkEnabled;
             _rightArmIk.enabled = isIkEnabled;
 
-            AnimateAvatar(Animator, data.PoseData, isIkEnabled, animateLeg);
+            AnimateAvatar(Animator, data.PoseData, isIkEnabled, animateLeg, offset);
 
             if (_isPerfectSyncEnabled)
             {
@@ -190,25 +190,31 @@ namespace VioletSolver
             _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
         }
 
-        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool animateLeg)
+        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool animateLeg, Transform? offset = null)
         {
-            animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
+            if (offset is not null)
+                animator.GetBoneTransform(HumanBodyBones.Hips).position = offset.rotation * pose.HipsPosition + offset.position;
+            else
+                animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
+
+            if (!animateLeg)
+                foreach (var bone in BodyPartsBones.Legs)
+                    pose[bone] = Quaternion.identity;
 
             // Spines
             foreach (var bone in BodyPartsBones.Spines)
-                ApplyGlobal(animator, pose, bone);
+                ApplyGlobal(animator, pose, bone, offset);
 
             // Legs
-            if (animateLeg)
-                foreach(var bone in BodyPartsBones.Legs)
-                    ApplyGlobal(animator, pose, bone);
+            foreach(var bone in BodyPartsBones.Legs)
+                ApplyGlobal(animator, pose, bone, offset);
 
             // Arms.
             if (isIkEnabled)
-                ApplyIkTarget(pose);
+                ApplyIkTarget(pose, offset);
             else
                 foreach (var bone in BodyPartsBones.Arms)
-                    ApplyGlobal(animator, pose, bone);
+                    ApplyGlobal(animator, pose, bone, offset);
 
             // Fingers
             foreach (var bone in BodyPartsBones.Fingers)
@@ -219,24 +225,64 @@ namespace VioletSolver
                 ApplyLocal(animator, pose, bone);
         }
 
-        void ApplyIkTarget(AvatarPoseData pose)
+        void ApplyIkTarget(AvatarPoseData pose, Transform? offset = null)
         {
-            _leftShoulderTarget.position = pose.LeftShoulderPosition;
-            _leftElbowTarget.position = pose.LeftElbowPosition;
-            _leftHandTarget.position = pose.LeftHandPosition;
-            _leftHandTarget.rotation = pose.LeftHand;
+            if(offset is not null)
+            {
+                _ikRigRoot.transform.position = offset.position;
+                _ikRigRoot.transform.rotation = offset.rotation;
 
-            _rightShoulderTarget.position = pose.RightShoulderPosition;
-            _rightElbowTarget.position = pose.RightElbowPosition;
-            _rightHandTarget.position = pose.RightHandPosition;
-            _rightHandTarget.rotation = pose.RightHand;
+                _leftShoulderTarget.localPosition = pose.LeftShoulderPosition;
+                _leftElbowTarget.localPosition    = pose.LeftElbowPosition;
+                _leftHandTarget.localPosition     = pose.LeftHandPosition;
+                _leftHandTarget.localRotation     = pose.LeftHand;
+
+                _rightShoulderTarget.localPosition = pose.RightShoulderPosition;
+                _rightElbowTarget.localPosition    = pose.RightElbowPosition;
+                _rightHandTarget.localPosition     = pose.RightHandPosition;
+                _rightHandTarget.localRotation     = pose.RightHand;
+            }
+            else
+            {
+                _leftShoulderTarget.position = pose.LeftShoulderPosition;
+                _leftElbowTarget.position = pose.LeftElbowPosition;
+                _leftHandTarget.position = pose.LeftHandPosition;
+                _leftHandTarget.rotation = pose.LeftHand;
+
+                _rightShoulderTarget.position = pose.RightShoulderPosition;
+                _rightElbowTarget.position = pose.RightElbowPosition;
+                _rightHandTarget.position = pose.RightHandPosition;
+                _rightHandTarget.rotation = pose.RightHand;
+            }
         }
 
         void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
             => animator.GetBoneTransform(boneName).localRotation = pose[boneName];
-        
-        void ApplyGlobal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
-            => animator.GetBoneTransform(boneName).rotation = pose[boneName];
+
+        void ApplyGlobal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName, Transform? offset = null)
+        {
+            if (offset is not null)
+                animator.GetBoneTransform(boneName).rotation = offset.rotation * pose[boneName];
+            else
+                animator.GetBoneTransform(boneName).rotation = pose[boneName];
+        }
+
+        void ApplyLocalGlobal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName, Transform? offset = null)
+        {
+            var bone = animator.GetBoneTransform(boneName);
+            var parent = bone.parent;
+
+            Quaternion targetGlobalRot;
+            if (offset is not null)
+                targetGlobalRot = offset.rotation * pose[boneName];
+            else
+                targetGlobalRot = pose[boneName];
+
+            if (parent is not null)
+                bone.localRotation = targetGlobalRot * Quaternion.Inverse(parent.rotation);
+            else
+                bone.localRotation = targetGlobalRot;
+        }
 
         void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<BlendShapePreset, float> blendshapes)
         {

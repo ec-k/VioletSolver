@@ -18,6 +18,7 @@ namespace VioletSolver.Development
         [SerializeField] LandmarkPlaybackManager _landmarkPlaybackManager;
         [SerializeField] LandmarkVisualizer _landmarkVisualizer;
         [SerializeField] HumanoidPoseReceiver _poseReceiver;
+        [SerializeField] Transform _offset;
 
         [Header("Animation Settings")]
         [SerializeField] bool _isAnimationEnabled = true;
@@ -106,7 +107,7 @@ namespace VioletSolver.Development
                 else if (animationData.VrmBlendshapes != null)
                     animationData.VrmBlendshapes = _vrmExpressionInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
 
-                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false);
+                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false, _offset);
             }
         }
     }
