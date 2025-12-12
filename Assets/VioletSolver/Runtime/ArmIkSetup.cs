@@ -20,6 +20,8 @@ namespace VioletSolver
             // Setup IK targets.
             var targetRoot = new GameObject("ArmIK Targets").transform;
             targetRoot.parent = ikRigRoot.transform;
+            targetRoot.localPosition = Vector3.zero;
+            targetRoot.localRotation = Quaternion.identity;
 
             leftShoulderTarget  = SetupIkTargetInternal(targetRoot, "LeftShoulderTarget");
             leftElbowTarget     = SetupIkTargetInternal(targetRoot, "LeftElbowTarget");
