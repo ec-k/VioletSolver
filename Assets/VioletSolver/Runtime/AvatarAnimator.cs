@@ -227,33 +227,21 @@ namespace VioletSolver
 
         void ApplyIkTarget(AvatarPoseData pose, Transform? offset = null)
         {
-            if(offset is not null)
+            if (offset is not null)
             {
                 _ikRigRoot.transform.position = offset.position;
                 _ikRigRoot.transform.rotation = offset.rotation;
-
-                _leftShoulderTarget.localPosition = pose.LeftShoulderPosition;
-                _leftElbowTarget.localPosition    = pose.LeftElbowPosition;
-                _leftHandTarget.localPosition     = pose.LeftHandPosition;
-                _leftHandTarget.localRotation     = pose.LeftHand;
-
-                _rightShoulderTarget.localPosition = pose.RightShoulderPosition;
-                _rightElbowTarget.localPosition    = pose.RightElbowPosition;
-                _rightHandTarget.localPosition     = pose.RightHandPosition;
-                _rightHandTarget.localRotation     = pose.RightHand;
             }
-            else
-            {
-                _leftShoulderTarget.position = pose.LeftShoulderPosition;
-                _leftElbowTarget.position = pose.LeftElbowPosition;
-                _leftHandTarget.position = pose.LeftHandPosition;
-                _leftHandTarget.rotation = pose.LeftHand;
 
-                _rightShoulderTarget.position = pose.RightShoulderPosition;
-                _rightElbowTarget.position = pose.RightElbowPosition;
-                _rightHandTarget.position = pose.RightHandPosition;
-                _rightHandTarget.rotation = pose.RightHand;
-            }
+            _leftShoulderTarget.localPosition = pose.LeftShoulderPosition;
+            _leftElbowTarget.localPosition = pose.LeftElbowPosition;
+            _leftHandTarget.localPosition = pose.LeftHandPosition;
+            _leftHandTarget.localRotation = pose.LeftHand;
+
+            _rightShoulderTarget.localPosition = pose.RightShoulderPosition;
+            _rightElbowTarget.localPosition = pose.RightElbowPosition;
+            _rightHandTarget.localPosition = pose.RightHandPosition;
+            _rightHandTarget.localRotation = pose.RightHand;
         }
 
         void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
@@ -265,23 +253,6 @@ namespace VioletSolver
                 animator.GetBoneTransform(boneName).rotation = offset.rotation * pose[boneName];
             else
                 animator.GetBoneTransform(boneName).rotation = pose[boneName];
-        }
-
-        void ApplyLocalGlobal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName, Transform? offset = null)
-        {
-            var bone = animator.GetBoneTransform(boneName);
-            var parent = bone.parent;
-
-            Quaternion targetGlobalRot;
-            if (offset is not null)
-                targetGlobalRot = offset.rotation * pose[boneName];
-            else
-                targetGlobalRot = pose[boneName];
-
-            if (parent is not null)
-                bone.localRotation = targetGlobalRot * Quaternion.Inverse(parent.rotation);
-            else
-                bone.localRotation = targetGlobalRot;
         }
 
         void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<BlendShapePreset, float> blendshapes)
