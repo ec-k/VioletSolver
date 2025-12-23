@@ -6,9 +6,10 @@ using Cysharp.Threading.Tasks;
 
 namespace VioletSolver.LandmarkProviders 
 {
-    public class LandmarkReceiver : MonoBehaviour, ILandmarkProvider
+    public class LandmarkReceiver : MonoBehaviour, ILandmarkProvider, IDisposable
     {
         UdpClient _udpClient;
+        bool _isDisposed = false;
         [SerializeField] int _port = 9000;
 
         public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
@@ -22,47 +23,52 @@ namespace VioletSolver.LandmarkProviders
 
         async UniTask<byte[]> ReceiveByte(CancellationToken token)
         {
-            var result = await _udpClient.ReceiveAsync();
+            var result = await _udpClient.ReceiveAsync().AsUniTask(useCurrentSynchronizationContext: false).AttachExternalCancellation(token);
             var data = result.Buffer;
             return data;
         }
 
         async UniTaskVoid OnReceived(CancellationToken token)
         {
-            token.ThrowIfCancellationRequested();
-            await UniTask.SwitchToThreadPool();
-            while (!token.IsCancellationRequested)
+            try
             {
-                try
+                await UniTask.SwitchToThreadPool();
+                while (!token.IsCancellationRequested && !_isDisposed)
                 {
-                    byte[] getByte = await ReceiveByte(token);
-                    var receivedLandmarks = HumanLandmarks.HolisticLandmarks.Parser.ParseFrom(getByte);
-                    await UniTask.SwitchToMainThread();
-                    var receivedTime = UnityEngine.Time.time;  // NOTE: This process works only main thread.
-                    OnLandmarksReceived?.Invoke(receivedLandmarks, receivedTime);
-                    await UniTask.SwitchToThreadPool();
-                }
-                catch (SocketException e)
-                {
-                    Debug.LogError($"SocketException: {e.Message}");
-                    return;
-                }
-                catch (ObjectDisposedException e)
-                {
-                    Debug.LogWarning($"ObjectDisposedException: {e.Message}");
-                    return;
+                    try
+                    {
+                        byte[] getByte = await ReceiveByte(token);
+                        var receivedLandmarks = HumanLandmarks.HolisticLandmarks.Parser.ParseFrom(getByte);
+                        await UniTask.SwitchToMainThread();
+                        var receivedTime = UnityEngine.Time.time;  // NOTE: This process works only main thread.
+                        OnLandmarksReceived?.Invoke(receivedLandmarks, receivedTime);
+                        await UniTask.SwitchToThreadPool();
+                    }
+                    catch (Exception e) when (e is SocketException or ObjectDisposedException)
+                    {
+                        Debug.LogError($"Exception: {e.Message}");
+                        return;
+                    }
                 }
             }
-            token.ThrowIfCancellationRequested();
+            finally
+            {
+                Dispose();
+            }
         }
 
-        void Dispose()
+        public void Dispose()
         {
+            if (_isDisposed) return; 
+
             _udpClient?.Close();
             _udpClient?.Dispose();
+            _udpClient = null;
+
+            _isDisposed = true;
         }
 
-        void OnApplicationQuit()
+        void OnDestroy()
         {
             Dispose();
         }
