@@ -30,7 +30,7 @@ namespace VioletSolver.Solver
 			}
 		}
 		
-		private static ILandmarkList SetGlobalOrigin(ILandmarkList hand) {
+		private static ILandmarkList SetGlobalOrigin(in ILandmarkList hand) {
 			LandmarkList result = new(hand.Landmarks.Count);
 
 			for (int i = 0; i < hand.Landmarks.Count; i++) {

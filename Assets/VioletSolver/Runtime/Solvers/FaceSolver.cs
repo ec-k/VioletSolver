@@ -14,7 +14,7 @@ namespace VioletSolver.Solver
 {
 	internal class FaceSolver {
 		// TODO: Later, change this function to return (Quaternion neckRotation, float[] blendshapes)
-		internal static Quaternion Solve(List<Landmark> landmarks)
+		internal static Quaternion Solve(in IReadOnlyList<Landmark> landmarks)
 		{
 			Quaternion neckRotation = Quaternion.identity;
 			{

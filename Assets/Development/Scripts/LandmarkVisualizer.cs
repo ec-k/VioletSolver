@@ -95,7 +95,7 @@ namespace VioletSolver.Development
             }
         }
 
-        Vector3[] ExtractPositions(ILandmarkList lm)
+        Vector3[] ExtractPositions(in ILandmarkList lm)
         {
             var pos = new Vector3[lm.Count];
             for(var i = 0;i < lm.Count;i++) 

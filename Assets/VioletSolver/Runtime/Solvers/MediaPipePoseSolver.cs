@@ -15,7 +15,7 @@ namespace VioletSolver.Solver
 {
 	internal class MediaPipePoseSolver
 	{
-		internal static AvatarPoseData SolvePose(List<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
 		{
             AvatarPoseData pose = new();
 
@@ -105,7 +105,7 @@ namespace VioletSolver.Solver
 			return (rootRot, midRot);
 		}
 
-        static void SolveIkTargets(List<Landmark> landmarks, ref AvatarPoseData pose)
+        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose)
         {
 			pose.HeadPosition = landmarks[(int)poseIndex.Nose].Position;
 
