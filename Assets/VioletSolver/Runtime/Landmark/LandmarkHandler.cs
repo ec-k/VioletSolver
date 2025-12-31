@@ -46,17 +46,15 @@ namespace VioletSolver
                 results.FaceResults.Blendshapes == null ||
                 results.FaceResults.Blendshapes.Scores == null)
                 return;
-            {
+
+            var scores = results.FaceResults.Blendshapes.Scores;
                 var tmpArray = Enum.GetValues(typeof(MediaPipeBlendshapes));
                 foreach (var value in tmpArray)
                 {
                     var mpBlendshapeIndex = (MediaPipeBlendshapes)value;
-                    try
-                    {
-                        MpBlendshapes[mpBlendshapeIndex] = results.FaceResults.Blendshapes.Scores[(int)mpBlendshapeIndex];
-                    }
-                    catch { }
-                }
+
+                if ((int)value < scores.Count)
+                    MpBlendshapes[mpBlendshapeIndex] = scores[(int)value];
             }
         }
     }
