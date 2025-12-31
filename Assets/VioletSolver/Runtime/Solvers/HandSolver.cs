@@ -31,7 +31,7 @@ namespace VioletSolver.Solver
 		}
 		
 		private static ILandmarks SetGlobalOrigin(ILandmarks hand) {
-			HandLandmarks result = new(hand.Landmarks.Count);
+			LandmarkList result = new(hand.Landmarks.Count);
 
 			for (int i = 0; i < hand.Landmarks.Count; i++) {
 				var direction = hand.Landmarks[i].Position - hand.Landmarks[(int)handIndex.Wrist].Position;

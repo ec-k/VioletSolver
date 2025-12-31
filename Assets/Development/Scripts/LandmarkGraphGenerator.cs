@@ -1,4 +1,4 @@
-using poseIndex = HumanLandmarks.PoseLandmarks.Types.LandmarkIndex;
+using poseIndex = HumanLandmarks.MediaPipePoseLandmarks.Types.LandmarkIndex;
 using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Development

@@ -9,11 +9,11 @@ using System.Collections.Generic;
 
 using VioletSolver.Landmarks;
 using VioletSolver.Pose;
-using poseIndex = HumanLandmarks.PoseLandmarks.Types.LandmarkIndex;
+using poseIndex = HumanLandmarks.MediaPipePoseLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Solver
 {
-	internal class PoseSolver
+	internal class MediaPipePoseSolver
 	{
 		internal static AvatarPoseData SolvePose(List<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
 		{

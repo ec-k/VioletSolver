@@ -12,7 +12,7 @@ namespace VioletSolver
     //  2. filters landmarks
     public class LandmarkHandler
     {
-        public IHolisticLandmarks Landmarks { get; private set; }
+        public HolisticLandmarks Landmarks { get; private set; }
         public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
 
         public LandmarkHandler(ILandmarkProvider receiver)
@@ -31,7 +31,8 @@ namespace VioletSolver
         {
             // Update landmarks.
             if (results == null ||
-                results.PoseLandmarks == null)
+                (results.MediaPipePoseLandmarks == null && results.KinectPoseLandmarks == null)
+                )
                 return;
             Landmarks.UpdateLandmarks(results, receivedTime);
 

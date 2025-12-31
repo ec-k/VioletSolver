@@ -1,6 +1,6 @@
 using UnityEngine;
 using VioletSolver.Landmarks;
-using poseIndex = HumanLandmarks.PoseLandmarks.Types.LandmarkIndex;
+using poseIndex = HumanLandmarks.MediaPipePoseLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver
 {
@@ -20,11 +20,11 @@ namespace VioletSolver
             var (leftArmLengthRatio, rightArmLengthRatio) = (1f, 1f);
             // about LeftArm
             {
-                var userShoulder = poseLandmarks.Landmarks[(int)poseIndex.LeftShoulder];
-                var userElbow = poseLandmarks.Landmarks[(int)poseIndex.LeftElbow];
-                var userWrist = poseLandmarks.Landmarks[(int)poseIndex.LeftWrist];
+                var userShoulder = poseLandmarks.Landmarks[(int)poseIndex.LeftShoulder].Position;
+                var userElbow = poseLandmarks.Landmarks[(int)poseIndex.LeftElbow].Position;
+                var userWrist = poseLandmarks.Landmarks[(int)poseIndex.LeftWrist].Position;
 
-                var userArmLength = (userWrist - userElbow).Position.magnitude + (userElbow - userShoulder).Position.magnitude;
+                var userArmLength = (userWrist - userElbow).magnitude + (userElbow - userShoulder).magnitude;
 
                 var avatarShoulder = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
                 var avatarElbow = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position;
@@ -36,11 +36,11 @@ namespace VioletSolver
             }
             // about RightArm
             {
-                var userShoulder = poseLandmarks.Landmarks[(int)poseIndex.RightShoulder];
-                var userElbow = poseLandmarks.Landmarks[(int)poseIndex.RightElbow];
-                var userWrist = poseLandmarks.Landmarks[(int)poseIndex.RightWrist];
+                var userShoulder = poseLandmarks.Landmarks[(int)poseIndex.RightShoulder].Position;
+                var userElbow = poseLandmarks.Landmarks[(int)poseIndex.RightElbow].Position;
+                var userWrist = poseLandmarks.Landmarks[(int)poseIndex.RightWrist].Position;
 
-                var userArmLength = (userWrist - userElbow).Position.magnitude + (userElbow - userShoulder).Position.magnitude;
+                var userArmLength = (userWrist - userElbow).magnitude + (userElbow - userShoulder).magnitude;
 
                 var avatarShoulder = animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
                 var avatarElbow = animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position;
