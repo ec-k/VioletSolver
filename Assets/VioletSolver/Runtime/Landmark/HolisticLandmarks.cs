@@ -1,0 +1,60 @@
+namespace VioletSolver.Landmarks
+{
+    public class HolisticLandmarks: IHolisticLandmarks
+    {
+        PoseLandmarks _pose;
+        LandmarkList _leftHand;
+        LandmarkList _rightHand;
+        LandmarkList _face;
+
+        public ILandmarks Pose
+        {
+            get
+            {
+                if (_pose.KinectResult is not null)
+                    return _pose.KinectResult;
+                else
+                    return _pose.MediaPipeResult;
+            }
+        }
+        public ILandmarks LeftHand  => _leftHand;
+        public ILandmarks RightHand => _rightHand;
+        public ILandmarks Face      => _face;
+
+        public HolisticLandmarks(int faceLandmarkLength)
+        {
+            var poseLength = (int)HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex.Length;
+            var handLength = (int)HumanLandmarks.HandLandmarks.Types.LandmarkIndex.Length;
+
+            _pose = new()
+            {
+                KinectResult = new(poseLength),
+                MediaPipeResult = new(handLength),
+            };
+            _leftHand  = new LandmarkList(handLength);
+            _rightHand = new LandmarkList(handLength);
+            _face      = new LandmarkList(faceLandmarkLength);
+        }
+
+        public void UpdateLandmarks(HumanLandmarks.HolisticLandmarks landmarks, float time)
+        {
+            var existKinectPose    = landmarks.KinectPoseLandmarks    != null;
+            var existMediaPipePose = landmarks.MediaPipePoseLandmarks != null;
+            var existLefthand      = landmarks.LeftHandLandmarks      != null;
+            var existRightHand     = landmarks.RightHandLandmarks     != null;
+            var existFace          = landmarks.FaceResults            != null;
+
+            if (existKinectPose)    _pose.KinectResult.Set(landmarks.KinectPoseLandmarks.Landmarks, time);
+            if (existMediaPipePose) _pose.MediaPipeResult.Set(landmarks.MediaPipePoseLandmarks.Landmarks, time);
+            if (existLefthand)      _leftHand.Set(landmarks.LeftHandLandmarks.Landmarks, time);
+            if (existRightHand)     _rightHand.Set(landmarks.RightHandLandmarks.Landmarks, time);
+            if (existFace)          _face.Set(landmarks.FaceResults.Landmarks, time);
+        }
+    }
+
+    internal class PoseLandmarks
+    {
+        internal LandmarkList KinectResult { get; set; }
+        internal LandmarkList MediaPipeResult { get; set; }
+    }
+}
