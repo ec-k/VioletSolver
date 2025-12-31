@@ -36,13 +36,13 @@ namespace VioletSolver.Landmarks
         public void Set(IReadOnlyList<HumanLandmarks.Landmark> landmarks, float time)
         {
             for (var i = 0; i < Count; i++)
-                Landmarks[i] = Landmark.Set(landmarks[i]);
+                Landmarks[i] = new(landmarks[i]);
             Time = time;
         }
         public void Set(IReadOnlyList<HumanLandmarks.LandmarkPoint> landmarks, float time)
         {
             for (var i = 0; i < Count; i++)
-                Landmarks[i] = Landmark.Set(landmarks[i]);
+                Landmarks[i] = new(landmarks[i]);
             Time = time;
         }
     }
@@ -94,21 +94,6 @@ namespace VioletSolver.Landmarks
             Rotation = null;
             Confidence = confidence;
         }
-
-        public static Landmark Set(HumanLandmarks.LandmarkPoint landmark)
-            => new Landmark(
-                landmark.Position.X,
-                landmark.Position.Y,
-                landmark.Position.Z,
-                landmark.Confidence);
-
-        public static Landmark Set(HumanLandmarks.Landmark landmark)
-            => new()
-            {
-                Position = new(landmark.Position.X, landmark.Position.Y, landmark.Position.Z),
-                Rotation = new(landmark.Rotation.X, landmark.Rotation.Y, landmark.Rotation.Z, landmark.Rotation.W),
-                Confidence = landmark.Confidence,
-            };
 
         public static Landmark Lerp(Landmark l1, Landmark l2, float amount)
         {
