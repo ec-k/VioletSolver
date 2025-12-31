@@ -1,3 +1,4 @@
+using Codice.CM.Triggers;
 using System;
 using System.Collections.Generic;
 using VioletSolver.LandmarkProviders;
@@ -15,6 +16,8 @@ namespace VioletSolver
         public HolisticLandmarks Landmarks { get; private set; }
         public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
 
+        public bool IsKinectPose { get; private set; }
+
         public LandmarkHandler(ILandmarkProvider receiver)
         {
             var faceLandmarkLength = 478; 
@@ -25,16 +28,16 @@ namespace VioletSolver
         }
 
         /// <summary>
-        ///     Update landmarks: gets landmarks, filters them and assign to this.Landmarks.
+        ///     Update landmarks: gets landmarks and assign it to this.Landmarks.
         /// </summary>
         internal void OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
         {
             // Update landmarks.
-            if (results == null ||
-                (results.MediaPipePoseLandmarks == null && results.KinectPoseLandmarks == null)
-                )
+            if (results == null)
                 return;
             Landmarks.UpdateLandmarks(results, receivedTime);
+
+            IsKinectPose = results.KinectPoseLandmarks is not null;
 
             UpdateBlendshapes(results);
         }
@@ -48,10 +51,10 @@ namespace VioletSolver
                 return;
 
             var scores = results.FaceResults.Blendshapes.Scores;
-                var tmpArray = Enum.GetValues(typeof(MediaPipeBlendshapes));
-                foreach (var value in tmpArray)
-                {
-                    var mpBlendshapeIndex = (MediaPipeBlendshapes)value;
+            var tmpArray = Enum.GetValues(typeof(MediaPipeBlendshapes));
+            foreach (var value in tmpArray)
+            {
+                var mpBlendshapeIndex = (MediaPipeBlendshapes)value;
 
                 if ((int)value < scores.Count)
                     MpBlendshapes[mpBlendshapeIndex] = scores[(int)value];

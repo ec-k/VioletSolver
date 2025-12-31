@@ -162,9 +162,11 @@ namespace VioletSolver
         /// <returns>Whether updating landmarks is processed properly or not.</returns>
         void UpdatePose(bool isIkEnabled)
         {
+            var isKinectPose = _landmarkHandler.IsKinectPose;
+
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, isIkEnabled);
-            pose.time = landmarks.Pose.Time;
+            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, isIkEnabled, isKinectPose);
+            pose.time = isKinectPose ? landmarks.KinectPose.Time : landmarks.MediaPipePose.Time;
             _avatarPoseHandler.Update(pose);
         }
         void UpdateBlendshapes()

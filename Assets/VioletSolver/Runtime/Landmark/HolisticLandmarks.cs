@@ -7,29 +7,23 @@ namespace VioletSolver.Landmarks
         LandmarkList _rightHand;
         LandmarkList _face;
 
-        public ILandmarkList Pose
-        {
-            get
-            {
-                if (_pose.KinectResult is not null)
-                    return _pose.KinectResult;
-                else
-                    return _pose.MediaPipeResult;
-            }
-        }
+        public ILandmarkList Pose      => _pose.KinectResult;   // HACK: this code is just for implementig interface
+        public ILandmarkList KinectPose => _pose.KinectResult;
+        public ILandmarkList MediaPipePose => _pose.MediaPipeResult;
         public ILandmarkList LeftHand  => _leftHand;
         public ILandmarkList RightHand => _rightHand;
         public ILandmarkList Face      => _face;
 
         public HolisticLandmarks(int faceLandmarkLength)
         {
-            var poseLength = (int)HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex.Length;
+            var kinectPoseLength = (int)HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex.Length;
+            var mediaPipePoseLength = (int)HumanLandmarks.MediaPipePoseLandmarks.Types.LandmarkIndex.Length;
             var handLength = (int)HumanLandmarks.HandLandmarks.Types.LandmarkIndex.Length;
 
             _pose = new()
             {
-                KinectResult = new(poseLength),
-                MediaPipeResult = new(handLength),
+                KinectResult = new(kinectPoseLength),
+                MediaPipeResult = new(mediaPipePoseLength),
             };
             _leftHand  = new LandmarkList(handLength);
             _rightHand = new LandmarkList(handLength);
