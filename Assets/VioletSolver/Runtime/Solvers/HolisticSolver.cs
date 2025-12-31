@@ -49,7 +49,7 @@ namespace VioletSolver.Solver
             return (blendshapes, leftEyeRotation, rightEyeRotation);
         }
 
-        static bool ExistLandmarks(ILandmarks landmarks)
+        static bool ExistLandmarks(ILandmarkList landmarks)
             => landmarks != null
                 && landmarks.Landmarks != null
                 && landmarks.Landmarks.Count > 0;

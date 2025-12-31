@@ -7,7 +7,7 @@ namespace VioletSolver.Landmarks
         LandmarkList _rightHand;
         LandmarkList _face;
 
-        public ILandmarks Pose
+        public ILandmarkList Pose
         {
             get
             {
@@ -17,9 +17,9 @@ namespace VioletSolver.Landmarks
                     return _pose.MediaPipeResult;
             }
         }
-        public ILandmarks LeftHand  => _leftHand;
-        public ILandmarks RightHand => _rightHand;
-        public ILandmarks Face      => _face;
+        public ILandmarkList LeftHand  => _leftHand;
+        public ILandmarkList RightHand => _rightHand;
+        public ILandmarkList Face      => _face;
 
         public HolisticLandmarks(int faceLandmarkLength)
         {

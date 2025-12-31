@@ -6,22 +6,22 @@ namespace VioletSolver.Landmarks
 {
     public interface IHolisticLandmarks
     {
-        public ILandmarks Pose { get; }
-        public ILandmarks LeftHand { get; }
-        public ILandmarks RightHand { get; }
-        public ILandmarks Face { get; }
+        public ILandmarkList Pose { get; }
+        public ILandmarkList LeftHand { get; }
+        public ILandmarkList RightHand { get; }
+        public ILandmarkList Face { get; }
 
         public void UpdateLandmarks(HumanLandmarks.HolisticLandmarks landmarks, float time);
     }
 
-    public interface ILandmarks
+    public interface ILandmarkList
     {
         public List<Landmark> Landmarks { get; set;  }
         public int Count { get; }
         public float Time { get; }
     }
 
-    public class LandmarkList : ILandmarks
+    public class LandmarkList : ILandmarkList
     {
         public List<Landmark> Landmarks { get; set; }
         public int Count => Landmarks.Count;

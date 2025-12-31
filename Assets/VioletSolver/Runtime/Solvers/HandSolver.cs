@@ -30,7 +30,7 @@ namespace VioletSolver.Solver
 			}
 		}
 		
-		private static ILandmarks SetGlobalOrigin(ILandmarks hand) {
+		private static ILandmarkList SetGlobalOrigin(ILandmarkList hand) {
 			LandmarkList result = new(hand.Landmarks.Count);
 
 			for (int i = 0; i < hand.Landmarks.Count; i++) {
@@ -43,7 +43,7 @@ namespace VioletSolver.Solver
 			return result;
 		}
 
-		internal static HandData SolveLeftHand(ILandmarks hand) {
+		internal static HandData SolveLeftHand(ILandmarkList hand) {
 			hand = SetGlobalOrigin(hand);
 
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Left);
@@ -67,7 +67,7 @@ namespace VioletSolver.Solver
 			return ConvertData(angles);
 		}
 
-		internal static HandData SolveRightHand(ILandmarks hand) {
+		internal static HandData SolveRightHand(ILandmarkList hand) {
 			hand = SetGlobalOrigin(hand);
 
 			List<FingerAngle> angles = FingerAngles(hand, HandType.Right);			
@@ -102,7 +102,7 @@ namespace VioletSolver.Solver
 			return rotation;
 		}
 
-		private static List<FingerAngle> FingerAngles(ILandmarks hand, HandType type) {
+		private static List<FingerAngle> FingerAngles(ILandmarkList hand, HandType type) {
 			List<FingerAngle> data = new();
 
 			float[] xAngles = GetXAngles(hand);
@@ -154,7 +154,7 @@ namespace VioletSolver.Solver
 		/// <summary>
 		/// Calculate the X angles for each finger on the hand
 		/// </summary>
-		private static float[] GetXAngles(ILandmarks hand) {
+		private static float[] GetXAngles(ILandmarkList hand) {
 			// Create an array that contains the position of all finger joints
 			Vector3[][] fingers = new Vector3[Fingers.Length][];
 			for (int i = 0; i < Fingers.Length; i++) {
@@ -217,7 +217,7 @@ namespace VioletSolver.Solver
 			return data;
 		}
 
-		private static float[] GetZAngles(ILandmarks hand) {
+		private static float[] GetZAngles(ILandmarkList hand) {
 			float[] data = new float[20];
 
 			// Calculate the tangent of the hand

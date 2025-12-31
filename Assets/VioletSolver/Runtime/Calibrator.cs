@@ -15,7 +15,7 @@ namespace VioletSolver
         /// <param name="animator"></param>
         /// <param name="poseLandmarks"></param>
         /// <returns>user to avatar arm length ratio</returns>
-        float CalculateArmLengthRatio(in Animator animator, in ILandmarks poseLandmarks)
+        float CalculateArmLengthRatio(in Animator animator, in ILandmarkList poseLandmarks)
         {
             var (leftArmLengthRatio, rightArmLengthRatio) = (1f, 1f);
             // about LeftArm
