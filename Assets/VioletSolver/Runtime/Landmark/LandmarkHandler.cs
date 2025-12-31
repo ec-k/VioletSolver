@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using VioletSolver.LandmarkProviders;
 using VioletSolver.Landmarks;
-using Cysharp.Threading.Tasks;
 
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
@@ -15,28 +14,20 @@ namespace VioletSolver
     {
         public IHolisticLandmarks Landmarks { get; private set; }
         public Dictionary<MediaPipeBlendshapes, float> MpBlendshapes;
-        List<ILandmarkFilter> _poseLandmarkFilters;
-        List<ILandmarkFilter> _leftHandLandmarkFilters;
-        List<ILandmarkFilter> _rightHandLandmarkFilters;
-        List<ILandmarkFilter> _faceLandmarkFilters;
 
         public LandmarkHandler(ILandmarkProvider receiver)
         {
             var faceLandmarkLength = 478; 
             Landmarks = new HolisticLandmarks(faceLandmarkLength);
-            _poseLandmarkFilters = new();
-            _leftHandLandmarkFilters = new();
-            _rightHandLandmarkFilters = new();
-            _faceLandmarkFilters = new();
             MpBlendshapes = new();
 
-            receiver.OnLandmarksReceived += (results, receivedTime) => OnLandmarkReceived(results, receivedTime).Forget();
+            receiver.OnLandmarksReceived += (results, receivedTime) => OnLandmarkReceived(results, receivedTime);
         }
 
         /// <summary>
         ///     Update landmarks: gets landmarks, filters them and assign to this.Landmarks.
         /// </summary>
-        internal async UniTask OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
+        internal void OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
         {
             // Update landmarks.
             if (results == null ||
@@ -44,23 +35,7 @@ namespace VioletSolver
                 return;
             Landmarks.UpdateLandmarks(results, receivedTime);
 
-            //// Apply filters
-            {
-                await UniTask.WhenAll(
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_poseLandmarkFilters, Landmarks.Pose)),
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_rightHandLandmarkFilters, Landmarks.RightHand)),
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_leftHandLandmarkFilters, Landmarks.LeftHand)),
-                    UniTask.RunOnThreadPool(() => ApplyFilters(_faceLandmarkFilters, Landmarks.Face)));
-            }
-
             UpdateBlendshapes(results);
-        }
-
-        void ApplyFilters(List<ILandmarkFilter> filters, ILandmarks landmarks)
-        {
-            if (filters != null)
-                foreach (var filter in filters)
-                    landmarks = filter.Filter(landmarks);
         }
 
         internal void UpdateBlendshapes(HumanLandmarks.HolisticLandmarks results)
