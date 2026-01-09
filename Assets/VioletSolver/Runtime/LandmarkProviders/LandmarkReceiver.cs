@@ -3,6 +3,7 @@ using System;
 using System.Net.Sockets;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using System.Net;
 
 namespace VioletSolver.LandmarkProviders 
 {
@@ -16,7 +17,8 @@ namespace VioletSolver.LandmarkProviders
 
         void Start()
         {
-            _udpClient = new UdpClient(_port);
+            var ipEnd = new IPEndPoint(System.Net.IPAddress.Any, _port);
+            _udpClient = new UdpClient(ipEnd);
             var token = this.GetCancellationTokenOnDestroy();
             OnReceived(token).Forget();
         }
