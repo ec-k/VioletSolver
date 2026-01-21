@@ -29,17 +29,18 @@ namespace VioletSolver.Development
         // a connection when use Kinect Body Tracking skeleton
         internal static Graph GenerateKinectPoseGraph()
         {
-            Node[] trunk        = { new((int)kinectPoseIndex.ShoulderLeft),   new((int)kinectPoseIndex.ShoulderRight),  new((int)kinectPoseIndex.HipRight), new((int)kinectPoseIndex.HipLeft) };
-            Node[] leftHand     = { new((int)kinectPoseIndex.HandtipLeft),    new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ThumbLeft) };
+            Node[] face         = { new((int)kinectPoseIndex.EarLeft),        new((int)kinectPoseIndex.EyeLeft),        new((int)kinectPoseIndex.Nose),          new((int)kinectPoseIndex.EyeRight),      new((int)kinectPoseIndex.EarRight) };
+            Node[] trunk        = { new((int)kinectPoseIndex.Pelvis),         new((int)kinectPoseIndex.SpineNaval),     new((int)kinectPoseIndex.SpineChest),    new((int)kinectPoseIndex.Neck),          new((int)kinectPoseIndex.Head) };
+            Node[] leftHand     = { new((int)kinectPoseIndex.HandtipLeft),    new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ThumbLeft),     new((int)kinectPoseIndex.ClavicleLeft),  new((int)kinectPoseIndex.SpineChest) };
             Node[] leftArm      = { new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ElbowLeft),      new((int)kinectPoseIndex.ShoulderLeft) };
-            Node[] leftLeg      = { new((int)kinectPoseIndex.AnkleLeft),      new((int)kinectPoseIndex.KneeLeft),       new((int)kinectPoseIndex.HipLeft) };
+            Node[] leftLeg      = { new((int)kinectPoseIndex.AnkleLeft),      new((int)kinectPoseIndex.KneeLeft),       new((int)kinectPoseIndex.HipLeft),       new((int)kinectPoseIndex.Pelvis) };
             Node[] leftFoot     = { new((int)kinectPoseIndex.FootLeft),       new((int)kinectPoseIndex.AnkleLeft) };
             Node[] rightHand    = { new((int)kinectPoseIndex.HandtipRight),   new((int)kinectPoseIndex.WristRight),     new((int)kinectPoseIndex.ThumbRight) };
-            Node[] rightArm     = { new((int)kinectPoseIndex.WristRight),     new((int)kinectPoseIndex.ElbowRight),     new((int)kinectPoseIndex.ShoulderRight) };
-            Node[] rightLeg     = { new((int)kinectPoseIndex.AnkleRight),     new((int)kinectPoseIndex.KneeRight),      new((int)kinectPoseIndex.HipRight) };
+            Node[] rightArm     = { new((int)kinectPoseIndex.WristRight),     new((int)kinectPoseIndex.ElbowRight),     new((int)kinectPoseIndex.ShoulderRight), new((int)kinectPoseIndex.ClavicleRight), new((int)kinectPoseIndex.SpineChest) };
+            Node[] rightLeg     = { new((int)kinectPoseIndex.AnkleRight),     new((int)kinectPoseIndex.KneeRight),      new((int)kinectPoseIndex.HipRight),      new((int)kinectPoseIndex.Pelvis) };
             Node[] rightFoot    = { new((int)kinectPoseIndex.FootRight),      new((int)kinectPoseIndex.AnkleRight) };
 
-            return new Graph(trunk, leftHand, leftArm, leftLeg, leftFoot, rightHand, rightArm, rightFoot, rightLeg);
+            return new Graph(face, trunk, leftHand, leftArm, leftLeg, leftFoot, rightHand, rightArm, rightFoot, rightLeg);
         }
 
         // This connection is based on MediaPipe.Hand
