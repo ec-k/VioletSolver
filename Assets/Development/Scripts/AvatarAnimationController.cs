@@ -21,7 +21,7 @@ namespace VioletSolver.Development
 
         [Header("Animation Settings")]
         [SerializeField] bool _isAnimationEnabled = true;
-        [SerializeField] bool _animateLeg = false;
+        [SerializeField] bool _enableLeg = false;
         [SerializeField] bool _isPerfectSyncEnabled = false;
         [SerializeField] bool _isIkEnabled = true;
 
@@ -106,7 +106,7 @@ namespace VioletSolver.Development
                 else if (animationData.VrmBlendshapes != null)
                     animationData.VrmBlendshapes = _vrmBlendshapeInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);                
 
-                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false, _offset);
+                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _enableLeg, _offset);
             }
         }
     }
