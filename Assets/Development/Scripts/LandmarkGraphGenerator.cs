@@ -1,4 +1,5 @@
 using poseIndex = HumanLandmarks.MediaPipePoseLandmarks.Types.LandmarkIndex;
+using kinectPoseIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
 using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver.Development
@@ -25,18 +26,18 @@ namespace VioletSolver.Development
             return new Graph(trunk, betweenEars, mouth, leftHand, leftArm, leftLeg, leftFoot, rightHand, rightArm, rightFoot, rightLeg);
         }
 
-        // a connection when use Kinect Body Tracking skeleton converted to a MediaPipe.Pose landmark skeleton
+        // a connection when use Kinect Body Tracking skeleton
         internal static Graph GenerateKinectPoseGraph()
         {
-            Node[] trunk        = { new((int)poseIndex.LeftShoulder),   new((int)poseIndex.RightShoulder),  new((int)poseIndex.RightHip), new((int)poseIndex.LeftHip) };
-            Node[] leftHand     = { new((int)poseIndex.LeftPinky),      new((int)poseIndex.LeftWrist),      new((int)poseIndex.LeftThumb) };
-            Node[] leftArm      = { new((int)poseIndex.LeftWrist),      new((int)poseIndex.LeftElbow),      new((int)poseIndex.LeftShoulder) };
-            Node[] leftLeg      = { new((int)poseIndex.LeftAnkle),      new((int)poseIndex.LeftKnee),       new((int)poseIndex.LeftHip) };
-            Node[] leftFoot     = { new((int)poseIndex.LeftFootIndex),  new((int)poseIndex.LeftAnkle) };
-            Node[] rightHand    = { new((int)poseIndex.RightPinky),     new((int)poseIndex.RightWrist),     new((int)poseIndex.RightThumb) };
-            Node[] rightArm     = { new((int)poseIndex.RightWrist),     new((int)poseIndex.RightElbow),     new((int)poseIndex.RightShoulder) };
-            Node[] rightLeg     = { new((int)poseIndex.RightAnkle),     new((int)poseIndex.RightKnee),      new((int)poseIndex.RightHip) };
-            Node[] rightFoot    = { new((int)poseIndex.RightFootIndex), new((int)poseIndex.RightAnkle) };
+            Node[] trunk        = { new((int)kinectPoseIndex.ShoulderLeft),   new((int)kinectPoseIndex.ShoulderRight),  new((int)kinectPoseIndex.HipRight), new((int)kinectPoseIndex.HipLeft) };
+            Node[] leftHand     = { new((int)kinectPoseIndex.HandtipLeft),    new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ThumbLeft) };
+            Node[] leftArm      = { new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ElbowLeft),      new((int)kinectPoseIndex.ShoulderLeft) };
+            Node[] leftLeg      = { new((int)kinectPoseIndex.AnkleLeft),      new((int)kinectPoseIndex.KneeLeft),       new((int)kinectPoseIndex.HipLeft) };
+            Node[] leftFoot     = { new((int)kinectPoseIndex.FootLeft),       new((int)kinectPoseIndex.AnkleLeft) };
+            Node[] rightHand    = { new((int)kinectPoseIndex.HandtipRight),   new((int)kinectPoseIndex.WristRight),     new((int)kinectPoseIndex.ThumbRight) };
+            Node[] rightArm     = { new((int)kinectPoseIndex.WristRight),     new((int)kinectPoseIndex.ElbowRight),     new((int)kinectPoseIndex.ShoulderRight) };
+            Node[] rightLeg     = { new((int)kinectPoseIndex.AnkleRight),     new((int)kinectPoseIndex.KneeRight),      new((int)kinectPoseIndex.HipRight) };
+            Node[] rightFoot    = { new((int)kinectPoseIndex.FootRight),      new((int)kinectPoseIndex.AnkleRight) };
 
             return new Graph(trunk, leftHand, leftArm, leftLeg, leftFoot, rightHand, rightArm, rightFoot, rightLeg);
         }
