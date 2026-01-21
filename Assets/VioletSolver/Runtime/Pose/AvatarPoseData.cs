@@ -141,6 +141,7 @@ namespace VioletSolver.Pose
 
         // Ik Target Positions
         public Vector3 HipsPosition;
+        public Vector3 ChestPosition;
         public Vector3 HeadPosition;
 
         public Vector3 LeftShoulderPosition;

@@ -107,7 +107,9 @@ namespace VioletSolver.Solver
 
         static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose)
         {
-			pose.HeadPosition = landmarks[(int)poseIndex.Nose].Position;
+			pose.HeadPosition = landmarks[(int)poseIndex.Head].Position;
+			pose.HipsPosition = landmarks[(int)poseIndex.Pelvis].Position;
+			pose.ChestPosition = landmarks[(int)poseIndex.SpineChest].Position;
 
             pose.LeftHandPosition = landmarks[(int)poseIndex.WristLeft].Position;
             pose.LeftElbowPosition = landmarks[(int)poseIndex.ElbowLeft].Position;

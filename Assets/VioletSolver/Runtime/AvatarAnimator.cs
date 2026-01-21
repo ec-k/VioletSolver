@@ -29,15 +29,7 @@ namespace VioletSolver
         readonly PoseHandler _avatarPoseHandler;
         readonly AvatarBonePositions _restBonePositions;
 
-        readonly ArmIK _leftArmIk;
-        readonly ArmIK _rightArmIk;
-        // IK Targets
-        readonly Transform _leftShoulderTarget;
-        readonly Transform _leftElbowTarget;
-        readonly Transform _leftHandTarget;
-        readonly Transform _rightShoulderTarget;
-        readonly Transform _rightElbowTarget;
-        readonly Transform _rightHandTarget;
+        readonly VRIK _vrik;
 
         bool _isVrm10;
 
@@ -58,18 +50,11 @@ namespace VioletSolver
 
             _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
 
-            ArmIKSetup.Initialize(
+            VRIKSetup.Initialize(
                 _ikRigRoot,
                 Animator,
-                out _leftShoulderTarget,
-                out _leftElbowTarget,
-                out _leftHandTarget,
-                out _rightShoulderTarget,
-                out _rightElbowTarget,
-                out _rightHandTarget,
-                out _leftArmIk,
-                out _rightArmIk);
-            
+                out _vrik);
+
             _isVrm10 = false;
         }
 
@@ -90,17 +75,10 @@ namespace VioletSolver
 
             _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
 
-            ArmIKSetup.Initialize(
+            VRIKSetup.Initialize(
                 _ikRigRoot,
                 Animator,
-                out _leftShoulderTarget,
-                out _leftElbowTarget,
-                out _leftHandTarget,
-                out _rightShoulderTarget,
-                out _rightElbowTarget,
-                out _rightHandTarget,
-                out _leftArmIk,
-                out _rightArmIk);
+                out _vrik);
 
             _isVrm10 = true;
         }
@@ -130,12 +108,11 @@ namespace VioletSolver
             };
         }
 
-        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled, bool animateLeg, Transform? offset = null)
+        public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled, bool enableLeg, Transform? offset = null)
         {
-            _leftArmIk.enabled = isIkEnabled;
-            _rightArmIk.enabled = isIkEnabled;
+            _vrik.enabled = isIkEnabled;
 
-            AnimateAvatar(Animator, data.PoseData, isIkEnabled, animateLeg, offset);
+            AnimateAvatar(Animator, data.PoseData, isIkEnabled, enableLeg, offset);
 
             if (_isPerfectSyncEnabled)
             {
@@ -192,42 +169,44 @@ namespace VioletSolver
             _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
         }
 
-        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool animateLeg, Transform? offset = null)
+        void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool enableLeg, Transform? offset = null)
         {
-            if (offset is not null)
-                animator.GetBoneTransform(HumanBodyBones.Hips).position = offset.rotation * pose.HipsPosition + offset.position;
-            else
-                animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
-
-            if (!animateLeg)
+            if (!enableLeg)
                 foreach (var bone in BodyPartsBones.Legs)
                     pose[bone] = Quaternion.identity;
 
-            // Spines
-            foreach (var bone in BodyPartsBones.Spines)
-                ApplyGlobal(animator, pose, bone, offset);
-
-            // Legs
-            foreach(var bone in BodyPartsBones.Legs)
-                ApplyGlobal(animator, pose, bone, offset);
-
-            // Arms.
             if (isIkEnabled)
-                ApplyIkTarget(pose, offset);
+            {
+                // IK mode: VRIK handles spine, arms, and legs.
+                ApplyIkTarget(pose, enableLeg, offset);
+            }
             else
-                foreach (var bone in BodyPartsBones.Arms)
+            {
+                // Non-IK mode: Apply rotations directly.
+                if (offset is not null)
+                    animator.GetBoneTransform(HumanBodyBones.Hips).position = offset.rotation * pose.HipsPosition + offset.position;
+                else
+                    animator.GetBoneTransform(HumanBodyBones.Hips).position = pose.HipsPosition;
+
+                foreach (var bone in BodyPartsBones.Spines)
                     ApplyGlobal(animator, pose, bone, offset);
 
-            // Fingers
+                foreach (var bone in BodyPartsBones.Legs)
+                    ApplyGlobal(animator, pose, bone, offset);
+
+                foreach (var bone in BodyPartsBones.Arms)
+                    ApplyGlobal(animator, pose, bone, offset);
+            }
+
+            // Fingers and eyes are not affected by IK.
             foreach (var bone in BodyPartsBones.Fingers)
                 ApplyLocal(animator, pose, bone);
 
-            // Eyes
             foreach (var bone in BodyPartsBones.Eyes)
                 ApplyLocal(animator, pose, bone);
         }
 
-        void ApplyIkTarget(AvatarPoseData pose, Transform? offset = null)
+        void ApplyIkTarget(AvatarPoseData pose, bool enableLeg, Transform? offset = null)
         {
             if (offset is not null)
             {
@@ -235,15 +214,41 @@ namespace VioletSolver
                 _ikRigRoot.transform.rotation = offset.rotation;
             }
 
-            _leftShoulderTarget.localPosition = pose.LeftShoulderPosition;
-            _leftElbowTarget.localPosition = pose.LeftElbowPosition;
-            _leftHandTarget.localPosition = pose.LeftHandPosition;
-            _leftHandTarget.localRotation = pose.LeftHand;
+            // Spine targets.
+            _vrik.solver.spine.headTarget.localPosition = pose.HeadPosition;
+            _vrik.solver.spine.headTarget.localRotation = pose.Head;
+            _vrik.solver.spine.pelvisTarget.localPosition = pose.HipsPosition;
+            _vrik.solver.spine.pelvisTarget.localRotation = pose.Hips;
 
-            _rightShoulderTarget.localPosition = pose.RightShoulderPosition;
-            _rightElbowTarget.localPosition = pose.RightElbowPosition;
-            _rightHandTarget.localPosition = pose.RightHandPosition;
-            _rightHandTarget.localRotation = pose.RightHand;
+            // Left arm targets.
+            _vrik.solver.leftArm.target.localPosition = pose.LeftHandPosition;
+            _vrik.solver.leftArm.target.localRotation = pose.LeftHand;
+            _vrik.solver.leftArm.bendGoal.localPosition = pose.LeftElbowPosition;
+
+            // Right arm targets.
+            _vrik.solver.rightArm.target.localPosition = pose.RightHandPosition;
+            _vrik.solver.rightArm.target.localRotation = pose.RightHand;
+            _vrik.solver.rightArm.bendGoal.localPosition = pose.RightElbowPosition;
+
+            // Leg targets.
+            var legWeight = enableLeg ? 1f : 0f;
+            _vrik.solver.leftLeg.positionWeight = legWeight;
+            _vrik.solver.leftLeg.rotationWeight = legWeight;
+            _vrik.solver.leftLeg.bendGoalWeight = legWeight;
+            _vrik.solver.rightLeg.positionWeight = legWeight;
+            _vrik.solver.rightLeg.rotationWeight = legWeight;
+            _vrik.solver.rightLeg.bendGoalWeight = legWeight;
+
+            if (enableLeg)
+            {
+                _vrik.solver.leftLeg.target.localPosition = pose.LeftFootPosition;
+                _vrik.solver.leftLeg.target.localRotation = pose.LeftFoot;
+                _vrik.solver.leftLeg.bendGoal.localPosition = pose.LeftKneePosition;
+
+                _vrik.solver.rightLeg.target.localPosition = pose.RightFootPosition;
+                _vrik.solver.rightLeg.target.localRotation = pose.RightFoot;
+                _vrik.solver.rightLeg.bendGoal.localPosition = pose.RightKneePosition;
+            }
         }
 
         void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
