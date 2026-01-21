@@ -12,19 +12,31 @@ namespace VioletSolver.Development
         List<GameObject> _lHandTargets;
         List<GameObject> _rHandTargets;
 
-        Vector3 _posePosOffset;
-        Vector3 _lHandPosOffset;
-        Vector3 _rHandPosOffset;
+        [Header("Graph Offsets")]
+        [SerializeField, Tooltip("Default: (0, 0, 1)")]      Vector3 _posePosOffset = new(0, 0, 1f);
+        [SerializeField, Tooltip("Default: (-0.5, 0, 0.5)")] Vector3 _lHandPosOffset = new(-0.5f, 0, 0.5f);
+        [SerializeField, Tooltip("Default: (0.5, 0, 0.5)")]  Vector3 _rHandPosOffset = new(0.5f, 0, 0.5f);
 
-        float _poseTargetSize = 0.05f;
-        float _handTargetSize = 0.01f;
+        [Header("Graph Size")]
+        [SerializeField, Tooltip("Default: 0.05")] float _poseTargetSize = 0.05f;
+        [SerializeField, Tooltip("Default: 0.01")] float _handTargetSize = 0.01f;
 
         GraphVisualizer _poseLandmarkVisualizer;
         GraphVisualizer _leftHandLandmarkVisualizer;
         GraphVisualizer _rightHandLandmarkVisualizer;
 
+        [Header("Graph Materials")]
         [SerializeField] Material _poseVisualMaterial;
         [SerializeField] Material _handVisualMaterial;
+
+        void Reset()
+        {
+            _posePosOffset  = new(0, 0, 1f);
+            _lHandPosOffset = new(-0.5f, 0, 0.5f);
+            _rHandPosOffset = new(0.5f, 0, 0.5f);
+            _poseTargetSize = 0.05f;
+            _handTargetSize = 0.01f;
+        }
 
         // NOTE: Call this in Awake.
         public void Initialize(LandmarkHandler handler)
@@ -60,10 +72,6 @@ namespace VioletSolver.Development
             _poseLandmarkVisualizer.RootNode.transform.parent = gameObject.transform;
             _leftHandLandmarkVisualizer.RootNode.transform.parent = gameObject.transform;
             _rightHandLandmarkVisualizer.RootNode.transform.parent = gameObject.transform;
-
-            _posePosOffset  = new(0     , 0, 1f);
-            _lHandPosOffset = new(-0.5f , 0, 0.5f);
-            _rHandPosOffset = new(0.5f  , 0, 0.5f);
         }
 
         void Update()
