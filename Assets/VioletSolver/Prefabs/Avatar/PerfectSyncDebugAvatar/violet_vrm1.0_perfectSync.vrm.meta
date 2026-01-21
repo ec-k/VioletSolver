@@ -1,0 +1,367 @@
+fileFormatVersion: 2
+guid: 100326d6300ec0e48b39a65f6ab9bab2
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: BrowDownLeft
+    second: {fileID: 11400000, guid: 829bd0cb4f90afd4585b098b456ee795, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: BrowDownRight
+    second: {fileID: 11400000, guid: 5c642752194eeeb4d9a68c1bf357c084, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: BrowInnerUp
+    second: {fileID: 11400000, guid: 30f8e0637c3c5a84fbe832641b1e7ff2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: BrowOuterUpLeft
+    second: {fileID: 11400000, guid: fa4a77d91393c5b43ac36e1b58a586f9, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: BrowOuterUpRight
+    second: {fileID: 11400000, guid: 3ae06d7f0b4274747bc40f90ca06ff84, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: CheekPuff
+    second: {fileID: 11400000, guid: 0ddf964735d9d8242bca557b102db44f, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: CheekSquintLeft
+    second: {fileID: 11400000, guid: 0c63aedb4069e1646ab93ffda37b7310, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: CheekSquintRight
+    second: {fileID: 11400000, guid: b43d67d90ae22f845bc46b05a1186d42, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeBlinkLeft
+    second: {fileID: 11400000, guid: d923796cc680b8442824edf47e1fca20, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeBlinkRight
+    second: {fileID: 11400000, guid: 0123adc199fb62944bb2a510c13673bd, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookDownLeft
+    second: {fileID: 11400000, guid: 2d48c88c8990a164199fb505a00dedd2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookDownRight
+    second: {fileID: 11400000, guid: 6601ea01762c3e046a41b28c89731d72, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookInLeft
+    second: {fileID: 11400000, guid: 848d2ef9af4f8664992026b75d45d118, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookInRight
+    second: {fileID: 11400000, guid: 4627bc35b134593459d8d29dcd3d11e2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookOutLeft
+    second: {fileID: 11400000, guid: 90e050fd97f2c344c8710ec95f96011e, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookOutRight
+    second: {fileID: 11400000, guid: 8dcb43a493b19b74889156cb94e1c127, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookUpLeft
+    second: {fileID: 11400000, guid: 7df34af27fab6c947bb27a36b806b14f, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeLookUpRight
+    second: {fileID: 11400000, guid: 9c2539de3c80a7c499d5cc68a1b75e67, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeSquintLeft
+    second: {fileID: 11400000, guid: d1218eaff1d181648bd3c193093b59b1, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeSquintRight
+    second: {fileID: 11400000, guid: 7e31ab5f0bfb282498abb690ac5a259a, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeWideLeft
+    second: {fileID: 11400000, guid: 64c6de385210ea542a91f06b11e178ed, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: EyeWideRight
+    second: {fileID: 11400000, guid: a9ff1d4f6634e81418ff7e0d84271eb9, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: JawForward
+    second: {fileID: 11400000, guid: b64789a6c877c904593a003952112b31, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: JawLeft
+    second: {fileID: 11400000, guid: 50bb123937af7184aba2c39d934e72a3, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: JawOpen
+    second: {fileID: 11400000, guid: 3782e194f72a32147b72471ffc48b7b9, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: JawRight
+    second: {fileID: 11400000, guid: 645902dff6ace8247aee57fe9138e094, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthClose
+    second: {fileID: 11400000, guid: c30c686d9b1b1044cabbbdedc2110b07, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthDimpleLeft
+    second: {fileID: 11400000, guid: 89e877892ba6acf41b6906e95fa545e2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthDimpleRight
+    second: {fileID: 11400000, guid: 4c6a841359bdb3e408c7c1768eb68e5d, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthFrownLeft
+    second: {fileID: 11400000, guid: 8fddb0b33b8667349aa36e1224fac61b, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthFrownRight
+    second: {fileID: 11400000, guid: 06e43352a02cb0c4d80fcdc71d39b9c1, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthFunnel
+    second: {fileID: 11400000, guid: e498855cf4c98054da27e6551f8ed602, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthLeft
+    second: {fileID: 11400000, guid: 330d0a112632d47498d721a7dba3be39, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthLowerDownLeft
+    second: {fileID: 11400000, guid: bd699519660da34439ceea8f448622c5, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthLowerDownRight
+    second: {fileID: 11400000, guid: 80b5ac42ecfb50b4b909eb90ecbdd37d, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthPressLeft
+    second: {fileID: 11400000, guid: 6d8b61c376c55cd4fb2a7385f16fd31b, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthPressRight
+    second: {fileID: 11400000, guid: aeea4ba95035fde4881e3227722ca2a7, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthPucker
+    second: {fileID: 11400000, guid: c4d7ec5bb8bc4e74fb9a7d1565a5ee54, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthRight
+    second: {fileID: 11400000, guid: 15e96a66a4b5ad446942a61c7243f941, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthRollLower
+    second: {fileID: 11400000, guid: 2daf10e4a0353b04a894c8545550b4f7, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthRollUpper
+    second: {fileID: 11400000, guid: f8bb08805f47b9642b5e55ff3033a3b9, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthShrugLower
+    second: {fileID: 11400000, guid: d00598e2a64b40042842594b196b43e3, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthShrugUpper
+    second: {fileID: 11400000, guid: 1a82e7aa246f16a48858183c8e0f1dc8, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthSmileLeft
+    second: {fileID: 11400000, guid: 4576f34f69c63024a9f3fed14fcc0cbb, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthSmileRight
+    second: {fileID: 11400000, guid: f5335b97ecff2e54da2918765fe97c14, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthStretchLeft
+    second: {fileID: 11400000, guid: cd4d7a0b10c067040a70aa7fee896aa2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthStretchRight
+    second: {fileID: 11400000, guid: f91865c06434be94c883e6ed53843137, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthUpperUpLeft
+    second: {fileID: 11400000, guid: ea300dbfd99692e4abc948080dbb9bd1, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: MouthUpperUpRight
+    second: {fileID: 11400000, guid: 7d0b405d603074d458d17d3e7742fab7, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: NoseSneerLeft
+    second: {fileID: 11400000, guid: efd8969005b043d4a88edb5a579e017d, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: NoseSneerRight
+    second: {fileID: 11400000, guid: cf0eb56d3540bca4d9a74c2a5ca68a11, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: TongueOut
+    second: {fileID: 11400000, guid: 06fd00504fc9f2843a2aed07b4089e03, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: aa
+    second: {fileID: 11400000, guid: 6a01191aa1d608249b1c48700d4bd588, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: angry
+    second: {fileID: 11400000, guid: 7c1a1af08aa73a74d9bab69384089355, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: blink
+    second: {fileID: 11400000, guid: 29aefa20f3524c04c9222edd6383b571, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: blinkLeft
+    second: {fileID: 11400000, guid: 4285944650c679c4d8ae82e0542d6b5e, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: blinkRight
+    second: {fileID: 11400000, guid: 946b172a439769d488acdb56b21f3197, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: ee
+    second: {fileID: 11400000, guid: ef98e61190d2193499e1f02a01815400, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: happy
+    second: {fileID: 11400000, guid: e08966e3d23603a40826db995a23df00, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: ih
+    second: {fileID: 11400000, guid: 4929701fa166ead4cbab7e3f001494f9, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: lookDown
+    second: {fileID: 11400000, guid: e1be9f06b5ea9c949a6d3e1840a13761, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: lookLeft
+    second: {fileID: 11400000, guid: c94a906f7bcc8fc43a56ac54771581f7, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: lookRight
+    second: {fileID: 11400000, guid: edf38e8f6cdfa094e8c72c5492059ef3, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: lookUp
+    second: {fileID: 11400000, guid: 74553756a34292f49b0ab775b79875d5, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: neutral
+    second: {fileID: 11400000, guid: 5d06c025ce8ab2747bd9127768945205, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: oh
+    second: {fileID: 11400000, guid: 79b2c436c12f93e4a853e7585dc82be2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: ou
+    second: {fileID: 11400000, guid: 780cf7ae451146a4c92b5da662fb428b, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: relaxed
+    second: {fileID: 11400000, guid: e377d4d2104155749a4468ca497c7d17, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: sad
+    second: {fileID: 11400000, guid: e2e53609e2fd03146b90a90cbc6b50e2, type: 2}
+  - first:
+      type: UniVRM10:VRM10Expression
+      assembly: VRM10
+      name: surprised
+    second: {fileID: 11400000, guid: c5110c939b2df3a4ca44c12b156c32fd, type: 2}
+  - first:
+      type: UniVRM10:VRM10Object
+      assembly: VRM10
+      name: _vrm1_
+    second: {fileID: 5929401533440927806, guid: 100326d6300ec0e48b39a65f6ab9bab2, type: 3}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: f66ead3390398f443aa127b741826ad9, type: 3}
+  MigrateToVrm1: 0
+  RenderPipeline: 0
