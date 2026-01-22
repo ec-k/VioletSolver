@@ -31,8 +31,8 @@ namespace VioletSolver.Development
         {
             Node[] face         = { new((int)kinectPoseIndex.EarLeft),        new((int)kinectPoseIndex.EyeLeft),        new((int)kinectPoseIndex.Nose),          new((int)kinectPoseIndex.EyeRight),      new((int)kinectPoseIndex.EarRight) };
             Node[] trunk        = { new((int)kinectPoseIndex.Pelvis),         new((int)kinectPoseIndex.SpineNaval),     new((int)kinectPoseIndex.SpineChest),    new((int)kinectPoseIndex.Neck),          new((int)kinectPoseIndex.Head) };
-            Node[] leftHand     = { new((int)kinectPoseIndex.HandtipLeft),    new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ThumbLeft),     new((int)kinectPoseIndex.ClavicleLeft),  new((int)kinectPoseIndex.SpineChest) };
-            Node[] leftArm      = { new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ElbowLeft),      new((int)kinectPoseIndex.ShoulderLeft) };
+            Node[] leftHand     = { new((int)kinectPoseIndex.HandtipLeft),    new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ThumbLeft) };   
+            Node[] leftArm      = { new((int)kinectPoseIndex.WristLeft),      new((int)kinectPoseIndex.ElbowLeft),      new((int)kinectPoseIndex.ShoulderLeft),  new((int)kinectPoseIndex.ClavicleLeft),  new((int)kinectPoseIndex.SpineChest) };
             Node[] leftLeg      = { new((int)kinectPoseIndex.AnkleLeft),      new((int)kinectPoseIndex.KneeLeft),       new((int)kinectPoseIndex.HipLeft),       new((int)kinectPoseIndex.Pelvis) };
             Node[] leftFoot     = { new((int)kinectPoseIndex.FootLeft),       new((int)kinectPoseIndex.AnkleLeft) };
             Node[] rightHand    = { new((int)kinectPoseIndex.HandtipRight),   new((int)kinectPoseIndex.WristRight),     new((int)kinectPoseIndex.ThumbRight) };
