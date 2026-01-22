@@ -132,8 +132,12 @@ namespace VioletSolver.Development
                 }
 
                 // Apply calibration scale to position data.
+                var scale = 1f;
                 if (_armLengthCalibrator is { IsCalibrated: true })
-                    animationData.PoseData.ScalePositions(_armLengthCalibrator.Scale);
+                {
+                    scale = _armLengthCalibrator.Scale;
+                    animationData.PoseData.ScalePositions(scale);
+                }
 
                 animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
                 if (animationData.PerfectSyncBlendshapes != null && _isPerfectSyncEnabled)
@@ -142,6 +146,13 @@ namespace VioletSolver.Development
                     animationData.VrmBlendshapes = _vrmBlendshapeInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
 
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _enableLeg, _offset);
+
+                // Update landmark visualization with the same scale applied to the avatar.
+                if (_landmarkVisualizer is not null)
+                {
+                    _landmarkVisualizer.SetScale(scale);
+                    _landmarkVisualizer.UpdateVisualization();
+                }
             }
         }
     }

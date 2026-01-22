@@ -29,6 +29,10 @@ namespace VioletSolver.Development
         [SerializeField] Material _poseVisualMaterial;
         [SerializeField] Material _handVisualMaterial;
 
+        [Header("External Control")]
+        [SerializeField] bool _isExternallyControlled = false;
+        float _scale = 1f;
+
         void Reset()
         {
             _posePosOffset  = new(0, 0, 1f);
@@ -76,12 +80,33 @@ namespace VioletSolver.Development
 
         void Update()
         {
+            if (_isExternallyControlled)
+                return;
+
+            UpdateVisualization();
+        }
+
+        /// <summary>
+        /// Sets the scale factor to apply to pose landmarks.
+        /// Call this before UpdateVisualization() when externally controlled.
+        /// </summary>
+        public void SetScale(float scale)
+        {
+            _scale = scale;
+        }
+
+        /// <summary>
+        /// Updates the landmark visualization.
+        /// Call this externally when _isExternallyControlled is true.
+        /// </summary>
+        public void UpdateVisualization()
+        {
             // Visualize Pose
             {
                 var lm = _landmarkHandler.Landmarks.Pose;
                 if (lm != null)
                 {
-                    _poseLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(lm), _posePosOffset);
+                    _poseLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(lm, _scale), _posePosOffset);
                 }
             }
             // Visualize Left Hand
@@ -90,7 +115,6 @@ namespace VioletSolver.Development
                 if (lm != null)
                 {
                     _leftHandLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(lm), _lHandPosOffset);
-
                 }
             }
             // Visualize Right Hand
@@ -103,11 +127,11 @@ namespace VioletSolver.Development
             }
         }
 
-        Vector3[] ExtractPositions(in ILandmarkList lm)
+        Vector3[] ExtractPositions(in ILandmarkList lm, float scale = 1f)
         {
             var pos = new Vector3[lm.Count];
-            for(var i = 0;i < lm.Count;i++) 
-                pos[i] = lm.Landmarks[i].Position;
+            for(var i = 0;i < lm.Count;i++)
+                pos[i] = lm.Landmarks[i].Position * scale;
             return pos;
         }
     }
