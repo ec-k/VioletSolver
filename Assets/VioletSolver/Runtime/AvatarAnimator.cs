@@ -213,24 +213,25 @@ namespace VioletSolver
                 _ikRigRoot.transform.position = offset.position;
                 _ikRigRoot.transform.rotation = offset.rotation;
             }
+            else
+            {
+                _ikRigRoot.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            }
 
-            // Spine targets.
+            // Set all IK targets first.
             _vrik.solver.spine.headTarget.localPosition = pose.HeadPosition;
             _vrik.solver.spine.headTarget.localRotation = pose.Head;
             _vrik.solver.spine.pelvisTarget.localPosition = pose.HipsPosition;
             _vrik.solver.spine.pelvisTarget.localRotation = pose.Hips;
 
-            // Left arm targets.
             _vrik.solver.leftArm.target.localPosition = pose.LeftHandPosition;
             _vrik.solver.leftArm.target.localRotation = pose.LeftHand;
             _vrik.solver.leftArm.bendGoal.localPosition = pose.LeftElbowPosition;
 
-            // Right arm targets.
             _vrik.solver.rightArm.target.localPosition = pose.RightHandPosition;
             _vrik.solver.rightArm.target.localRotation = pose.RightHand;
             _vrik.solver.rightArm.bendGoal.localPosition = pose.RightElbowPosition;
 
-            // Leg targets.
             var legWeight = enableLeg ? 1f : 0f;
             _vrik.solver.leftLeg.positionWeight = legWeight;
             _vrik.solver.leftLeg.rotationWeight = legWeight;
@@ -249,6 +250,28 @@ namespace VioletSolver
                 _vrik.solver.rightLeg.target.localRotation = pose.RightFoot;
                 _vrik.solver.rightLeg.bendGoal.localPosition = pose.RightKneePosition;
             }
+
+            // Calculate the avatar root position.
+            // Use head as the horizontal reference, and place root below all joints.
+            var headWorldPos = _vrik.solver.spine.headTarget.position;
+            var minY = Mathf.Min(
+                _vrik.solver.spine.headTarget.position.y,
+                _vrik.solver.spine.pelvisTarget.position.y,
+                _vrik.solver.leftArm.target.position.y,
+                _vrik.solver.rightArm.target.position.y
+            );
+            if (enableLeg)
+            {
+                minY = Mathf.Min(
+                    minY,
+                    _vrik.solver.leftLeg.target.position.y,
+                    _vrik.solver.rightLeg.target.position.y
+                );
+            }
+
+            // Place root below all joints with a small margin.
+            Animator.transform.position = new Vector3(headWorldPos.x, minY - 0.1f, headWorldPos.z);
+            Animator.transform.rotation = offset?.rotation ?? Quaternion.identity;
         }
 
         void ApplyLocal(Animator animator, AvatarPoseData pose, HumanBodyBones boneName)
