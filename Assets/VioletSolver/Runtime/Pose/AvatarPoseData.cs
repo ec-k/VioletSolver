@@ -258,5 +258,31 @@ namespace VioletSolver.Pose
             RightLittleIntermediate = handData.PinkyPIP;
             RightLittleDistal = handData.PinkyDIP;
         }
+
+        /// <summary>
+        /// Scales all IK target positions by the given factor.
+        /// </summary>
+        public void ScalePositions(float scale)
+        {
+            HipsPosition *= scale;
+            ChestPosition *= scale;
+            HeadPosition *= scale;
+
+            LeftShoulderPosition *= scale;
+            LeftElbowPosition *= scale;
+            LeftHandPosition *= scale;
+
+            RightShoulderPosition *= scale;
+            RightElbowPosition *= scale;
+            RightHandPosition *= scale;
+
+            LeftThighPosition *= scale;
+            LeftKneePosition *= scale;
+            LeftFootPosition *= scale;
+
+            RightThighPosition *= scale;
+            RightKneePosition *= scale;
+            RightFootPosition *= scale;
+        }
     }
 }
