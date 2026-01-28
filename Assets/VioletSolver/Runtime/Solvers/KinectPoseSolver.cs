@@ -11,11 +11,12 @@ using VioletSolver.Landmarks;
 using VioletSolver.Pose;
 using poseIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
 
+
 namespace VioletSolver.Solver
 {
 	internal class KinectPoseSolver
 	{
-		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBonePositions restBonePositions, AvatarBoneRotations restBoneRotations, bool useIk)
 		{
             AvatarPoseData pose = new();
 
@@ -53,7 +54,7 @@ namespace VioletSolver.Solver
 				}
 
 				if (useIk)
-					SolveIkTargets(landmarks, ref pose);
+					SolveIkTargets(landmarks, ref pose, restBoneRotations);
 				else
 				{
 					// Arms
@@ -105,10 +106,11 @@ namespace VioletSolver.Solver
 			return (rootRot, midRot);
 		}
 
-        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose)
+        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose, AvatarBoneRotations restBoneRotations)
         {
-			pose.HeadPosition = landmarks[(int)poseIndex.Head].Position;
-			pose.HipsPosition = landmarks[(int)poseIndex.Pelvis].Position;
+            // Positions
+            pose.HeadPosition = landmarks[(int)poseIndex.Head].Position;
+            pose.HipsPosition = landmarks[(int)poseIndex.Pelvis].Position;
 			pose.ChestPosition = landmarks[(int)poseIndex.SpineChest].Position;
 
             pose.LeftHandPosition = landmarks[(int)poseIndex.WristLeft].Position;
@@ -126,6 +128,10 @@ namespace VioletSolver.Solver
             pose.RightThighPosition = landmarks[(int)poseIndex.HipRight].Position;
             pose.RightKneePosition = landmarks[(int)poseIndex.KneeRight].Position;
             pose.RightFootPosition = landmarks[(int)poseIndex.AnkleRight].Position;
+
+            // Rotations
+			if(landmarks[(int)poseIndex.Head].Rotation.HasValue)
+				pose.Head = landmarks[(int)poseIndex.Head].Rotation.Value * restBoneRotations.Head;
         }
     }
 }
