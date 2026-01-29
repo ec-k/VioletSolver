@@ -4,7 +4,7 @@ using HumanoidPoseConnector;
 
 using VioletSolver.Pose;
 using VioletSolver.LandmarkProviders;
-using VioletSolver.Landmarks;
+
 
 namespace VioletSolver.Development
     {
@@ -34,7 +34,7 @@ namespace VioletSolver.Development
         [SerializeField] int _calibrationSamples = 30;
 
         [Header("Misc")]
-        [SerializeField]bool _isRealtime = true;
+        [SerializeField] bool _isRealtime = true;
         [SerializeField] SkinnedMeshRenderer _faceAssetObject;
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
