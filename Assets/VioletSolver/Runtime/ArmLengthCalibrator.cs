@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VioletSolver.Landmarks;
 using kinectIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
@@ -18,6 +19,35 @@ namespace VioletSolver
         readonly List<float> _userArmLengthSamples = new();
         readonly int _requiredSamples;
         readonly float _outlierThreshold;
+
+        readonly HumanBodyBones[] _avatarLeftArmBones = new HumanBodyBones[]
+        {
+            HumanBodyBones.LeftUpperArm,
+            HumanBodyBones.LeftLowerArm,
+            HumanBodyBones.LeftHand,
+            //HumanBodyBones.LeftMiddleDistal
+        };
+        readonly HumanBodyBones[] _avatarRightArmBones = new HumanBodyBones[]
+        {
+            HumanBodyBones.RightUpperArm,
+            HumanBodyBones.RightLowerArm,
+            HumanBodyBones.RightHand,
+            //HumanBodyBones.RightMiddleDistal
+        };
+        readonly kinectIndex[] _userLeftArmBones = new kinectIndex[]
+        {
+            kinectIndex.ShoulderLeft,
+            kinectIndex.ElbowLeft,
+            kinectIndex.WristLeft,
+            //kinectIndex.HandtipLeft
+        };
+        readonly kinectIndex[] _userRightArmBones = new kinectIndex[]
+        {
+            kinectIndex.ShoulderRight,
+            kinectIndex.ElbowRight,
+            kinectIndex.WristRight,
+            //kinectIndex.HandtipRight
+        };
 
         /// <summary>
         /// Creates a new ArmLengthCalibrator.
@@ -108,30 +138,31 @@ namespace VioletSolver
         float CalculateAvatarArmLength(Animator animator)
         {
             // Calculate average of both arms.
-            var leftLength = CalculateAvatarSingleArmLength(animator,
-                HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftLowerArm, HumanBodyBones.LeftHand);
-            var rightLength = CalculateAvatarSingleArmLength(animator,
-                HumanBodyBones.RightUpperArm, HumanBodyBones.RightLowerArm, HumanBodyBones.RightHand);
+            var leftLength = CalculateAvatarSingleArmLength(animator, _avatarLeftArmBones);
+            var rightLength = CalculateAvatarSingleArmLength(animator, _avatarRightArmBones);
 
             return (leftLength + rightLength) / 2f;
         }
 
-        float CalculateAvatarSingleArmLength(Animator animator,
-            HumanBodyBones shoulder, HumanBodyBones elbow, HumanBodyBones wrist)
+        float CalculateAvatarSingleArmLength(Animator animator, HumanBodyBones[] boneNames)
+            //HumanBodyBones shoulder, HumanBodyBones elbow, HumanBodyBones wrist, HumanBodyBones handTip)
         {
-            var shoulderPos = animator.GetBoneTransform(shoulder).position;
-            var elbowPos = animator.GetBoneTransform(elbow).position;
-            var wristPos = animator.GetBoneTransform(wrist).position;
+            var length = 0f;
 
-            return (elbowPos - shoulderPos).magnitude + (wristPos - elbowPos).magnitude;
+            for(var i=0;i<boneNames.Length - 1;i++)
+            {
+                var startPos = animator.GetBoneTransform(boneNames[i]).position;
+                var endPos = animator.GetBoneTransform(boneNames[i + 1]).position;
+                length += (endPos - startPos).magnitude;
+            }
+
+            return length;
         }
 
         float CalculateUserArmLength(ILandmarkList landmarks)
         {
-            var leftLength = CalculateUserSingleArmLength(landmarks,
-                kinectIndex.ShoulderLeft, kinectIndex.ElbowLeft, kinectIndex.WristLeft);
-            var rightLength = CalculateUserSingleArmLength(landmarks,
-                kinectIndex.ShoulderRight, kinectIndex.ElbowRight, kinectIndex.WristRight);
+            var leftLength = CalculateUserSingleArmLength(landmarks, _userLeftArmBones);
+            var rightLength = CalculateUserSingleArmLength(landmarks, _userRightArmBones);
 
             // Use average of both arms, but skip if either is invalid.
             if (leftLength <= 0f || rightLength <= 0f)
@@ -140,23 +171,22 @@ namespace VioletSolver
             return (leftLength + rightLength) / 2f;
         }
 
-        float CalculateUserSingleArmLength(ILandmarkList landmarks,
-            kinectIndex shoulder, kinectIndex elbow, kinectIndex wrist)
+        float CalculateUserSingleArmLength(ILandmarkList landmarks, kinectIndex[] boneNames)
         {
-            var shoulderLandmark = landmarks.Landmarks[(int)shoulder];
-            var elbowLandmark = landmarks.Landmarks[(int)elbow];
-            var wristLandmark = landmarks.Landmarks[(int)wrist];
+            var length = 0f;
 
-            // Check confidence if available.
-            if (shoulderLandmark.Confidence < 0.5f ||
-                elbowLandmark.Confidence < 0.5f ||
-                wristLandmark.Confidence < 0.5f)
-                return 0f;
+            for(var i=0;i<boneNames.Length - 1;i++)
+            {
+                var startLandmark = landmarks.Landmarks[(int)boneNames[i]];
+                var endLandmark = landmarks.Landmarks[(int)boneNames[i + 1]];
+                // Check confidence if available.
+                if (startLandmark.Confidence < 0.5f ||
+                    endLandmark.Confidence < 0.5f)
+                    return 0f;
+                length += (endLandmark.Position - startLandmark.Position).magnitude;
+            }
 
-            var upperArm = (elbowLandmark.Position - shoulderLandmark.Position).magnitude;
-            var lowerArm = (wristLandmark.Position - elbowLandmark.Position).magnitude;
-
-            return upperArm + lowerArm;
+            return length;
         }
     }
 }
