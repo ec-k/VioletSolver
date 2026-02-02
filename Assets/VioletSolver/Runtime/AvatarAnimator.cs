@@ -1,11 +1,6 @@
-using Cysharp.Threading.Tasks;
 using RootMotion.FinalIK;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using UniVRM10;
 using VioletSolver.Pose;
 using VioletSolver.Solver;
 using VRM;
@@ -15,39 +10,38 @@ using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 //  1. gets landmarks and filters landmarks (in _landmarkHandler)
 //  2. solve landmarks to avatar pose
 //  3. filters pose and apply pose to avatar (in _avatarPoseHandler)
-namespace VioletSolver 
+namespace VioletSolver
 {
     public class AvatarAnimator
     {
         public Animator Animator { get; set; }
-        public VRMBlendShapeProxy BlendShapeProxy { get; set; }
-        public Vrm10RuntimeExpression Expression { get; set; }
         readonly GameObject _ikRigRoot;
-        readonly bool _isPerfectSyncEnabled = false;
 
         readonly LandmarkHandler _landmarkHandler;
         readonly PoseHandler _avatarPoseHandler;
         readonly AvatarBonePositions _restBonePositions;
         readonly AvatarBoneRotations _restBoneRotations;
 
+        readonly IBlendshapeSolver _blendshapeSolver;
+        readonly IFaceApplier _faceApplier;
+
         readonly VRIK _vrik;
 
-        bool _isVrm10;
-
         public AvatarAnimator(
             GameObject ikRigRoot,
             Animator animator,
-            VRMBlendShapeProxy blendShapeProxy,
             LandmarkHandler landmarkHandler,
-            bool isPerfectSyncEnabled)
+            IBlendshapeSolver blendshapeSolver,
+            IFaceApplier faceApplier)
         {
             _landmarkHandler = landmarkHandler;
             _avatarPoseHandler = new();
 
+            _blendshapeSolver = blendshapeSolver;
+            _faceApplier = faceApplier;
+
             _ikRigRoot = ikRigRoot;
             Animator = animator;
-            BlendShapeProxy = blendShapeProxy;
-            _isPerfectSyncEnabled = isPerfectSyncEnabled;
 
             _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
             _restBoneRotations = AvatarBoneRotationsInitializer.CreateFromAnimator(animator);
@@ -56,34 +50,6 @@ namespace VioletSolver
                 _ikRigRoot,
                 Animator,
                 out _vrik);
-
-            _isVrm10 = false;
-        }
-
-        public AvatarAnimator(
-            GameObject ikRigRoot,
-            Animator animator,
-            Vrm10RuntimeExpression expression,
-            LandmarkHandler landmarkHandler,
-            bool isPerfectSyncEnabled)
-        {
-            _landmarkHandler = landmarkHandler;
-            _avatarPoseHandler = new();
-
-            _ikRigRoot = ikRigRoot;
-            Animator = animator;
-            Expression = expression;
-            _isPerfectSyncEnabled = isPerfectSyncEnabled;
-
-            _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
-            _restBoneRotations = AvatarBoneRotationsInitializer.CreateFromAnimator(animator);
-
-            VRIKSetup.Initialize(
-                _ikRigRoot,
-                Animator,
-                out _vrik);
-
-            _isVrm10 = true;
         }
 
         public AnimationResultData CalculateAnimationData(bool isIkEnabled)
@@ -92,15 +58,24 @@ namespace VioletSolver
 
             Dictionary<BlendShapePreset, float> vrmBs = null;
             Dictionary<mpBlendshapes, float> mpBs = null;
-            if (_isPerfectSyncEnabled)
+
+            var bsResult = _blendshapeSolver.Solve(_landmarkHandler.MpBlendshapes);
+            if (bsResult is not null)
             {
-                UpdateBlendshapesPerfectly();
-                mpBs = _avatarPoseHandler.PerfectSyncWeights;
-            }
-            else
-            {
-                UpdateBlendshapes();
-                vrmBs = _avatarPoseHandler.BlendshapeWeights;
+                if (bsResult.VrmBlendshapes is not null)
+                {
+                    _avatarPoseHandler.Update(bsResult.VrmBlendshapes);
+                    vrmBs = _avatarPoseHandler.BlendshapeWeights;
+                }
+
+                if (bsResult.PerfectSyncBlendshapes is not null)
+                {
+                    _avatarPoseHandler.Update(bsResult.PerfectSyncBlendshapes);
+                    mpBs = _avatarPoseHandler.PerfectSyncWeights;
+                }
+
+                _avatarPoseHandler.Update(HumanBodyBones.LeftEye, bsResult.LeftEye);
+                _avatarPoseHandler.Update(HumanBodyBones.RightEye, bsResult.RightEye);
             }
 
             return new AnimationResultData
@@ -117,24 +92,10 @@ namespace VioletSolver
 
             AnimateAvatar(Animator, data.PoseData, isIkEnabled, enableLeg, offset);
 
-            if (_isPerfectSyncEnabled)
-            {
-                if (data.PerfectSyncBlendshapes is null) return;
-
-                if (_isVrm10)
-                    AnimateFace(Expression, data.PerfectSyncBlendshapes);
-                else
-                    AnimateFace(BlendShapeProxy, data.PerfectSyncBlendshapes);
-            }
-            else
-            {
-                if (data.VrmBlendshapes is null) return;
-
-                if(_isVrm10)
-                    AnimateFace(Expression, data.VrmBlendshapes);
-                else
-                    AnimateFace(BlendShapeProxy, data.VrmBlendshapes);
-            }
+            if (data.VrmBlendshapes is not null)
+                _faceApplier.Apply(data.VrmBlendshapes);
+            else if (data.PerfectSyncBlendshapes is not null)
+                _faceApplier.Apply(data.PerfectSyncBlendshapes);
         }
 
         /// <summary>
@@ -148,28 +109,6 @@ namespace VioletSolver
             var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _restBoneRotations, isIkEnabled, isKinectPose);
             pose.time = isKinectPose ? landmarks.KinectPose.Time : landmarks.MediaPipePose.Time;
             _avatarPoseHandler.Update(pose);
-        }
-        void UpdateBlendshapes()
-        {
-            var mpBlendshapes = _landmarkHandler.MpBlendshapes;
-            if (mpBlendshapes == null ||
-                mpBlendshapes.Count <= 0)
-                return;
-            var (blendshapes, leftEye, rightEye) = HolisticSolver.Solve(mpBlendshapes);
-            _avatarPoseHandler.Update(blendshapes);
-            _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
-            _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
-        }
-        void UpdateBlendshapesPerfectly()
-        {
-            var mpBlendshapes = _landmarkHandler.MpBlendshapes;
-            if (mpBlendshapes == null ||
-                mpBlendshapes.Count <= 0)
-                return;
-            var (blendshapes, leftEye, rightEye) = HolisticSolver.SolvePerfectly(mpBlendshapes);
-            _avatarPoseHandler.Update(blendshapes);
-            _avatarPoseHandler.Update(HumanBodyBones.LeftEye, leftEye);
-            _avatarPoseHandler.Update(HumanBodyBones.RightEye, rightEye);
         }
 
         void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool enableLeg, Transform? offset = null)
@@ -286,87 +225,6 @@ namespace VioletSolver
                 animator.GetBoneTransform(boneName).rotation = offset.rotation * pose[boneName];
             else
                 animator.GetBoneTransform(boneName).rotation = pose[boneName];
-        }
-
-        void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<BlendShapePreset, float> blendshapes)
-        {
-            var bs = new Dictionary<BlendShapeKey, float>();
-
-            var tmpArray = Enum.GetValues(typeof(BlendShapePreset));
-            foreach (var value in tmpArray)
-            {
-                var blendshapeIndex = (BlendShapePreset)value;
-                if (blendshapes.TryGetValue(blendshapeIndex, out var blendshape))
-                    bs[BlendShapeKey.CreateFromPreset(blendshapeIndex)] = blendshape;
-            }
-
-            proxy.SetValues(bs);
-        }        
-        
-        void AnimateFace(VRMBlendShapeProxy proxy, Dictionary<mpBlendshapes, float> blendshapes)
-        {
-            var bs = new Dictionary<BlendShapeKey, float>();
-
-            var tmpArray = Enum.GetValues(typeof(mpBlendshapes));
-            foreach (var value in tmpArray)
-            {
-                var blendshapeIndex = (mpBlendshapes)value;
-                if (blendshapes.TryGetValue(blendshapeIndex, out var blendshape))
-                    bs[BlendShapeKey.CreateUnknown(blendshapeIndex.ToString())] = blendshape;
-            }
-
-            proxy.SetValues(bs);
-        }
-
-        void AnimateFace(Vrm10RuntimeExpression expression, Dictionary<BlendShapePreset, float> blendshapes)
-        {
-            var expressionDicrionary = Enumerable.Range(0, Enum.GetValues(typeof(BlendShapePreset)).Length)
-                .Select(i =>
-                {
-                    var vrm0xKey = (BlendShapePreset)i;
-
-                    // NOTE: This process can NOT handles new expression "surprised".
-                    var vrm10Key = vrm0xKey switch
-                    {
-                        BlendShapePreset.Joy => ExpressionPreset.happy,
-                        BlendShapePreset.Angry => ExpressionPreset.angry,
-                        BlendShapePreset.Sorrow => ExpressionPreset.sad,
-                        BlendShapePreset.Fun => ExpressionPreset.relaxed,
-                        BlendShapePreset.A => ExpressionPreset.aa,
-                        BlendShapePreset.I => ExpressionPreset.ih,
-                        BlendShapePreset.U => ExpressionPreset.ou,
-                        BlendShapePreset.E => ExpressionPreset.ee,
-                        BlendShapePreset.O => ExpressionPreset.oh,
-                        _ => ExpressionPreset.custom
-                    };
-
-                    return new KeyValuePair<ExpressionKey, float>
-                    (
-                        ExpressionKey.CreateFromPreset(vrm10Key),
-                        blendshapes[(BlendShapePreset)i]
-                    );
-                })
-                .ToDictionary(
-                    item => item.Key,
-                    item => item.Value
-                );
-
-            foreach (var kvp in expressionDicrionary)
-                expression.SetWeight(kvp.Key, kvp.Value);
-        }
-
-        void AnimateFace(Vrm10RuntimeExpression expression, Dictionary<mpBlendshapes, float> blendshapes)
-        {
-            var expressionDicrionary = Enumerable.Range(0, (int)mpBlendshapes.Length)
-                .Select(i => (mpBlendshapes)i)
-                .Where(mpKey => blendshapes.ContainsKey(mpKey))
-                .ToDictionary(
-                    mpKey => ExpressionKey.CreateCustom(Enum.GetName(typeof(mpBlendshapes), mpKey)),
-                    mpKey => blendshapes[mpKey]
-                );
-
-            foreach (var kvp in  expressionDicrionary)
-                expression.SetWeight(kvp.Key, kvp.Value);
         }
     }
 }
