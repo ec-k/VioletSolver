@@ -5,12 +5,20 @@ using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
+    /// <summary>
+    /// Applies blendshapes to VRM 0.x format avatars.
+    /// </summary>
     public class Vrm0xFaceApplier : IFaceApplier
     {
         readonly VRMBlendShapeProxy _proxy;
 
+        /// <summary>
+        /// Initializes a FaceApplier for VRM 0.x.
+        /// </summary>
+        /// <param name="proxy">The VRMBlendShapeProxy component.</param>
         public Vrm0xFaceApplier(VRMBlendShapeProxy proxy) => _proxy = proxy;
 
+        /// <inheritdoc/>
         public void Apply(IReadOnlyDictionary<BlendShapePreset, float> blendshapes)
         {
             var bs = new Dictionary<BlendShapeKey, float>();
@@ -26,6 +34,7 @@ namespace VioletSolver
             _proxy.SetValues(bs);
         }
 
+        /// <inheritdoc/>
         public void Apply(IReadOnlyDictionary<MediaPipeBlendshapes, float> blendshapes)
         {
             var bs = new Dictionary<BlendShapeKey, float>();

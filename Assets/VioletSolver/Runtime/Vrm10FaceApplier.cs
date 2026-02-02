@@ -7,12 +7,20 @@ using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
+    /// <summary>
+    /// Applies blendshapes to VRM 1.0 format avatars.
+    /// </summary>
     public class Vrm10FaceApplier : IFaceApplier
     {
         readonly Vrm10RuntimeExpression _expression;
 
+        /// <summary>
+        /// Initializes a FaceApplier for VRM 1.0.
+        /// </summary>
+        /// <param name="expression">The Vrm10RuntimeExpression component.</param>
         public Vrm10FaceApplier(Vrm10RuntimeExpression expression) => _expression = expression;
 
+        /// <inheritdoc/>
         public void Apply(IReadOnlyDictionary<BlendShapePreset, float> blendshapes)
         {
             var expressionDictionary = Enumerable.Range(0, Enum.GetValues(typeof(BlendShapePreset)).Length)
@@ -50,6 +58,7 @@ namespace VioletSolver
                 _expression.SetWeight(kvp.Key, kvp.Value);
         }
 
+        /// <inheritdoc/>
         public void Apply(IReadOnlyDictionary<MediaPipeBlendshapes, float> blendshapes)
         {
             var expressionDictionary = Enumerable.Range(0, (int)MediaPipeBlendshapes.Length)

@@ -4,8 +4,12 @@ using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
+    /// <summary>
+    /// Solver that converts MediaPipe blendshapes to VRM BlendShapePresets using the standard method.
+    /// </summary>
     public class StandardBlendshapeSolver : IBlendshapeSolver
     {
+        /// <inheritdoc/>
         public BlendshapeResult Solve(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
         {
             if (weights == null || weights.Count <= 0)

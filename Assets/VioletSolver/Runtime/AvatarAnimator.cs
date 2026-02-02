@@ -27,6 +27,14 @@ namespace VioletSolver
 
         readonly VRIK _vrik;
 
+        /// <summary>
+        /// Initializes an AvatarAnimator and sets up the VRIK component.
+        /// </summary>
+        /// <param name="ikRigRoot">The root GameObject for the IK rig.</param>
+        /// <param name="animator">The avatar's Animator component.</param>
+        /// <param name="landmarkHandler">The handler that receives and filters landmarks.</param>
+        /// <param name="blendshapeSolver">The solver that resolves blendshapes.</param>
+        /// <param name="faceApplier">The applier that applies facial expressions to the avatar.</param>
         public AvatarAnimator(
             GameObject ikRigRoot,
             Animator animator,
@@ -52,6 +60,11 @@ namespace VioletSolver
                 out _vrik);
         }
 
+        /// <summary>
+        /// Calculates pose and blendshape data from landmarks and returns the animation result.
+        /// </summary>
+        /// <param name="isIkEnabled">Whether to use IK.</param>
+        /// <returns>The calculated animation result data.</returns>
         public AnimationResultData CalculateAnimationData(bool isIkEnabled)
         {
             UpdatePose(isIkEnabled);
@@ -86,6 +99,13 @@ namespace VioletSolver
             };
         }
 
+        /// <summary>
+        /// Applies animation data to the avatar.
+        /// </summary>
+        /// <param name="data">The animation result data to apply.</param>
+        /// <param name="isIkEnabled">Whether to use IK.</param>
+        /// <param name="enableLeg">Whether to enable leg animation.</param>
+        /// <param name="offset">Position and rotation offset for the avatar.</param>
         public void ApplyAnimationData(AnimationResultData data, bool isIkEnabled, bool enableLeg, Transform? offset = null)
         {
             _vrik.enabled = isIkEnabled;

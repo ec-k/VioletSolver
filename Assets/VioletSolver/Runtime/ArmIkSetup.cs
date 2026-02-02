@@ -5,6 +5,19 @@ namespace VioletSolver
 {
     public static class ArmIKSetup
     {
+        /// <summary>
+        /// Initializes ArmIK components and IK targets for both arms.
+        /// </summary>
+        /// <param name="ikRigRoot">The root GameObject for the IK rig.</param>
+        /// <param name="animator">The avatar's Animator component.</param>
+        /// <param name="leftShoulderTarget">The left shoulder IK target.</param>
+        /// <param name="leftElbowTarget">The left elbow IK target.</param>
+        /// <param name="leftHandTarget">The left hand IK target.</param>
+        /// <param name="rightShoulderTarget">The right shoulder IK target.</param>
+        /// <param name="rightElbowTarget">The right elbow IK target.</param>
+        /// <param name="rightHandTarget">The right hand IK target.</param>
+        /// <param name="leftArmIk">The created left arm ArmIK component.</param>
+        /// <param name="rightArmIk">The created right arm ArmIK component.</param>
         public static void Initialize(
             GameObject ikRigRoot,
             Animator animator,

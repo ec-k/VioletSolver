@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace VioletSolver.Landmarks
 {
+    /// <summary>
+    /// Interface that holds pose, hand, and face landmarks.
+    /// </summary>
     public interface IHolisticLandmarks
     {
         public ILandmarkList Pose { get; }
@@ -11,9 +14,17 @@ namespace VioletSolver.Landmarks
         public ILandmarkList RightHand { get; }
         public ILandmarkList Face { get; }
 
+        /// <summary>
+        /// Updates the landmark data.
+        /// </summary>
+        /// <param name="landmarks">The received landmark data.</param>
+        /// <param name="time">The time the data was received.</param>
         public void UpdateLandmarks(HumanLandmarks.HolisticLandmarks landmarks, float time);
     }
 
+    /// <summary>
+    /// Interface that holds a list of landmarks.
+    /// </summary>
     public interface ILandmarkList
     {
         public List<Landmark> Landmarks { get; set;  }
@@ -21,6 +32,9 @@ namespace VioletSolver.Landmarks
         public float Time { get; }
     }
 
+    /// <summary>
+    /// Holds and updates a list of landmarks.
+    /// </summary>
     public class LandmarkList : ILandmarkList
     {
         public List<Landmark> Landmarks { get; set; }
@@ -33,12 +47,22 @@ namespace VioletSolver.Landmarks
             Time = 0f;
         }
 
+        /// <summary>
+        /// Updates the list with Landmark-type landmark data.
+        /// </summary>
+        /// <param name="landmarks">The landmark data.</param>
+        /// <param name="time">The time the data was received.</param>
         public void Set(IReadOnlyList<HumanLandmarks.Landmark> landmarks, float time)
         {
             for (var i = 0; i < Count; i++)
                 Landmarks[i] = new(landmarks[i]);
             Time = time;
         }
+        /// <summary>
+        /// Updates the list with LandmarkPoint-type landmark data.
+        /// </summary>
+        /// <param name="landmarks">The landmark point data.</param>
+        /// <param name="time">The time the data was received.</param>
         public void Set(IReadOnlyList<HumanLandmarks.LandmarkPoint> landmarks, float time)
         {
             for (var i = 0; i < Count; i++)
@@ -47,6 +71,9 @@ namespace VioletSolver.Landmarks
         }
     }
 
+    /// <summary>
+    /// Landmark data with position, rotation, and confidence.
+    /// </summary>
     public struct Landmark
     {
         public Vector3 Position { get; private set; }
@@ -95,6 +122,13 @@ namespace VioletSolver.Landmarks
             Confidence = confidence;
         }
 
+        /// <summary>
+        /// Linearly interpolates between two landmarks.
+        /// </summary>
+        /// <param name="l1">The start landmark.</param>
+        /// <param name="l2">The end landmark.</param>
+        /// <param name="amount">The interpolation factor (0 to 1).</param>
+        /// <returns>The interpolated landmark.</returns>
         public static Landmark Lerp(Landmark l1, Landmark l2, float amount)
         {
             Quaternion? rotation = l1.Rotation.HasValue && l2.Rotation.HasValue

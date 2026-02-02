@@ -3,6 +3,9 @@ using UnityEngine;
 namespace VioletSolver.Pose
 {
     // TODO: This class must have operator.
+    /// <summary>
+    /// Data class that holds all bone rotations and IK target positions for an avatar.
+    /// </summary>
     public class AvatarPoseData
     {
         public Quaternion this[HumanBodyBones boneName]
@@ -259,6 +262,9 @@ namespace VioletSolver.Pose
             RightLittleDistal = handData.PinkyDIP;
         }
 
+        /// <summary>
+        /// Creates a shallow copy of this instance.
+        /// </summary>
         public AvatarPoseData Copy() => (AvatarPoseData)MemberwiseClone();
 
         /// <summary>

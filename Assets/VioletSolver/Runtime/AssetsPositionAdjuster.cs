@@ -12,6 +12,9 @@ namespace VioletSolver
         public SkinnedMeshRenderer Body;
         public SkinnedMeshRenderer Hair;
 
+        /// <summary>
+        /// Adjusts the bounds center of Face, Body, and Hair renderers to align with bone positions.
+        /// </summary>
         public void Adjust()
         {
             if (Face != null) AdjustOneBounds(Face, Animator, HumanBodyBones.Head);

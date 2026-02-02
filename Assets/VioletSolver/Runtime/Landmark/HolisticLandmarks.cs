@@ -1,5 +1,8 @@
 namespace VioletSolver.Landmarks
 {
+    /// <summary>
+    /// Holds pose, hand, and face landmarks together.
+    /// </summary>
     public class HolisticLandmarks: IHolisticLandmarks
     {
         PoseLandmarks _pose;
@@ -14,6 +17,10 @@ namespace VioletSolver.Landmarks
         public ILandmarkList RightHand => _rightHand;
         public ILandmarkList Face      => _face;
 
+        /// <summary>
+        /// Initializes a new HolisticLandmarks instance.
+        /// </summary>
+        /// <param name="faceLandmarkLength">The number of face landmarks.</param>
         public HolisticLandmarks(int faceLandmarkLength)
         {
             var kinectPoseLength = (int)HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex.Length;
@@ -30,6 +37,11 @@ namespace VioletSolver.Landmarks
             _face      = new LandmarkList(faceLandmarkLength);
         }
 
+        /// <summary>
+        /// Updates each landmark list with the received landmark data.
+        /// </summary>
+        /// <param name="landmarks">The received HolisticLandmarks data.</param>
+        /// <param name="time">The time the data was received.</param>
         public void UpdateLandmarks(HumanLandmarks.HolisticLandmarks landmarks, float time)
         {
             var existKinectPose    = landmarks.KinectPoseLandmarks    != null;

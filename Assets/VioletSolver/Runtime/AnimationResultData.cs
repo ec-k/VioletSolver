@@ -12,6 +12,9 @@ namespace VioletSolver
         public Dictionary<BlendShapePreset, float> VrmBlendshapes;
         public IReadOnlyDictionary<mpBlendshapes, float> PerfectSyncBlendshapes;
 
+        /// <summary>
+        /// Creates a deep copy of this instance.
+        /// </summary>
         public AnimationResultData Copy() => new AnimationResultData
         {
             PoseData = PoseData?.Copy(),

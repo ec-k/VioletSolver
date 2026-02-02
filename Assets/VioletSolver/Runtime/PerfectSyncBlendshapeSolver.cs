@@ -4,8 +4,12 @@ using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
+    /// <summary>
+    /// Solver that applies MediaPipe blendshapes directly to the avatar using Perfect Sync.
+    /// </summary>
     public class PerfectSyncBlendshapeSolver : IBlendshapeSolver
     {
+        /// <inheritdoc/>
         public BlendshapeResult Solve(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
         {
             if (weights == null || weights.Count <= 0)

@@ -8,9 +8,9 @@ using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver
 {
-    // This class does
-    //  1. gets landmarks
-    //  2. filters landmarks
+    /// <summary>
+    /// Receives and filters landmarks.
+    /// </summary>
     public class LandmarkHandler
     {
         public HolisticLandmarks Landmarks { get; private set; }
@@ -18,6 +18,10 @@ namespace VioletSolver
 
         public bool IsKinectPose { get; private set; }
 
+        /// <summary>
+        /// Initializes the LandmarkHandler and subscribes to the landmark received event.
+        /// </summary>
+        /// <param name="receiver">The provider that supplies landmarks.</param>
         public LandmarkHandler(ILandmarkProvider receiver)
         {
             var faceLandmarkLength = 478; 
@@ -28,7 +32,7 @@ namespace VioletSolver
         }
 
         /// <summary>
-        ///     Update landmarks: gets landmarks and assign it to this.Landmarks.
+        /// Updates landmarks: gets landmarks and assigns them to this.Landmarks.
         /// </summary>
         internal void OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
         {

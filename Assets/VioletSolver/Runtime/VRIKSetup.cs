@@ -5,6 +5,12 @@ namespace VioletSolver
 {
     public static class VRIKSetup
     {
+        /// <summary>
+        /// Initializes the VRIK component and IK targets (head, pelvis, both arms, both legs).
+        /// </summary>
+        /// <param name="ikRigRoot">The root GameObject for the IK rig.</param>
+        /// <param name="animator">The avatar's Animator component.</param>
+        /// <param name="vrik">The created VRIK component.</param>
         public static void Initialize(
             GameObject ikRigRoot,
             Animator animator,

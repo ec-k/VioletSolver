@@ -9,6 +9,9 @@ using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
 namespace VioletSolver
 {
+	/// <summary>
+	/// Holds rotation data for each joint of a hand.
+	/// </summary>
 	public class HandData
 	{
 		public readonly int Length = 21;
@@ -36,7 +39,9 @@ namespace VioletSolver
 		public Quaternion PinkyDIP;
 		public Quaternion PinkyTIP;
 
-		// This uses the indexs MediaPipe.Hand
+		/// <summary>
+		/// Gets or sets joint rotation by MediaPipe.Hand index.
+		/// </summary>
 		public Quaternion this[int index]
 		{
 			get

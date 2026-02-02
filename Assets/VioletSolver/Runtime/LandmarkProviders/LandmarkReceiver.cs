@@ -8,6 +8,9 @@ using System.Diagnostics;
 
 namespace VioletSolver.LandmarkProviders 
 {
+    /// <summary>
+    /// Provider that receives landmark data over UDP.
+    /// </summary>
     public class LandmarkReceiver : LandmarkProviderBase, IDisposable
     {
         UdpClient _udpClient;
