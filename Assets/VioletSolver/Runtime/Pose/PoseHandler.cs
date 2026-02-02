@@ -17,7 +17,7 @@ namespace VioletSolver.Pose
         internal AvatarPoseData PoseData => _poseData;
 
         internal Dictionary<BlendShapePreset, float> BlendshapeWeights;
-        internal Dictionary<mpBlendshapes, float> PerfectSyncWeights;
+        internal IReadOnlyDictionary<mpBlendshapes, float> PerfectSyncWeights;
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
 
@@ -25,7 +25,7 @@ namespace VioletSolver.Pose
         {
             _poseData = new();
             BlendshapeWeights = new();
-            PerfectSyncWeights = new();
+            PerfectSyncWeights = new Dictionary<mpBlendshapes, float>();
 
             _vrmPoseFilters = new();
             //_vrmPoseFilters.Add(new LowPassFilter(0.6f));
@@ -66,7 +66,7 @@ namespace VioletSolver.Pose
                 }
             BlendshapeWeights = result;
         }
-        internal void Update(Dictionary<mpBlendshapes, float> weights)
+        internal void Update(IReadOnlyDictionary<mpBlendshapes, float> weights)
         {
             //var result = weights;
             //if (_blendshapeFilters != null)

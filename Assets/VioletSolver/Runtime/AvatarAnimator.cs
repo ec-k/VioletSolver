@@ -57,7 +57,7 @@ namespace VioletSolver
             UpdatePose(isIkEnabled);
 
             Dictionary<BlendShapePreset, float> vrmBs = null;
-            Dictionary<mpBlendshapes, float> mpBs = null;
+            IReadOnlyDictionary<mpBlendshapes, float> mpBs = null;
 
             var bsResult = _blendshapeSolver.Solve(_landmarkHandler.MpBlendshapes);
             if (bsResult is not null)

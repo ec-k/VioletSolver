@@ -13,7 +13,7 @@ namespace VioletSolver
 
         public Vrm10FaceApplier(Vrm10RuntimeExpression expression) => _expression = expression;
 
-        public void Apply(Dictionary<BlendShapePreset, float> blendshapes)
+        public void Apply(IReadOnlyDictionary<BlendShapePreset, float> blendshapes)
         {
             var expressionDictionary = Enumerable.Range(0, Enum.GetValues(typeof(BlendShapePreset)).Length)
                 .Select(i =>
@@ -50,7 +50,7 @@ namespace VioletSolver
                 _expression.SetWeight(kvp.Key, kvp.Value);
         }
 
-        public void Apply(Dictionary<MediaPipeBlendshapes, float> blendshapes)
+        public void Apply(IReadOnlyDictionary<MediaPipeBlendshapes, float> blendshapes)
         {
             var expressionDictionary = Enumerable.Range(0, (int)MediaPipeBlendshapes.Length)
                 .Select(i => (MediaPipeBlendshapes)i)

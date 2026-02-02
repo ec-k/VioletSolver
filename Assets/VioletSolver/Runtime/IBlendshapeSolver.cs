@@ -9,13 +9,13 @@ namespace VioletSolver
     public class BlendshapeResult
     {
         public Dictionary<BlendShapePreset, float> VrmBlendshapes;
-        public Dictionary<MediaPipeBlendshapes, float> PerfectSyncBlendshapes;
+        public IReadOnlyDictionary<MediaPipeBlendshapes, float> PerfectSyncBlendshapes;
         public Quaternion LeftEye;
         public Quaternion RightEye;
     }
 
     public interface IBlendshapeSolver
     {
-        BlendshapeResult Solve(Dictionary<MediaPipeBlendshapes, float> weights);
+        BlendshapeResult Solve(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights);
     }
 }

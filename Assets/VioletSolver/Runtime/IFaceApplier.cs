@@ -6,7 +6,7 @@ namespace VioletSolver
 {
     public interface IFaceApplier
     {
-        void Apply(Dictionary<BlendShapePreset, float> blendshapes);
-        void Apply(Dictionary<MediaPipeBlendshapes, float> blendshapes);
+        void Apply(IReadOnlyDictionary<BlendShapePreset, float> blendshapes);
+        void Apply(IReadOnlyDictionary<MediaPipeBlendshapes, float> blendshapes);
     }
 }

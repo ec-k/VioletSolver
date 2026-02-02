@@ -6,7 +6,7 @@ namespace VioletSolver
 {
     public class StandardBlendshapeSolver : IBlendshapeSolver
     {
-        public BlendshapeResult Solve(Dictionary<MediaPipeBlendshapes, float> weights)
+        public BlendshapeResult Solve(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
         {
             if (weights == null || weights.Count <= 0)
                 return null;

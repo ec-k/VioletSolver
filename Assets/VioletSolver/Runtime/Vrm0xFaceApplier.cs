@@ -11,7 +11,7 @@ namespace VioletSolver
 
         public Vrm0xFaceApplier(VRMBlendShapeProxy proxy) => _proxy = proxy;
 
-        public void Apply(Dictionary<BlendShapePreset, float> blendshapes)
+        public void Apply(IReadOnlyDictionary<BlendShapePreset, float> blendshapes)
         {
             var bs = new Dictionary<BlendShapeKey, float>();
 
@@ -26,7 +26,7 @@ namespace VioletSolver
             _proxy.SetValues(bs);
         }
 
-        public void Apply(Dictionary<MediaPipeBlendshapes, float> blendshapes)
+        public void Apply(IReadOnlyDictionary<MediaPipeBlendshapes, float> blendshapes)
         {
             var bs = new Dictionary<BlendShapeKey, float>();
 

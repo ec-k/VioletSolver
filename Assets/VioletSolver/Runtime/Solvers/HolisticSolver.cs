@@ -32,7 +32,7 @@ namespace VioletSolver.Solver
             return solvedPose;
         }
 
-        internal static (Dictionary<BlendShapePreset, float>, Quaternion, Quaternion) Solve(Dictionary<MediaPipeBlendshapes, float> weights)
+        internal static (Dictionary<BlendShapePreset, float>, Quaternion, Quaternion) Solve(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
         {
             var blendshapes = FaceSolver.SolveFacialExpression(weights);
             var (leftEyeRotation, rightEyeRotation) = FaceSolver.SolveEye(weights);
@@ -44,7 +44,7 @@ namespace VioletSolver.Solver
         /// </summary>
         /// <param name="weights"></param>
         /// <returns></returns>
-        internal static (Dictionary<MediaPipeBlendshapes, float>, Quaternion, Quaternion) SolvePerfectly(Dictionary<MediaPipeBlendshapes, float> weights)
+        internal static (IReadOnlyDictionary<MediaPipeBlendshapes, float>, Quaternion, Quaternion) SolvePerfectly(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
         {
             var blendshapes = FaceSolver.SolveFacialExpressionPerfectly(weights);
             var (leftEyeRotation, rightEyeRotation) = FaceSolver.SolveEye(weights);

@@ -34,7 +34,7 @@ namespace VioletSolver.Solver
 			return neckRotation;
 		}
 
-        internal static Dictionary<BlendShapePreset, float> SolveFacialExpression(Dictionary<blendshapeIndex, float> mp_blendshapes)
+        internal static Dictionary<BlendShapePreset, float> SolveFacialExpression(IReadOnlyDictionary<blendshapeIndex, float> mp_blendshapes)
 		{
 			var weights = new Dictionary<BlendShapePreset, float>();
 
@@ -56,12 +56,12 @@ namespace VioletSolver.Solver
         /// <param name="mp_blendshapes"></param>
         /// <returns></returns>
         // NOTE: Mediapipe Blendshapes' parameters are same as Apple ARkit Blendshapes.
-        internal static Dictionary<blendshapeIndex, float> SolveFacialExpressionPerfectly(Dictionary<blendshapeIndex, float> mp_blendshapes)
+        internal static IReadOnlyDictionary<blendshapeIndex, float> SolveFacialExpressionPerfectly(IReadOnlyDictionary<blendshapeIndex, float> mp_blendshapes)
         {
             return mp_blendshapes;
         }
 
-        internal static (Quaternion, Quaternion) SolveEye(Dictionary<blendshapeIndex, float> mp_blendshapes)
+        internal static (Quaternion, Quaternion) SolveEye(IReadOnlyDictionary<blendshapeIndex, float> mp_blendshapes)
 		{
             var weights = new Dictionary<BlendShapePreset, float>();
 			var (leftEye, rightEye) = (Quaternion.identity, Quaternion.identity);

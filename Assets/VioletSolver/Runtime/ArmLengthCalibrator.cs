@@ -114,9 +114,9 @@ namespace VioletSolver
             IsCalibrated = true;
         }
 
-        List<float> FilterOutliers(List<float> samples)
+        List<float> FilterOutliers(IReadOnlyList<float> samples)
         {
-            if (samples.Count == 0) return samples;
+            if (samples.Count == 0) return new();
 
             // Calculate median.
             var sorted = new List<float>(samples);

@@ -90,7 +90,7 @@ namespace VioletSolver.Solver
 			return ConvertData(angles);
 		}
 
-		private static HandData ConvertData(List<FingerAngle> angles) {
+		private static HandData ConvertData(IReadOnlyList<FingerAngle> angles) {
 			HandData rotation = new();
 			foreach (FingerAngle angle in angles) {
 				if (float.IsNaN(angle.angle.x)) continue;
