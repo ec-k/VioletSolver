@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using System.Net;
+using System.Diagnostics;
 
 namespace VioletSolver.LandmarkProviders 
 {
@@ -17,7 +18,7 @@ namespace VioletSolver.LandmarkProviders
 
         void Start()
         {
-            var ipEnd = new IPEndPoint(System.Net.IPAddress.Any, _port);
+            var ipEnd = new IPEndPoint(IPAddress.Any, _port);
             _udpClient = new UdpClient(ipEnd);
             var token = this.GetCancellationTokenOnDestroy();
             OnReceived(token).Forget();
@@ -41,14 +42,12 @@ namespace VioletSolver.LandmarkProviders
                     {
                         byte[] getByte = await ReceiveByte(token);
                         var receivedLandmarks = HumanLandmarks.HolisticLandmarks.Parser.ParseFrom(getByte);
-                        await UniTask.SwitchToMainThread();
-                        var receivedTime = UnityEngine.Time.time;  // NOTE: This process works only main thread.
-                        OnLandmarksReceived?.Invoke(receivedLandmarks, receivedTime);
-                        await UniTask.SwitchToThreadPool();
+                        var receivedTimeSec = (float)Stopwatch.GetTimestamp() / Stopwatch.Frequency;
+                        OnLandmarksReceived?.Invoke(receivedLandmarks, receivedTimeSec);
                     }
                     catch (Exception e) when (e is SocketException or ObjectDisposedException)
                     {
-                        Debug.LogError($"Exception: {e.Message}");
+                        UnityEngine.Debug.LogError($"Exception: {e.Message}");
                         return;
                     }
                 }
