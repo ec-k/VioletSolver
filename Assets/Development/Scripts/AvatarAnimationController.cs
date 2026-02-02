@@ -3,7 +3,6 @@ using VRM;
 using HumanoidPoseConnector;
 
 using VioletSolver.Pose;
-using VioletSolver.LandmarkProviders;
 
 
 namespace VioletSolver.Development
@@ -14,7 +13,7 @@ namespace VioletSolver.Development
         [SerializeField] Animator _animator;
         [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
         [SerializeField] GameObject _ikRigRoot;
-        [SerializeField] LandmarkReceiver _landmarkReceiver;
+        [SerializeField] LandmarkProviderBase _landmarkProvider;
         [SerializeField] LandmarkVisualizer _landmarkVisualizer;
         [SerializeField] HumanoidPoseReceiver _poseReceiver;
         [SerializeField] Transform _offset;
@@ -38,7 +37,6 @@ namespace VioletSolver.Development
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
-        ILandmarkProvider _landmarkProvider;
         ArmLengthCalibrator _armLengthCalibrator;
         LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
@@ -48,9 +46,7 @@ namespace VioletSolver.Development
         BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex> _perfectSyncBlendshapeInterpolator;
 
         void Awake()
-        {
-            _landmarkProvider = _landmarkReceiver;
-
+        {   
             if (_animator is null
                 || _blendshapeProxy is null
                 || _ikRigRoot is null
