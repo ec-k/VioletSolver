@@ -63,12 +63,18 @@ namespace VioletSolver.Development
             _assetsPositionSynchronizer.Adjust();
 
             _landmarkHandler = new LandmarkHandler(_landmarkProvider);
+
+            IBlendshapeSolver blendshapeSolver = _isPerfectSyncEnabled
+                ? new PerfectSyncBlendshapeSolver()
+                : new StandardBlendshapeSolver();
+            IFaceApplier faceApplier = new Vrm10FaceApplier(_vrm10Instance.Runtime.Expression);
+
             _avatarAnimator = new AvatarAnimator(
                 _ikRigRoot,
                 _animator,
-                _vrm10Instance.Runtime.Expression,
                 _landmarkHandler,
-                _isPerfectSyncEnabled
+                blendshapeSolver,
+                faceApplier
             );
             _poseInterpolator = new PoseInterpolator();
             _vrmExpressionInterpolator = new BlendshapeInterpolator<BlendShapePreset>();
@@ -97,9 +103,9 @@ namespace VioletSolver.Development
                 }
 
                 animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
-                if (animationData.PerfectSyncBlendshapes != null && _isPerfectSyncEnabled)
+                if (animationData.PerfectSyncBlendshapes is not null)
                     animationData.PerfectSyncBlendshapes = _perfectSyncExpressionInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
-                else if (animationData.VrmBlendshapes != null)
+                else if (animationData.VrmBlendshapes is not null)
                     animationData.VrmBlendshapes = _vrmExpressionInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
 
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false, _offset);
