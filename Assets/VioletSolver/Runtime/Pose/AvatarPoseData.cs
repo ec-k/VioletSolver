@@ -3,7 +3,7 @@ using UnityEngine;
 namespace VioletSolver.Pose
 {
     // TODO: This class must have operator.
-    public struct AvatarPoseData
+    public class AvatarPoseData
     {
         public Quaternion this[HumanBodyBones boneName]
         {
@@ -258,6 +258,8 @@ namespace VioletSolver.Pose
             RightLittleIntermediate = handData.PinkyPIP;
             RightLittleDistal = handData.PinkyDIP;
         }
+
+        public AvatarPoseData Copy() => (AvatarPoseData)MemberwiseClone();
 
         /// <summary>
         /// Scales all IK target positions by the given factor.

@@ -20,8 +20,8 @@ namespace VioletSolver.Development
         {
             if (newInputPose.time > _lastProcessedTime)
             {
-                _prevPoseData = _nextPoseData;
-                _nextPoseData = newInputPose;
+                _prevPoseData = _nextPoseData.Copy();
+                _nextPoseData = newInputPose.Copy();
                 _lastProcessedTime = newInputPose.time;
             }
 

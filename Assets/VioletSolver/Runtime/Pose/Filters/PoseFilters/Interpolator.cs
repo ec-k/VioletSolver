@@ -27,11 +27,7 @@ namespace VioletSolver.Pose
 
             result.time = Mathf.Lerp(_current.time, data.time, lerpAmount);
 
-            //Debug.Log(deltaDataTime);
-
-            //Debug.Log(PoseDataUtils.Equals(data, result));
-            //if (!PoseDataUtils.Equals(data, _current))
-                _current = result;
+            _current = result.Copy();
             return result;
         }
     }

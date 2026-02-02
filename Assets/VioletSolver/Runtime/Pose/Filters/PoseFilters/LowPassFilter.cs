@@ -24,7 +24,7 @@ namespace VioletSolver.Pose
                 result[boneName] = Quaternion.Slerp(_prev[boneName], pose[boneName], _amount);
             }
 
-            _prev = result;
+            _prev = result.Copy();
             return result;
         }
     }
