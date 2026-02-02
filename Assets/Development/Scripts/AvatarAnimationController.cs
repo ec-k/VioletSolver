@@ -15,7 +15,6 @@ namespace VioletSolver.Development
         [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
         [SerializeField] GameObject _ikRigRoot;
         [SerializeField] LandmarkReceiver _landmarkReceiver;
-        [SerializeField] LandmarkPlaybackManager _landmarkPlaybackManager;
         [SerializeField] LandmarkVisualizer _landmarkVisualizer;
         [SerializeField] HumanoidPoseReceiver _poseReceiver;
         [SerializeField] Transform _offset;
@@ -50,7 +49,7 @@ namespace VioletSolver.Development
 
         void Awake()
         {
-            _landmarkProvider = _isRealtime? _landmarkReceiver : _landmarkPlaybackManager;
+            _landmarkProvider = _landmarkReceiver;
 
             if (_animator is null
                 || _blendshapeProxy is null
