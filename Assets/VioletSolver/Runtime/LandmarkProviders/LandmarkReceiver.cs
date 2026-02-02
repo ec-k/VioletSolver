@@ -7,13 +7,13 @@ using System.Net;
 
 namespace VioletSolver.LandmarkProviders 
 {
-    public class LandmarkReceiver : MonoBehaviour, ILandmarkProvider, IDisposable
+    public class LandmarkReceiver : LandmarkProviderBase, IDisposable
     {
         UdpClient _udpClient;
         bool _isDisposed = false;
         [SerializeField] int _port = 9000;
 
-        public event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
+        public override event Action<HumanLandmarks.HolisticLandmarks, float> OnLandmarksReceived;
 
         void Start()
         {
