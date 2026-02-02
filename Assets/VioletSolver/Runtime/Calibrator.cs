@@ -6,14 +6,6 @@ namespace VioletSolver
 {
     public class Calibrator
     {
-        /// <summary>
-        /// Performs the calibration.
-        /// </summary>
-        public void Calibrate()
-        {
-
-        }
-
         /// <summary></summary>
         /// <param name="animator"></param>
         /// <param name="poseLandmarks"></param>
