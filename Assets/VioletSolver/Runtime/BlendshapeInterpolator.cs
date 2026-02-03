@@ -5,40 +5,58 @@ namespace VioletSolver
 {
     public class BlendshapeInterpolator<TKey>
     {
-        Dictionary<TKey, float> _prevBlendshapes;
-        Dictionary<TKey, float> _nextBlendshapes;
+        Dictionary<TKey, float> _prevBlendshapes = new();
+        Dictionary<TKey, float> _nextBlendshapes = new();
+        Dictionary<TKey, float> _result = new();
         float _lastProcessedDataTime; // Time of the _nextBlendshapes data
         const float _dataInterval = 1f / 30f; // Assuming 30Hz blendshape data
 
         public BlendshapeInterpolator()
         {
-            _prevBlendshapes = new();
-            _nextBlendshapes = new();
             _lastProcessedDataTime = 0f;
         }
 
         public Dictionary<TKey, float> UpdateAndInterpolate(IReadOnlyDictionary<TKey, float> newBlendshapes, float newDataTime)
         {
-            if (newDataTime > _lastProcessedDataTime)
+            // Update buffers
+            try
             {
-                _prevBlendshapes = new(_nextBlendshapes); // Copy current next to prev
-                _nextBlendshapes = new(newBlendshapes);   // Update next with new data
+                DictionaryValueCopy(_nextBlendshapes, _prevBlendshapes);
+                DictionaryValueCopy(newBlendshapes, _nextBlendshapes);
                 _lastProcessedDataTime = newDataTime;
+            }
+            catch (System.InvalidOperationException)
+            {
+                // Skip updating for this frame if a collection modification conflict occurred.
+                Debug.LogWarning("[BlendshapeInterpolator] Source collection was modified during copy. Skipping update until the next frame.");
+                return _result;
             }
 
             float interpolationAmount = Mathf.Clamp01((Time.time - _lastProcessedDataTime) / _dataInterval);
 
-            Dictionary<TKey, float> result = new Dictionary<TKey, float>();
+            _result.Clear();
 
             // Interpolate each blendshape value
-            foreach (var key in _nextBlendshapes.Keys)
+            foreach (var kvp in _nextBlendshapes)
             {
-                float prevValue = _prevBlendshapes.ContainsKey(key) ? _prevBlendshapes[key] : 0f;
-                float nextValue = _nextBlendshapes[key];
-                result[key] = Mathf.Lerp(prevValue, nextValue, interpolationAmount);
+                _prevBlendshapes.TryGetValue(kvp.Key, out var prevValue);
+                var nextValue = kvp.Value;
+
+                _result[kvp.Key] = Mathf.Lerp(prevValue, nextValue, interpolationAmount);
             }
 
-            return result;
+            return _result;
+        }
+
+        void DictionaryValueCopy(IReadOnlyDictionary<TKey, float> source, Dictionary<TKey, float> destination)
+        {
+            if (source is null) return;
+
+            destination.Clear();
+            foreach (var kvp in source)
+            {
+                destination[kvp.Key] = kvp.Value;
+            }
         }
     }
 }
