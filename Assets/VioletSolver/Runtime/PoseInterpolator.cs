@@ -1,13 +1,15 @@
 using UnityEngine;
 using VioletSolver.Pose;
-namespace VioletSolver.Development
+
+
+namespace VioletSolver
 {
-    internal class PoseInterpolator
+    public class PoseInterpolator
     {
-        private AvatarPoseData _prevPoseData;
-        private AvatarPoseData _nextPoseData;
-        private float _lastProcessedTime;
-        private const float _dataInterval = 1f / 30f;
+        AvatarPoseData _prevPoseData;
+        AvatarPoseData _nextPoseData;
+        float _lastProcessedTime;
+        const float _dataInterval = 1f / 30f;
 
         public PoseInterpolator()
         {

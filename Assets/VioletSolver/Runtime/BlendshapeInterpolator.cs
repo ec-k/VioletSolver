@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace VioletSolver.Development
+namespace VioletSolver
 {
     public class BlendshapeInterpolator<TKey>
     {
-        private Dictionary<TKey, float> _prevBlendshapes;
-        private Dictionary<TKey, float> _nextBlendshapes;
-        private float _lastProcessedDataTime; // Time of the _nextBlendshapes data
-        private const float _dataInterval = 1f / 30f; // Assuming 30Hz blendshape data
+        Dictionary<TKey, float> _prevBlendshapes;
+        Dictionary<TKey, float> _nextBlendshapes;
+        float _lastProcessedDataTime; // Time of the _nextBlendshapes data
+        const float _dataInterval = 1f / 30f; // Assuming 30Hz blendshape data
 
         public BlendshapeInterpolator()
         {
