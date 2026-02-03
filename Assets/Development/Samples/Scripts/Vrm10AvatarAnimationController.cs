@@ -19,12 +19,16 @@ namespace VioletSolver.Samples
 
         [Header("Animation Settings")]
         [SerializeField] bool _isAnimationEnabled = true;
-        [SerializeField] bool _animateLeg = false;
+        [SerializeField] bool _enableLeg = false;
         [SerializeField] bool _isPerfectSyncEnabled = false;
         [SerializeField] bool _isIkEnabled = true;
 
         [Header("External Input Settings")]
         [SerializeField] bool _isOverrideEnabled = false;
+
+        [Header("Calibration Settings")]
+        [SerializeField] bool _isCalibrationEnabled = true;
+        [SerializeField] int _calibrationSamples = 30;
 
         [Header("Misc")]
         [SerializeField] bool _isRealtime = true;
@@ -32,6 +36,7 @@ namespace VioletSolver.Samples
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
+        ArmLengthCalibrator _armLengthCalibrator;
         protected LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
@@ -78,6 +83,31 @@ namespace VioletSolver.Samples
             _poseInterpolator = new PoseInterpolator();
             _vrmExpressionInterpolator = new BlendshapeInterpolator<BlendShapePreset>();
             _perfectSyncExpressionInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
+
+            // Initialize calibrator and subscribe to landmark updates.
+            if (_isCalibrationEnabled)
+            {
+                _armLengthCalibrator = new ArmLengthCalibrator(_animator, _calibrationSamples);
+                _landmarkProvider.OnLandmarksReceived += OnLandmarksReceivedForCalibration;
+            }
+        }
+
+        void OnLandmarksReceivedForCalibration(HumanLandmarks.HolisticLandmarks landmarks, float time)
+        {
+            if (_armLengthCalibrator == null || _armLengthCalibrator.IsCalibrated)
+                return;
+
+            // Use Kinect pose landmarks for calibration.
+            if (landmarks.KinectPoseLandmarks == null)
+                return;
+
+            var kinectPose = _landmarkHandler.Landmarks.KinectPose;
+            _armLengthCalibrator.Update(kinectPose);
+
+            if (_armLengthCalibrator.IsCalibrated)
+                Debug.Log($"Calibration completed. Scale: {_armLengthCalibrator.Scale:F3}");
+            else
+                Debug.Log($"Calibration progress: {_armLengthCalibrator.Progress:P0}");
         }
 
         protected virtual void Update()
@@ -96,15 +126,23 @@ namespace VioletSolver.Samples
                     }
                 }
 
+                // Apply calibration scale to position data.
+                var scale = 1f;
+                if (_armLengthCalibrator is { IsCalibrated: true })
+                {
+                    scale = _armLengthCalibrator.Scale;
+                    animationData.PoseData.ScalePositions(scale);
+                }
+
                 animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
                 if (animationData.PerfectSyncBlendshapes is not null)
                     animationData.PerfectSyncBlendshapes = _perfectSyncExpressionInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
                 else if (animationData.VrmBlendshapes is not null)
                     animationData.VrmBlendshapes = _vrmExpressionInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
 
-                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _animateLeg, _offset);
+                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _enableLeg, _offset);
 
-                OnPostUpdate(1f);
+                OnPostUpdate(scale);
             }
         }
 
