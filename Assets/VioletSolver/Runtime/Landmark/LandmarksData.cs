@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace VioletSolver.Landmarks
@@ -43,7 +42,7 @@ namespace VioletSolver.Landmarks
 
         internal LandmarkList(int size)
         {
-            Landmarks = new Landmark[size].ToList();
+            Landmarks = new List<Landmark>(new Landmark[size]);
             Time = 0f;
         }
 

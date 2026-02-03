@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UniVRM10;
 using VRM;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
@@ -23,54 +22,43 @@ namespace VioletSolver
         /// <inheritdoc/>
         public void Apply(IReadOnlyDictionary<BlendShapePreset, float> blendshapes)
         {
-            var expressionDictionary = Enumerable.Range(0, Enum.GetValues(typeof(BlendShapePreset)).Length)
-                .Select(i =>
+            var presetCount = Enum.GetValues(typeof(BlendShapePreset)).Length;
+            for (var i = 0; i < presetCount; i++)
+            {
+                var vrm0xKey = (BlendShapePreset)i;
+
+                // NOTE: This process can NOT handle new expression "surprised".
+                var vrm10Key = vrm0xKey switch
                 {
-                    var vrm0xKey = (BlendShapePreset)i;
+                    BlendShapePreset.Joy => ExpressionPreset.happy,
+                    BlendShapePreset.Angry => ExpressionPreset.angry,
+                    BlendShapePreset.Sorrow => ExpressionPreset.sad,
+                    BlendShapePreset.Fun => ExpressionPreset.relaxed,
+                    BlendShapePreset.A => ExpressionPreset.aa,
+                    BlendShapePreset.I => ExpressionPreset.ih,
+                    BlendShapePreset.U => ExpressionPreset.ou,
+                    BlendShapePreset.E => ExpressionPreset.ee,
+                    BlendShapePreset.O => ExpressionPreset.oh,
+                    _ => ExpressionPreset.custom
+                };
 
-                    // NOTE: This process can NOT handle new expression "surprised".
-                    var vrm10Key = vrm0xKey switch
-                    {
-                        BlendShapePreset.Joy => ExpressionPreset.happy,
-                        BlendShapePreset.Angry => ExpressionPreset.angry,
-                        BlendShapePreset.Sorrow => ExpressionPreset.sad,
-                        BlendShapePreset.Fun => ExpressionPreset.relaxed,
-                        BlendShapePreset.A => ExpressionPreset.aa,
-                        BlendShapePreset.I => ExpressionPreset.ih,
-                        BlendShapePreset.U => ExpressionPreset.ou,
-                        BlendShapePreset.E => ExpressionPreset.ee,
-                        BlendShapePreset.O => ExpressionPreset.oh,
-                        _ => ExpressionPreset.custom
-                    };
-
-                    return new KeyValuePair<ExpressionKey, float>
-                    (
-                        ExpressionKey.CreateFromPreset(vrm10Key),
-                        blendshapes[(BlendShapePreset)i]
-                    );
-                })
-                .ToDictionary(
-                    item => item.Key,
-                    item => item.Value
-                );
-
-            foreach (var kvp in expressionDictionary)
-                _expression.SetWeight(kvp.Key, kvp.Value);
+                _expression.SetWeight(
+                    ExpressionKey.CreateFromPreset(vrm10Key),
+                    blendshapes[vrm0xKey]);
+            }
         }
 
         /// <inheritdoc/>
         public void Apply(IReadOnlyDictionary<MediaPipeBlendshapes, float> blendshapes)
         {
-            var expressionDictionary = Enumerable.Range(0, (int)MediaPipeBlendshapes.Length)
-                .Select(i => (MediaPipeBlendshapes)i)
-                .Where(mpKey => blendshapes.ContainsKey(mpKey))
-                .ToDictionary(
-                    mpKey => ExpressionKey.CreateCustom(Enum.GetName(typeof(MediaPipeBlendshapes), mpKey)),
-                    mpKey => blendshapes[mpKey]
-                );
+            for (var i = 0; i < (int)MediaPipeBlendshapes.Length; i++)
+            {
+                var mpKey = (MediaPipeBlendshapes)i;
+                if (!blendshapes.ContainsKey(mpKey)) continue;
 
-            foreach (var kvp in expressionDictionary)
-                _expression.SetWeight(kvp.Key, kvp.Value);
+                var expressionKey = ExpressionKey.CreateCustom(Enum.GetName(typeof(MediaPipeBlendshapes), mpKey));
+                _expression.SetWeight(expressionKey, blendshapes[mpKey]);
+            }
         }
     }
 }

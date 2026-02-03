@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using VioletSolver.Landmarks;
 using kinectIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
