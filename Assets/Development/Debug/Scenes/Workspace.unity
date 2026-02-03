@@ -1832,7 +1832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &366914263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5027,7 +5027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1277816287
 Transform:
   m_ObjectHideFlags: 0
@@ -5061,9 +5061,7 @@ MonoBehaviour:
   _animator: {fileID: 180521458}
   _blendshapeProxy: {fileID: 180521457}
   _ikRigRoot: {fileID: 1170069785}
-  _landmarkReceiver: {fileID: 1839400547}
-  _landmarkPlaybackManager: {fileID: 0}
-  _landmarkVisualizer: {fileID: 0}
+  _landmarkProvider: {fileID: 1839400547}
   _poseReceiver: {fileID: 1327959895}
   _offset: {fileID: 1277816287}
   _isAnimationEnabled: 1
@@ -5077,6 +5075,7 @@ MonoBehaviour:
   _faceAssetObject: {fileID: 180521456}
   _bodyAssetObject: {fileID: 180521454}
   _hairAssetObject: {fileID: 0}
+  _landmarkVisualizer: {fileID: 0}
 --- !u!1 &1281472645
 GameObject:
   m_ObjectHideFlags: 0
@@ -6998,9 +6997,7 @@ MonoBehaviour:
   _animator: {fileID: 1894737816}
   _vrm10Instance: {fileID: 1894737814}
   _ikRigRoot: {fileID: 1925012616}
-  _landmarkReceiver: {fileID: 1839400547}
-  _landmarkPlaybackManager: {fileID: 0}
-  _landmarkVisualizer: {fileID: 513254858}
+  _landmarkProvider: {fileID: 0}
   _poseReceiver: {fileID: 1327959895}
   _offset: {fileID: 1714997839}
   _isAnimationEnabled: 1
@@ -7012,6 +7009,7 @@ MonoBehaviour:
   _faceAssetObject: {fileID: 2004175113}
   _bodyAssetObject: {fileID: 1647573500}
   _hairAssetObject: {fileID: 1345751929}
+  _landmarkVisualizer: {fileID: 513254858}
 --- !u!4 &1714997839
 Transform:
   m_ObjectHideFlags: 0

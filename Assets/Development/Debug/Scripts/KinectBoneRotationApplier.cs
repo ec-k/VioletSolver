@@ -12,7 +12,7 @@ using VioletSolver.LandmarkProviders;
 using HumanLandmarks;
 
 
-namespace VioletSolver.Development
+namespace VioletSolver.Debug
 {
     public class KinectBoneRotationApplier : MonoBehaviour
     {

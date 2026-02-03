@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy Samples to package
+        run: |
+          mkdir -p Assets/VioletSolver/Samples~/AvatarAnimation
+          cp -r Assets/Development/Samples/Scripts/* Assets/VioletSolver/Samples~/AvatarAnimation/
+          # Remove asmdef from Samples~ (not needed when imported via Package Manager)
+          rm -f Assets/VioletSolver/Samples~/AvatarAnimation/VioletSolver.Samples.asmdef
+          rm -f Assets/VioletSolver/Samples~/AvatarAnimation/VioletSolver.Samples.asmdef.meta
+
+      - name: Create release branch
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          BRANCH="release/${TAG}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Assets/VioletSolver/Samples~
+          git commit -m "chore: add Samples~ for ${TAG}"
+          git push origin "${BRANCH}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true

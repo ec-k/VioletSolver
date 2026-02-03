@@ -4,9 +4,8 @@ using HumanoidPoseConnector;
 
 using VioletSolver.Pose;
 
-
-namespace VioletSolver.Development
-    {
+namespace VioletSolver.Samples
+{
     public class AvatarAnimationController : MonoBehaviour
     {
         [Header("Animation Dependencies")]
@@ -14,7 +13,6 @@ namespace VioletSolver.Development
         [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
         [SerializeField] GameObject _ikRigRoot;
         [SerializeField] LandmarkProviderBase _landmarkProvider;
-        [SerializeField] LandmarkVisualizer _landmarkVisualizer;
         [SerializeField] HumanoidPoseReceiver _poseReceiver;
         [SerializeField] Transform _offset;
 
@@ -38,15 +36,15 @@ namespace VioletSolver.Development
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
         ArmLengthCalibrator _armLengthCalibrator;
-        LandmarkHandler _landmarkHandler;
+        protected LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
         PoseInterpolator _poseInterpolator;
         BlendshapeInterpolator<VRM.BlendShapePreset> _vrmBlendshapeInterpolator;
         BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex> _perfectSyncBlendshapeInterpolator;
 
-        void Awake()
-        {   
+        protected virtual void Awake()
+        {
             if (_animator is null
                 || _blendshapeProxy is null
                 || _ikRigRoot is null
@@ -85,11 +83,6 @@ namespace VioletSolver.Development
             _vrmBlendshapeInterpolator = new BlendshapeInterpolator<VRM.BlendShapePreset>();
             _perfectSyncBlendshapeInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
 
-            if (_landmarkVisualizer is not null)
-                _landmarkVisualizer.Initialize(_landmarkHandler);
-            else
-                Debug.LogWarning("LandmarkVisualizer is not assigned. Landmark visualization will not work.", this);
-
             // Initialize calibrator and subscribe to landmark updates.
             if (_isCalibrationEnabled)
             {
@@ -116,7 +109,7 @@ namespace VioletSolver.Development
                 Debug.Log($"Calibration progress: {_armLengthCalibrator.Progress:P0}");
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (_isAnimationEnabled)
             {
@@ -148,13 +141,10 @@ namespace VioletSolver.Development
 
                 _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _enableLeg, _offset);
 
-                // Update landmark visualization with the same scale applied to the avatar.
-                if (_landmarkVisualizer is not null)
-                {
-                    _landmarkVisualizer.SetScale(scale);
-                    _landmarkVisualizer.UpdateVisualization();
-                }
+                OnPostUpdate(scale);
             }
         }
+
+        protected virtual void OnPostUpdate(float scale) { }
     }
 }

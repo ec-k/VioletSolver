@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using VioletSolver.Landmarks;
 
-namespace VioletSolver.Development
+namespace VioletSolver.Debug
 {
-    internal class LandmarkVisualizer : MonoBehaviour
+    public class LandmarkVisualizer : MonoBehaviour
     {
         LandmarkHandler _landmarkHandler;
 
@@ -47,7 +47,7 @@ namespace VioletSolver.Development
         {
             if(handler is null)
             {
-                Debug.LogError("LandmarkHandler passed to LandmarkVisualizer.Initialize is null.", this);
+                UnityEngine.Debug.LogError("LandmarkHandler passed to LandmarkVisualizer.Initialize is null.", this);
                 enabled = false;
                 return;
             }
@@ -58,7 +58,7 @@ namespace VioletSolver.Development
         {
             if(_landmarkHandler is null)
             {
-                Debug.LogError("LandmarkHandler is not assigned to LandmarkVisualizer.", this);
+                UnityEngine.Debug.LogError("LandmarkHandler is not assigned to LandmarkVisualizer.", this);
                 enabled = false;
                 return;
             }

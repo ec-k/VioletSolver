@@ -2,7 +2,7 @@ using poseIndex = HumanLandmarks.MediaPipePoseLandmarks.Types.LandmarkIndex;
 using kinectPoseIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
 using handIndex = HumanLandmarks.HandLandmarks.Types.LandmarkIndex;
 
-namespace VioletSolver.Development
+namespace VioletSolver.Debug
 {
     internal static class LandmarkGraphGenerator
     {

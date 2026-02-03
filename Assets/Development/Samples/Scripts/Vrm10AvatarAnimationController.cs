@@ -5,8 +5,8 @@ using HumanoidPoseConnector;
 using VioletSolver.Pose;
 using VRM;
 
-namespace VioletSolver.Development
-    {
+namespace VioletSolver.Samples
+{
     public class Vrm10AvatarAnimationController : MonoBehaviour
     {
         [Header("Animation Dependencies")]
@@ -14,7 +14,6 @@ namespace VioletSolver.Development
         [SerializeField] Vrm10Instance _vrm10Instance;
         [SerializeField] GameObject _ikRigRoot;
         [SerializeField] LandmarkProviderBase _landmarkProvider;
-        [SerializeField] LandmarkVisualizer _landmarkVisualizer;
         [SerializeField] HumanoidPoseReceiver _poseReceiver;
         [SerializeField] Transform _offset;
 
@@ -33,14 +32,14 @@ namespace VioletSolver.Development
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
-        LandmarkHandler _landmarkHandler;
+        protected LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
         AssetsPositionAdjuster _assetsPositionSynchronizer;
         PoseInterpolator _poseInterpolator;
         BlendshapeInterpolator<BlendShapePreset> _vrmExpressionInterpolator;
         BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex> _perfectSyncExpressionInterpolator;
 
-        void Awake()
+        protected virtual void Awake()
         {
             if (_animator is null
                 || _vrm10Instance is null
@@ -79,14 +78,9 @@ namespace VioletSolver.Development
             _poseInterpolator = new PoseInterpolator();
             _vrmExpressionInterpolator = new BlendshapeInterpolator<BlendShapePreset>();
             _perfectSyncExpressionInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
-
-            if (_landmarkVisualizer is not null)
-                _landmarkVisualizer.Initialize(_landmarkHandler);
-            else
-                Debug.LogWarning("LandmarkVisualizer is not assigned. Landmark visualization will not work.", this);
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (_isAnimationEnabled)
             {
@@ -108,8 +102,12 @@ namespace VioletSolver.Development
                 else if (animationData.VrmBlendshapes is not null)
                     animationData.VrmBlendshapes = _vrmExpressionInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
 
-                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, false, _offset);
+                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _animateLeg, _offset);
+
+                OnPostUpdate(1f);
             }
         }
+
+        protected virtual void OnPostUpdate(float scale) { }
     }
 }

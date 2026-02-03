@@ -1,7 +1,7 @@
 using HumanoidPoseConnector;
 using UnityEngine;
 
-namespace VioletSolver.Development {
+namespace VioletSolver.Debug {
     public class AdjusterForDebugging: MonoBehaviour
     {
         [SerializeField] HumanoidPoseSender _sender;
