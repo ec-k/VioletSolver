@@ -14,26 +14,12 @@
       "dependencies": {},
       "hash": "cd8e34fa49762622593f89870c832c46d80b946f"
     },
-    "com.ec2k.humanoidooseconnector": {
-      "version": "https://github.com/ec-k/HumanoidPoseConnector.git?path=/Assets/HumanoidPoseConnector#v0.2.2",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "2882b21995ec6a4aa9dedfa8cb76665318e59b35"
-    },
     "com.github-glitchenzo.nugetforunity": {
       "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "a011c51ed65c9abc3151a7a408bc70d408352933"
-    },
-    "com.hecomi.uosc": {
-      "version": "https://github.com/hecomi/uOSC.git#upm",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "3788ab28702c44330bfea7323b2e05bc4d23c213"
     },
     "com.ncdev.third-party-notices-generator": {
       "version": "https://github.com/chernyadev/third-party-notices-generator.git",

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UniVRM10;
-using HumanoidPoseConnector;
 
 using VioletSolver.Pose;
 using VRM;
@@ -14,7 +13,6 @@ namespace VioletSolver.Samples
         [SerializeField] Vrm10Instance _vrm10Instance;
         [SerializeField] GameObject _ikRigRoot;
         [SerializeField] LandmarkProviderBase _landmarkProvider;
-        [SerializeField] HumanoidPoseReceiver _poseReceiver;
         [SerializeField] Transform _offset;
 
         [Header("Animation Settings")]
@@ -23,15 +21,11 @@ namespace VioletSolver.Samples
         [SerializeField] bool _isPerfectSyncEnabled = false;
         [SerializeField] bool _isIkEnabled = true;
 
-        [Header("External Input Settings")]
-        [SerializeField] bool _isOverrideEnabled = false;
-
         [Header("Calibration Settings")]
         [SerializeField] bool _isCalibrationEnabled = true;
         [SerializeField] int _calibrationSamples = 30;
 
         [Header("Misc")]
-        [SerializeField] bool _isRealtime = true;
         [SerializeField] SkinnedMeshRenderer _faceAssetObject;
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
@@ -49,8 +43,7 @@ namespace VioletSolver.Samples
             if (_animator is null
                 || _vrm10Instance is null
                 || _ikRigRoot is null
-                || _landmarkProvider is null
-                || _poseReceiver is null)
+                || _landmarkProvider is null)
             {
                 Debug.LogError("All animation dependencies must be assigned in the Inspector.", this);
                 enabled = false;
@@ -115,16 +108,6 @@ namespace VioletSolver.Samples
             if (_isAnimationEnabled)
             {
                 var animationData = _avatarAnimator.CalculateAnimationData(_isIkEnabled);
-
-                if (_isOverrideEnabled && _poseReceiver.IsAvailable)
-                {
-                    var externalPoseResults = _poseReceiver.PoseResults;
-                    foreach (var bone in BodyPartsBones.Fingers)
-                    {
-                        if (externalPoseResults.TryGetValue(bone, out (Vector3 pos, Quaternion rot) boneTransform))
-                            animationData.PoseData[bone] = boneTransform.rot;
-                    }
-                }
 
                 // Apply calibration scale to position data.
                 var scale = 1f;
