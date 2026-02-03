@@ -19,8 +19,7 @@ namespace VioletSolver
 
         readonly LandmarkHandler _landmarkHandler;
         readonly PoseHandler _avatarPoseHandler;
-        readonly AvatarBonePositions _restBonePositions;
-        readonly AvatarBoneRotations _restBoneRotations;
+        readonly AvatarBones _restBones;
 
         readonly IBlendshapeSolver _blendshapeSolver;
         readonly IFaceApplier _faceApplier;
@@ -51,8 +50,7 @@ namespace VioletSolver
             _ikRigRoot = ikRigRoot;
             Animator = animator;
 
-            _restBonePositions = AvatarBonePositionsInitializer.CreateFromAnimator(animator);
-            _restBoneRotations = AvatarBoneRotationsInitializer.CreateFromAnimator(animator);
+            _restBones = AvatarBonesInitializer.CreateFromAnimator(animator);
 
             VRIKSetup.Initialize(
                 _ikRigRoot,
@@ -126,7 +124,7 @@ namespace VioletSolver
             var isKinectPose = _landmarkHandler.IsKinectPose;
 
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBonePositions, _restBoneRotations, isIkEnabled, isKinectPose);
+            var pose = HolisticSolver.Solve(landmarks, _restBones, isIkEnabled, isKinectPose);
             pose.time = isKinectPose ? landmarks.KinectPose.Time : landmarks.MediaPipePose.Time;
             _avatarPoseHandler.Update(pose);
         }

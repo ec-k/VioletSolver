@@ -16,7 +16,7 @@ namespace VioletSolver.Solver
 {
 	internal class KinectPoseSolver
 	{
-		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBonePositions restBonePositions, AvatarBoneRotations restBoneRotations, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBones restBones, bool useIk)
 		{
             AvatarPoseData pose = new();
 
@@ -28,11 +28,11 @@ namespace VioletSolver.Solver
 
 				// Hips & Chest
 				{
-                    Vector3 defaultDirection = restBonePositions.UpperChest - restBonePositions.Hips;
+                    Vector3 defaultDirection = restBones.UpperChest.Position - restBones.Hips.Position;
                     Vector3 targetDirection = Vector3.Lerp(rShoulder, lShoulder, 0.5f) - Vector3.Lerp(rHip, lHip, 0.5f);
                     var tiltRot = Quaternion.FromToRotation(defaultDirection, targetDirection);
 
-                    defaultDirection = restBonePositions.RightShoulder - restBonePositions.LeftShoulder;
+                    defaultDirection = restBones.RightShoulder.Position - restBones.LeftShoulder.Position;
 					targetDirection = rShoulder - lShoulder;
 					var rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
                     pose.Chest = rot * tiltRot;
@@ -54,21 +54,21 @@ namespace VioletSolver.Solver
 				}
 
 				if (useIk)
-					SolveIkTargets(landmarks, ref pose, restBoneRotations);
+					SolveIkTargets(landmarks, ref pose, restBones);
 				else
 				{
 					// Arms
 					{
 						Vector4 rElbow = landmarks[(int)poseIndex.ElbowRight].Position;
 						Vector4 rHand = landmarks[(int)poseIndex.WristRight].Position;
-						var baseDirection = restBonePositions.RightLowerArm - restBonePositions.RightUpperArm;
+						var baseDirection = restBones.RightLowerArm.Position - restBones.RightUpperArm.Position;
 						(pose.RightUpperArm, pose.RightLowerArm) = SolveRim(rShoulder, rElbow, rHand, baseDirection);
 					}
 
 					{
 						Vector4 lElbow = landmarks[(int)poseIndex.ElbowLeft].Position;
 						Vector4 lHand = landmarks[(int)poseIndex.WristLeft].Position;
-						var baseDirection = restBonePositions.LeftLowerArm - restBonePositions.LeftUpperArm;
+						var baseDirection = restBones.LeftLowerArm.Position - restBones.LeftUpperArm.Position;
 						(pose.LeftUpperArm, pose.LeftLowerArm) = SolveRim(lShoulder, lElbow, lHand, baseDirection);
 					}
 				}
@@ -77,7 +77,7 @@ namespace VioletSolver.Solver
 				{
 					Vector4 rKnee = landmarks[(int)poseIndex.KneeRight].Position;
 					Vector4 rAnkle = landmarks[(int)poseIndex.AnkleRight].Position;
-                    var baseDirection = restBonePositions.RightLowerLeg - restBonePositions.RightUpperLeg;
+                    var baseDirection = restBones.RightLowerLeg.Position - restBones.RightUpperLeg.Position;
                     (pose.RightUpperLeg, pose.RightLowerLeg) = SolveRim(rHip, rKnee, rAnkle, baseDirection);
 
 					//pose.hasRightLeg = rHip.w > 0.5 && rKnee.w > 0.5;
@@ -86,7 +86,7 @@ namespace VioletSolver.Solver
 				{
 					Vector4 lKnee = landmarks[(int)poseIndex.KneeLeft].Position;
 					Vector4 lAnkle = landmarks[(int)poseIndex.AnkleLeft].Position;
-                    var baseDirection = restBonePositions.LeftLowerLeg - restBonePositions.LeftUpperLeg;
+                    var baseDirection = restBones.LeftLowerLeg.Position - restBones.LeftUpperLeg.Position;
                     (pose.LeftUpperLeg, pose.LeftLowerLeg) = SolveRim(lHip, lKnee, lAnkle, baseDirection);
 
 					//pose.hasLeftLeg = lHip.w > 0.5 && lKnee.w > 0.5;
@@ -106,7 +106,7 @@ namespace VioletSolver.Solver
 			return (rootRot, midRot);
 		}
 
-        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose, AvatarBoneRotations restBoneRotations)
+        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose, AvatarBones restBones)
         {
             // Positions
             pose.HeadPosition = landmarks[(int)poseIndex.Head].Position;
@@ -131,7 +131,7 @@ namespace VioletSolver.Solver
 
             // Rotations
 			if(landmarks[(int)poseIndex.Head].Rotation.HasValue)
-				pose.Head = landmarks[(int)poseIndex.Head].Rotation.Value * restBoneRotations.Head;
+				pose.Head = landmarks[(int)poseIndex.Head].Rotation.Value * restBones.Head.Rotation;
         }
     }
 }

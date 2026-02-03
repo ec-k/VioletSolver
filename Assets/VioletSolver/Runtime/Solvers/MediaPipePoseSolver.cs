@@ -15,7 +15,7 @@ namespace VioletSolver.Solver
 {
 	internal class MediaPipePoseSolver
 	{
-		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBonePositions restBonePositions, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBones restBones, bool useIk)
 		{
             AvatarPoseData pose = new();
 
@@ -27,11 +27,11 @@ namespace VioletSolver.Solver
 
 				// Hips & Chest
 				{
-                    Vector3 defaultDirection = restBonePositions.UpperChest - restBonePositions.Hips;
+                    Vector3 defaultDirection = restBones.UpperChest.Position - restBones.Hips.Position;
                     Vector3 targetDirection = Vector3.Lerp(rShoulder, lShoulder, 0.5f) - Vector3.Lerp(rHip, lHip, 0.5f);
                     var tiltRot = Quaternion.FromToRotation(defaultDirection, targetDirection);
 
-                    defaultDirection = restBonePositions.RightShoulder - restBonePositions.LeftShoulder;
+                    defaultDirection = restBones.RightShoulder.Position - restBones.LeftShoulder.Position;
 					targetDirection = rShoulder - lShoulder;
 					var rot = Quaternion.FromToRotation(defaultDirection, targetDirection);
                     pose.Chest = rot * tiltRot;
@@ -60,14 +60,14 @@ namespace VioletSolver.Solver
 					{
 						Vector4 rElbow = landmarks[(int)poseIndex.RightElbow].Position;
 						Vector4 rHand = landmarks[(int)poseIndex.RightWrist].Position;
-						var baseDirection = restBonePositions.RightLowerArm - restBonePositions.RightUpperArm;
+						var baseDirection = restBones.RightLowerArm.Position - restBones.RightUpperArm.Position;
 						(pose.RightUpperArm, pose.RightLowerArm) = SolveRim(rShoulder, rElbow, rHand, baseDirection);
 					}
 
 					{
 						Vector4 lElbow = landmarks[(int)poseIndex.LeftElbow].Position;
 						Vector4 lHand = landmarks[(int)poseIndex.LeftWrist].Position;
-						var baseDirection = restBonePositions.LeftLowerArm - restBonePositions.LeftUpperArm;
+						var baseDirection = restBones.LeftLowerArm.Position - restBones.LeftUpperArm.Position;
 						(pose.LeftUpperArm, pose.LeftLowerArm) = SolveRim(lShoulder, lElbow, lHand, baseDirection);
 					}
 				}
@@ -76,7 +76,7 @@ namespace VioletSolver.Solver
 				{
 					Vector4 rKnee = landmarks[(int)poseIndex.RightKnee].Position;
 					Vector4 rAnkle = landmarks[(int)poseIndex.RightAnkle].Position;
-                    var baseDirection = restBonePositions.RightLowerLeg - restBonePositions.RightUpperLeg;
+                    var baseDirection = restBones.RightLowerLeg.Position - restBones.RightUpperLeg.Position;
                     (pose.RightUpperLeg, pose.RightLowerLeg) = SolveRim(rHip, rKnee, rAnkle, baseDirection);
 
 					//pose.hasRightLeg = rHip.w > 0.5 && rKnee.w > 0.5;
@@ -85,7 +85,7 @@ namespace VioletSolver.Solver
 				{
 					Vector4 lKnee = landmarks[(int)poseIndex.LeftKnee].Position;
 					Vector4 lAnkle = landmarks[(int)poseIndex.LeftAnkle].Position;
-                    var baseDirection = restBonePositions.LeftLowerLeg - restBonePositions.LeftUpperLeg;
+                    var baseDirection = restBones.LeftLowerLeg.Position - restBones.LeftUpperLeg.Position;
                     (pose.LeftUpperLeg, pose.LeftLowerLeg) = SolveRim(lHip, lKnee, lAnkle, baseDirection);
 
 					//pose.hasLeftLeg = lHip.w > 0.5 && lKnee.w > 0.5;
