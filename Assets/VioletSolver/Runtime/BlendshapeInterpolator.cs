@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace VioletSolver
@@ -13,8 +12,8 @@ namespace VioletSolver
 
         public BlendshapeInterpolator()
         {
-            _prevBlendshapes = new Dictionary<TKey, float>();
-            _nextBlendshapes = new Dictionary<TKey, float>();
+            _prevBlendshapes = new();
+            _nextBlendshapes = new();
             _lastProcessedDataTime = 0f;
         }
 
@@ -22,8 +21,8 @@ namespace VioletSolver
         {
             if (newDataTime > _lastProcessedDataTime)
             {
-                _prevBlendshapes = new Dictionary<TKey, float>(_nextBlendshapes); // Copy current next to prev
-                _nextBlendshapes = newBlendshapes.ToDictionary(kvp => kvp.Key, kvp => kvp.Value); // Update next with new data
+                _prevBlendshapes = new(_nextBlendshapes); // Copy current next to prev
+                _nextBlendshapes = new(newBlendshapes);   // Update next with new data
                 _lastProcessedDataTime = newDataTime;
             }
 
