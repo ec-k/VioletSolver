@@ -15,7 +15,7 @@ namespace VioletSolver.Solver
 {
 	internal class MediaPipePoseSolver
 	{
-		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBones restBones, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, in AvatarBones restBones, bool useIk)
 		{
             AvatarPoseData pose = new();
 

@@ -16,7 +16,7 @@ namespace VioletSolver.Solver
 {
 	internal class KinectPoseSolver
 	{
-		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, AvatarBones restBones, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, in AvatarBones restBones, bool useIk)
 		{
             AvatarPoseData pose = new();
 
@@ -106,7 +106,7 @@ namespace VioletSolver.Solver
 			return (rootRot, midRot);
 		}
 
-        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose, AvatarBones restBones)
+        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose, in AvatarBones restBones)
         {
             // Positions
             pose.HeadPosition = landmarks[(int)poseIndex.Head].Position;
