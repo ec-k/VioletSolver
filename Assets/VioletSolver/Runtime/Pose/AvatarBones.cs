@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VioletSolver.Pose
 {
-    internal struct AvatarBones
+    internal class AvatarBones
     {
         internal BonePose this[HumanBodyBones index]
         {
