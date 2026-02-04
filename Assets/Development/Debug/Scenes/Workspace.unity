@@ -613,6 +613,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4b5ef4b4c7b1354694a3fa2612217f9, type: 3}
+--- !u!4 &231433069 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 731793193117430236, guid: a4b5ef4b4c7b1354694a3fa2612217f9, type: 3}
+  m_PrefabInstance: {fileID: 231433068}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &231433070 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5872536584868935539, guid: a4b5ef4b4c7b1354694a3fa2612217f9, type: 3}
+  m_PrefabInstance: {fileID: 231433068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &366914262
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,8 +653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _landmarkReceiver: {fileID: 1839400547}
-  _animator: {fileID: 0}
-  _characterRootTransform: {fileID: 0}
+  _animator: {fileID: 231433070}
+  _characterRootTransform: {fileID: 231433069}
 --- !u!4 &366914264
 Transform:
   m_ObjectHideFlags: 0
@@ -1085,7 +1095,7 @@ GameObject:
   - component: {fileID: 1277816287}
   - component: {fileID: 1277816288}
   m_Layer: 0
-  m_Name: 'dev: AvatarAnimator - Final IK & Perfect Sync  (1)'
+  m_Name: 'dev: VRM0x - AvatarAnimator'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1125,16 +1135,13 @@ MonoBehaviour:
   _blendshapeProxy: {fileID: 2127939458}
   _ikRigRoot: {fileID: 1170069785}
   _landmarkProvider: {fileID: 1839400547}
-  _poseReceiver: {fileID: 0}
   _offset: {fileID: 1277816287}
   _isAnimationEnabled: 1
   _enableLeg: 1
   _isPerfectSyncEnabled: 1
   _isIkEnabled: 1
-  _isOverrideEnabled: 1
   _isCalibrationEnabled: 1
   _calibrationSamples: 30
-  _isRealtime: 1
   _faceAssetObject: {fileID: 1767215320}
   _bodyAssetObject: {fileID: 690702338}
   _hairAssetObject: {fileID: 0}
@@ -1155,7 +1162,7 @@ GameObject:
   - component: {fileID: 1714997839}
   - component: {fileID: 1714997837}
   m_Layer: 0
-  m_Name: VRM1 - FinalIK & PerfectSync
+  m_Name: 'dev: VRM10 - AvatarAnimator'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1177,16 +1184,13 @@ MonoBehaviour:
   _vrm10Instance: {fileID: 618334291}
   _ikRigRoot: {fileID: 1998287242}
   _landmarkProvider: {fileID: 1839400547}
-  _poseReceiver: {fileID: 0}
   _offset: {fileID: 1714997839}
   _isAnimationEnabled: 1
   _enableLeg: 1
   _isPerfectSyncEnabled: 1
   _isIkEnabled: 1
-  _isOverrideEnabled: 0
   _isCalibrationEnabled: 1
   _calibrationSamples: 30
-  _isRealtime: 1
   _faceAssetObject: {fileID: 1357322775}
   _bodyAssetObject: {fileID: 565335688}
   _hairAssetObject: {fileID: 0}
