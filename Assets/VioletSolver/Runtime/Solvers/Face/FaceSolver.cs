@@ -10,7 +10,7 @@ using VRM;
 using VioletSolver.Landmarks;
 using blendshapeIndex = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver.Solver
+namespace VioletSolver.Solver.Face
 {
 	internal class FaceSolver {
 		// TODO: Later, change this function to return (Quaternion neckRotation, float[] blendshapes)

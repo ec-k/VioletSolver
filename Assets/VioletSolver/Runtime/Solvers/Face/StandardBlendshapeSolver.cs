@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using VioletSolver.Solver;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Solver.Face
 {
     /// <summary>
     /// Solver that converts MediaPipe blendshapes to VRM BlendShapePresets using the standard method.

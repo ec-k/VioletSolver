@@ -4,7 +4,7 @@ using UnityEngine;
 using VRM;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Solver.Face
 {
     public class BlendshapeResult
     {
