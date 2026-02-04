@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 using VioletSolver.Landmarks;
 using VioletSolver.Pose;
+using VioletSolver.Solvers.RestPose;
 using poseIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
 
 
@@ -47,10 +48,6 @@ namespace VioletSolver.Solver
 						(rHip.y + lHip.y) * 0.5f * mul,
 						(rHip.z + lHip.z) * 0.5f * mul
 					);
-					/*
-					float bodyRotation = 1.0f;
-					bodyRotation = Mathf.Abs(Mathf.Cos(rot.eulerAngles.y * 1.6f));
-					*/
 				}
 
 				if (useIk)
@@ -79,8 +76,6 @@ namespace VioletSolver.Solver
 					Vector4 rAnkle = landmarks[(int)poseIndex.AnkleRight].Position;
                     var baseDirection = restBones.RightLowerLeg.Position - restBones.RightUpperLeg.Position;
                     (pose.RightUpperLeg, pose.RightLowerLeg) = SolveRim(rHip, rKnee, rAnkle, baseDirection);
-
-					//pose.hasRightLeg = rHip.w > 0.5 && rKnee.w > 0.5;
 				}
 
 				{
@@ -88,8 +83,6 @@ namespace VioletSolver.Solver
 					Vector4 lAnkle = landmarks[(int)poseIndex.AnkleLeft].Position;
                     var baseDirection = restBones.LeftLowerLeg.Position - restBones.LeftUpperLeg.Position;
                     (pose.LeftUpperLeg, pose.LeftLowerLeg) = SolveRim(lHip, lKnee, lAnkle, baseDirection);
-
-					//pose.hasLeftLeg = lHip.w > 0.5 && lKnee.w > 0.5;
 				}
 			}
 

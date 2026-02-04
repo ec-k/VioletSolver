@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VioletSolver.Pose
+namespace VioletSolver.Solvers.RestPose
 {
     internal static class AvatarBonesInitializer
     {

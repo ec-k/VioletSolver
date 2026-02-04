@@ -4,6 +4,7 @@ using VRM;
 
 using VioletSolver.Landmarks;
 using VioletSolver.Pose;
+using VioletSolver.Solvers.RestPose;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver.Solver
