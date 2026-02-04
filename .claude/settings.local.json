@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(find:*)",
+      "Bash(git mv:*)",
+      "Bash(for f in AdjusterForDebugging KinectBoneRotationApplier LandmarkVisualizer GraphVisualizer LandmarkGraphGenerator)",
+      "Bash(do git mv \"Assets/Development/Scripts/$f.cs\" \"Assets/Development/Debug/Scripts/$f.cs\")",
+      "Bash(done)",
+      "Bash(for f in AvatarAnimationController Vrm10AvatarAnimationController PoseInterpolator BlendshapeInterpolator)",
+      "Bash(do git mv \"Assets/Development/Scripts/$f.cs\" \"Assets/Development/Samples/Scripts/$f.cs\")",
+      "Bash(git rm:*)",
+      "Bash(python3:*)",
+      "Bash(git reset:*)"
+    ]
+  }
+}
