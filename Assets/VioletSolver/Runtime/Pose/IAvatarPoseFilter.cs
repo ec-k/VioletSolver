@@ -4,17 +4,17 @@ using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver.Pose
 {
-    internal interface IAvatarPoseFilter
+    public interface IAvatarPoseFilter
     {
         public AvatarPoseData Filter(AvatarPoseData boneRotations);
     }
 
-    internal interface IBlendshapeFilter
+    public interface IBlendshapeFilter
     {
         public Dictionary<BlendShapePreset, float> Filter(Dictionary<BlendShapePreset, float> blendshapes);
     }
 
-    internal interface IPerfectSyncFilter
+    public interface IPerfectSyncFilter
     {
         public IReadOnlyDictionary<mpBlendshapes, float> Filter(IReadOnlyDictionary<mpBlendshapes, float> blendshapes);
     }
