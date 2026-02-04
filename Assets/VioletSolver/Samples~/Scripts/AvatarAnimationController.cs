@@ -1,0 +1,136 @@
+using UnityEngine;
+using VRM;
+
+using mpBlendShapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
+
+
+namespace VioletSolver.Samples
+{
+    public class AvatarAnimationController : MonoBehaviour
+    {
+        [Header("Animation Dependencies")]
+        [SerializeField] Animator _animator;
+        [SerializeField] VRMBlendShapeProxy _blendshapeProxy;
+        [SerializeField] GameObject _ikRigRoot;
+        [SerializeField] LandmarkProviderBase _landmarkProvider;
+        [SerializeField] Transform _offset;
+
+        [Header("Animation Settings")]
+        [SerializeField] bool _isAnimationEnabled = true;
+        [SerializeField] bool _enableLeg = false;
+        [SerializeField] bool _isPerfectSyncEnabled = false;
+        [SerializeField] bool _isIkEnabled = true;
+
+        [Header("Calibration Settings")]
+        [SerializeField] bool _isCalibrationEnabled = true;
+        [SerializeField] int _calibrationSamples = 30;
+
+        [Header("Misc")]
+        [SerializeField] SkinnedMeshRenderer _faceAssetObject;
+        [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
+        [SerializeField] SkinnedMeshRenderer _hairAssetObject;
+
+        Setup.ArmLengthCalibrator _armLengthCalibrator;
+        protected LandmarkHandler _landmarkHandler;
+        AvatarAnimator _avatarAnimator;
+        Utils.AssetsPositionAdjuster _assetsPositionSynchronizer;
+        Interpolation.PoseInterpolator _poseInterpolator;
+        Interpolation.BlendshapeInterpolator<BlendShapePreset> _vrmBlendshapeInterpolator;
+        Interpolation.BlendshapeInterpolator<mpBlendShapes> _perfectSyncBlendshapeInterpolator;
+
+        protected virtual void Awake()
+        {
+            if (_animator is null
+                || _blendshapeProxy is null
+                || _ikRigRoot is null
+                || _landmarkProvider is null)
+            {
+                Debug.LogError("All animation dependencies must be assigned in the Inspector.", this);
+                enabled = false;
+                return;
+            }
+
+            _assetsPositionSynchronizer = new()
+            {
+                Animator = _animator,
+                Face = _faceAssetObject,
+                Body = _bodyAssetObject,
+                Hair = _hairAssetObject,
+            };
+            _assetsPositionSynchronizer.Adjust();
+
+            _landmarkHandler = new LandmarkHandler(_landmarkProvider);
+            var poseHandler = new Pose.PoseHandler();
+
+            Solver.Face.IBlendshapeSolver blendshapeSolver = _isPerfectSyncEnabled
+                ? new Solver.Face.PerfectSyncBlendshapeSolver()
+                : new Solver.Face.StandardBlendshapeSolver();
+            FaceApplier.IFaceApplier faceApplier = new FaceApplier.Vrm0xFaceApplier(_blendshapeProxy);
+
+            _avatarAnimator = new AvatarAnimator(
+                _ikRigRoot,
+                _animator,
+                _landmarkHandler,
+                poseHandler,
+                blendshapeSolver,
+                faceApplier
+            );
+            _poseInterpolator = new();
+            _vrmBlendshapeInterpolator = new();
+            _perfectSyncBlendshapeInterpolator = new();
+
+            // Initialize calibrator and subscribe to landmark updates.
+            if (_isCalibrationEnabled)
+            {
+                _armLengthCalibrator = new(_animator, _calibrationSamples);
+                _landmarkProvider.OnLandmarksReceived += OnLandmarksReceivedForCalibration;
+            }
+        }
+
+        void OnLandmarksReceivedForCalibration(HumanLandmarks.HolisticLandmarks landmarks, float time)
+        {
+            if (_armLengthCalibrator == null || _armLengthCalibrator.IsCalibrated)
+                return;
+
+            // Use Kinect pose landmarks for calibration.
+            if (landmarks.KinectPoseLandmarks == null)
+                return;
+
+            var kinectPose = _landmarkHandler.Landmarks.KinectPose;
+            _armLengthCalibrator.Update(kinectPose);
+
+            if (_armLengthCalibrator.IsCalibrated)
+                Debug.Log($"Calibration completed. Scale: {_armLengthCalibrator.Scale:F3}");
+            else
+                Debug.Log($"Calibration progress: {_armLengthCalibrator.Progress:P0}");
+        }
+
+        protected virtual void Update()
+        {
+            if (_isAnimationEnabled)
+            {
+                var animationData = _avatarAnimator.CalculateAnimationData(_isIkEnabled);
+
+                // Apply calibration scale to position data.
+                var scale = 1f;
+                if (_armLengthCalibrator is { IsCalibrated: true })
+                {
+                    scale = _armLengthCalibrator.Scale;
+                    animationData.PoseData.ScalePositions(scale);
+                }
+
+                animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
+                if (animationData.PerfectSyncBlendshapes is not null)
+                    animationData.PerfectSyncBlendshapes = _perfectSyncBlendshapeInterpolator.UpdateAndInterpolate(animationData.PerfectSyncBlendshapes, animationData.PoseData.time);
+                else if (animationData.VrmBlendshapes is not null)
+                    animationData.VrmBlendshapes = _vrmBlendshapeInterpolator.UpdateAndInterpolate(animationData.VrmBlendshapes, animationData.PoseData.time);
+
+                _avatarAnimator.ApplyAnimationData(animationData, _isIkEnabled, _enableLeg, _offset);
+
+                OnPostUpdate(scale);
+            }
+        }
+
+        protected virtual void OnPostUpdate(float scale) { }
+    }
+}
