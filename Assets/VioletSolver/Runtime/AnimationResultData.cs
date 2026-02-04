@@ -8,7 +8,7 @@ namespace VioletSolver
     public class AnimationResultData
     {
         public AvatarPoseData PoseData;
-        public Dictionary<BlendShapePreset, float> VrmBlendshapes;
+        public IReadOnlyDictionary<BlendShapePreset, float> VrmBlendshapes;
         public IReadOnlyDictionary<mpBlendshapes, float> PerfectSyncBlendshapes;
 
         /// <summary>
