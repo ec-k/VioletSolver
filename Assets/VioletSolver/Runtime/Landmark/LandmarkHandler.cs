@@ -1,4 +1,3 @@
-using Codice.CM.Triggers;
 using System;
 using System.Collections.Generic;
 using VioletSolver.LandmarkProviders;
@@ -25,7 +24,7 @@ namespace VioletSolver
         public LandmarkHandler(ILandmarkProvider receiver)
         {
             var faceLandmarkLength = 478; 
-            Landmarks = new HolisticLandmarks(faceLandmarkLength);
+            Landmarks = new(faceLandmarkLength);
             MpBlendshapes = new();
 
             receiver.OnLandmarksReceived += (results, receivedTime) => OnLandmarkReceived(results, receivedTime);
@@ -48,20 +47,13 @@ namespace VioletSolver
 
         internal void UpdateBlendshapes(HumanLandmarks.HolisticLandmarks results)
         {
-            // Update blendshapes
-            if (results.FaceResults == null ||
-                results.FaceResults.Blendshapes == null ||
-                results.FaceResults.Blendshapes.Scores == null)
+            if (results.FaceResults?.Blendshapes?.Scores is not { } scores)
                 return;
 
-            var scores = results.FaceResults.Blendshapes.Scores;
-            var tmpArray = Enum.GetValues(typeof(MediaPipeBlendshapes));
-            foreach (var value in tmpArray)
+            foreach (MediaPipeBlendshapes index in Enum.GetValues(typeof(MediaPipeBlendshapes)))
             {
-                var mpBlendshapeIndex = (MediaPipeBlendshapes)value;
-
-                if ((int)value < scores.Count)
-                    MpBlendshapes[mpBlendshapeIndex] = scores[(int)value];
+                if ((int)index < scores.Count)
+                    MpBlendshapes[index] = scores[(int)index];
             }
         }
     }
