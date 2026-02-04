@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   release:
@@ -18,10 +18,10 @@ jobs:
       - name: Copy Samples to package
         run: |
           mkdir -p Assets/VioletSolver/Samples~
-          cp -r Assets/Development/Samples/Scripts/* Assets/VioletSolver/Samples~/
+          cp -r Assets/Development/Samples/* Assets/VioletSolver/Samples~/
           # Remove asmdef from Samples~ (not needed when imported via Package Manager)
-          rm -f Assets/VioletSolver/Samples~/AvatarAnimation/VioletSolver.Samples.asmdef
-          rm -f Assets/VioletSolver/Samples~/AvatarAnimation/VioletSolver.Samples.asmdef.meta
+          rm -f Assets/VioletSolver/Samples~/Scripts/VioletSolver.Samples.asmdef
+          rm -f Assets/VioletSolver/Samples~/Scripts/VioletSolver.Samples.asmdef.meta
 
       - name: Create release branch
         run: |

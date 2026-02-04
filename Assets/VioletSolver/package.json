@@ -30,7 +30,7 @@
     {
       "displayName": "Avatar Animation",
       "description": "Ready-to-use MonoBehaviour controllers for VRM 0.x and 1.0 avatar animation.",
-      "path": "Samples~/AvatarAnimation"
+      "path": "Samples~"
     }
   ]
 }
