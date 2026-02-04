@@ -20,21 +20,20 @@ namespace VioletSolver.Pose
         internal IReadOnlyDictionary<mpBlendshapes, float> PerfectSyncWeights;
         [SerializeField] List<IAvatarPoseFilter> _vrmPoseFilters;
         List<IBlendshapeFilter> _blendshapeFilters;
+        List<IPerfectSyncFilter> _perfectSyncFilters;
 
-        internal PoseHandler()
+        internal PoseHandler(
+            IEnumerable<IAvatarPoseFilter> poseFilters = null,
+            IEnumerable<IBlendshapeFilter> blendshapeFilters = null,
+            IEnumerable<IPerfectSyncFilter> perfectSyncFilters = null)
         {
             _poseData = new();
             BlendshapeWeights = new();
             PerfectSyncWeights = new Dictionary<mpBlendshapes, float>();
 
-            _vrmPoseFilters = new();
-            //_vrmPoseFilters.Add(new LowPassFilter(0.6f));
-            //_vrmPoseFilters.Add(new Interpolator());
-
-            _blendshapeFilters = new();
-            _blendshapeFilters.Add(new Blendshapes.LowPassFilter(0.6f));
-            _blendshapeFilters.Add(new Blendshapes.EyeOpener(0.15f));   // completely opening is 0.0
-            _blendshapeFilters.Add(new Blendshapes.EyeCloser(0.85f));   // completely closeing is 1.0
+            _vrmPoseFilters = poseFilters is not null ? new(poseFilters) : new();
+            _blendshapeFilters = blendshapeFilters is not null ? new(blendshapeFilters) : new();
+            _perfectSyncFilters = perfectSyncFilters is not null ? new(perfectSyncFilters) : new();
         }
 
         // NOTE: The arguments are copied once to the variable "result" so that the data are stored as they are when there is no filter.
@@ -68,14 +67,13 @@ namespace VioletSolver.Pose
         }
         internal void Update(IReadOnlyDictionary<mpBlendshapes, float> weights)
         {
-            //var result = weights;
-            //if (_blendshapeFilters != null)
-            //    foreach (var filter in _blendshapeFilters)
-            //    {
-            //        result = filter.Filter(weights, _filterAmount);
-            //    }
-            //BlendshapeWeights = result;
-            PerfectSyncWeights = weights;
+            var result = weights;
+            if (_perfectSyncFilters != null)
+                foreach (var filter in _perfectSyncFilters)
+                {
+                    result = filter.Filter(result);
+                }
+            PerfectSyncWeights = result;
         }
     }
 }
