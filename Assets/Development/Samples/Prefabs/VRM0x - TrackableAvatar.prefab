@@ -3439,58 +3439,6 @@ Transform:
   - {fileID: 4856170619094516830}
   m_Father: {fileID: 3384252137873315905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5041733010492669611
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 812316257602323391}
-  - component: {fileID: 6921577163770472590}
-  m_Layer: 0
-  m_Name: LandmarkVisualizer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &812316257602323391
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5041733010492669611}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.67221135, z: 0.070304796}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3349670486029168078}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6921577163770472590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5041733010492669611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb063bb9a1967be47ab5bf1a4f337770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _posePosOffset: {x: 0, y: 0, z: 0}
-  _lHandPosOffset: {x: -0.5, y: 0, z: 0.5}
-  _rHandPosOffset: {x: 0.5, y: 0, z: 0.5}
-  _poseTargetSize: 0.05
-  _handTargetSize: 0.01
-  _poseVisualMaterial: {fileID: 2100000, guid: b9a00b9951469894ca9d375647a4fc30, type: 2}
-  _handVisualMaterial: {fileID: 2100000, guid: cd08410367e025c449864dfc04f3d1dc, type: 2}
-  _isExternallyControlled: 1
 --- !u!1 &5057920258339844387
 GameObject:
   m_ObjectHideFlags: 0
@@ -3754,7 +3702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3349670486029168078}
-  - component: {fileID: 2414053144333363766}
+  - component: {fileID: 837855324618056537}
   m_Layer: 0
   m_Name: VRM0x - TrackableAvatar
   m_TagString: Untagged
@@ -3776,12 +3724,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7431084543316406764}
-  - {fileID: 812316257602323391}
   - {fileID: 5009043379236882572}
   - {fileID: 3305564253467627918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2414053144333363766
+--- !u!114 &837855324618056537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3790,7 +3737,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5942270556809791725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46bc3f31f3341744b64b30813657ae9, type: 3}
+  m_Script: {fileID: 11500000, guid: 31fc9316d2104e1da057d103230081e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7781013126498332663}
@@ -3807,7 +3754,6 @@ MonoBehaviour:
   _faceAssetObject: {fileID: 616002964861408471}
   _bodyAssetObject: {fileID: 2485670110340838170}
   _hairAssetObject: {fileID: 0}
-  _landmarkVisualizer: {fileID: 0}
 --- !u!1 &6073080565136191384
 GameObject:
   m_ObjectHideFlags: 0
