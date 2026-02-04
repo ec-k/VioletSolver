@@ -33,7 +33,7 @@ namespace VioletSolver
         /// <summary>
         /// Updates landmarks: gets landmarks and assigns them to this.Landmarks.
         /// </summary>
-        internal void OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
+        public void OnLandmarkReceived(HumanLandmarks.HolisticLandmarks results, float receivedTime)
         {
             // Update landmarks.
             if (results == null)
@@ -45,7 +45,7 @@ namespace VioletSolver
             UpdateBlendshapes(results);
         }
 
-        internal void UpdateBlendshapes(HumanLandmarks.HolisticLandmarks results)
+        public void UpdateBlendshapes(HumanLandmarks.HolisticLandmarks results)
         {
             if (results.FaceResults?.Blendshapes?.Scores is not { } scores)
                 return;

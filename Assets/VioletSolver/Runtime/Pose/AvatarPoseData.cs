@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace VioletSolver.Pose
 {
-    // TODO: This class must have operator.
     /// <summary>
     /// Data class that holds all bone rotations and IK target positions for an avatar.
     /// </summary>
