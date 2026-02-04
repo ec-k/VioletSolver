@@ -2,6 +2,8 @@ using UnityEngine;
 using UniVRM10;
 using VRM;
 
+using mpBlendShapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
+
 
 namespace VioletSolver.Samples
 {
@@ -35,7 +37,7 @@ namespace VioletSolver.Samples
         AssetsPositionAdjuster _assetsPositionSynchronizer;
         PoseInterpolator _poseInterpolator;
         BlendshapeInterpolator<BlendShapePreset> _vrmExpressionInterpolator;
-        BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex> _perfectSyncExpressionInterpolator;
+        BlendshapeInterpolator<mpBlendShapes> _perfectSyncExpressionInterpolator;
 
         protected virtual void Awake()
         {
