@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
-using VRM;
 
 using VioletSolver.Landmarks;
 using VioletSolver.Pose;
 using VioletSolver.Solvers.RestPose;
 using VioletSolver.Solver.Face;
-using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
 namespace VioletSolver.Solver
 {
@@ -23,7 +20,7 @@ namespace VioletSolver.Solver
             if(ExistLandmarks(landmarks.MediaPipePose) && !isKinectPose)
                 solvedPose = MediaPipePoseSolver.SolvePose(landmarks.MediaPipePose.Landmarks, restBones, useIk);
             if (ExistLandmarks(landmarks.Face) && !isKinectPose)
-                solvedPose.Neck = FaceSolver.Solve(landmarks.Face.Landmarks);
+                solvedPose.Neck = MediaPipeHeadRotationSolver.Solve(landmarks.Face.Landmarks);
             if(ExistLandmarks(landmarks.LeftHand))
                 solvedPose.SetLeftHandData(HandSolver.SolveLeftHand(landmarks.LeftHand));
             if (ExistLandmarks(landmarks.RightHand))
@@ -32,25 +29,6 @@ namespace VioletSolver.Solver
             solvedPose.time = landmarks.Pose.Time;
 
             return solvedPose;
-        }
-
-        internal static (Dictionary<BlendShapePreset, float>, Quaternion, Quaternion) Solve(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
-        {
-            var blendshapes = FaceSolver.SolveFacialExpression(weights);
-            var (leftEyeRotation, rightEyeRotation) = FaceSolver.SolveEye(weights);
-            return (blendshapes, leftEyeRotation, rightEyeRotation);
-        }
-
-        /// <summary>
-        ///     Solve face for Perfect Sync.
-        /// </summary>
-        /// <param name="weights"></param>
-        /// <returns></returns>
-        internal static (IReadOnlyDictionary<MediaPipeBlendshapes, float>, Quaternion, Quaternion) SolvePerfectly(IReadOnlyDictionary<MediaPipeBlendshapes, float> weights)
-        {
-            var blendshapes = FaceSolver.SolveFacialExpressionPerfectly(weights);
-            var (leftEyeRotation, rightEyeRotation) = FaceSolver.SolveEye(weights);
-            return (blendshapes, leftEyeRotation, rightEyeRotation);
         }
 
         static bool ExistLandmarks(in ILandmarkList landmarks)
