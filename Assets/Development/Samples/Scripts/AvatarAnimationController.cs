@@ -1,7 +1,5 @@
 using UnityEngine;
 using VRM;
-using VioletSolver.FaceApplier;
-using VioletSolver.Solver.Face;
 
 using mpBlendShapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
@@ -32,13 +30,13 @@ namespace VioletSolver.Samples
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
-        ArmLengthCalibrator _armLengthCalibrator;
+        Setup.ArmLengthCalibrator _armLengthCalibrator;
         protected LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
-        AssetsPositionAdjuster _assetsPositionSynchronizer;
-        PoseInterpolator _poseInterpolator;
-        BlendshapeInterpolator<BlendShapePreset> _vrmBlendshapeInterpolator;
-        BlendshapeInterpolator<mpBlendShapes> _perfectSyncBlendshapeInterpolator;
+        Utils.AssetsPositionAdjuster _assetsPositionSynchronizer;
+        Interpolation.PoseInterpolator _poseInterpolator;
+        Interpolation.BlendshapeInterpolator<BlendShapePreset> _vrmBlendshapeInterpolator;
+        Interpolation.BlendshapeInterpolator<mpBlendShapes> _perfectSyncBlendshapeInterpolator;
 
         protected virtual void Awake()
         {
@@ -52,7 +50,7 @@ namespace VioletSolver.Samples
                 return;
             }
 
-            _assetsPositionSynchronizer = new AssetsPositionAdjuster
+            _assetsPositionSynchronizer = new()
             {
                 Animator = _animator,
                 Face = _faceAssetObject,
@@ -64,10 +62,10 @@ namespace VioletSolver.Samples
             _landmarkHandler = new LandmarkHandler(_landmarkProvider);
             var poseHandler = new Pose.PoseHandler();
 
-            IBlendshapeSolver blendshapeSolver = _isPerfectSyncEnabled
-                ? new PerfectSyncBlendshapeSolver()
-                : new StandardBlendshapeSolver();
-            IFaceApplier faceApplier = new Vrm0xFaceApplier(_blendshapeProxy);
+            Solver.Face.IBlendshapeSolver blendshapeSolver = _isPerfectSyncEnabled
+                ? new Solver.Face.PerfectSyncBlendshapeSolver()
+                : new Solver.Face.StandardBlendshapeSolver();
+            FaceApplier.IFaceApplier faceApplier = new FaceApplier.Vrm0xFaceApplier(_blendshapeProxy);
 
             _avatarAnimator = new AvatarAnimator(
                 _ikRigRoot,
@@ -77,14 +75,14 @@ namespace VioletSolver.Samples
                 blendshapeSolver,
                 faceApplier
             );
-            _poseInterpolator = new PoseInterpolator();
-            _vrmBlendshapeInterpolator = new BlendshapeInterpolator<VRM.BlendShapePreset>();
-            _perfectSyncBlendshapeInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
+            _poseInterpolator = new();
+            _vrmBlendshapeInterpolator = new();
+            _perfectSyncBlendshapeInterpolator = new();
 
             // Initialize calibrator and subscribe to landmark updates.
             if (_isCalibrationEnabled)
             {
-                _armLengthCalibrator = new ArmLengthCalibrator(_animator, _calibrationSamples);
+                _armLengthCalibrator = new(_animator, _calibrationSamples);
                 _landmarkProvider.OnLandmarksReceived += OnLandmarksReceivedForCalibration;
             }
         }

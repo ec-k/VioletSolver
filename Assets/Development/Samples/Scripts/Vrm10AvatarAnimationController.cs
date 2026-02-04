@@ -33,13 +33,13 @@ namespace VioletSolver.Samples
         [SerializeField] SkinnedMeshRenderer _bodyAssetObject;
         [SerializeField] SkinnedMeshRenderer _hairAssetObject;
 
-        ArmLengthCalibrator _armLengthCalibrator;
+        Setup.ArmLengthCalibrator _armLengthCalibrator;
         protected LandmarkHandler _landmarkHandler;
         AvatarAnimator _avatarAnimator;
-        AssetsPositionAdjuster _assetsPositionSynchronizer;
-        PoseInterpolator _poseInterpolator;
-        BlendshapeInterpolator<BlendShapePreset> _vrmExpressionInterpolator;
-        BlendshapeInterpolator<mpBlendShapes> _perfectSyncExpressionInterpolator;
+        Utils.AssetsPositionAdjuster _assetsPositionSynchronizer;
+        Interpolation.PoseInterpolator _poseInterpolator;
+        Interpolation.BlendshapeInterpolator<BlendShapePreset> _vrmExpressionInterpolator;
+        Interpolation.BlendshapeInterpolator<mpBlendShapes> _perfectSyncExpressionInterpolator;
 
         protected virtual void Awake()
         {
@@ -53,7 +53,7 @@ namespace VioletSolver.Samples
                 return;
             }
 
-            _assetsPositionSynchronizer = new AssetsPositionAdjuster
+            _assetsPositionSynchronizer = new()
             {
                 Animator = _animator,
                 Face = _faceAssetObject,
@@ -78,14 +78,14 @@ namespace VioletSolver.Samples
                 blendshapeSolver,
                 faceApplier
             );
-            _poseInterpolator = new PoseInterpolator();
-            _vrmExpressionInterpolator = new BlendshapeInterpolator<BlendShapePreset>();
-            _perfectSyncExpressionInterpolator = new BlendshapeInterpolator<HumanLandmarks.Blendshapes.Types.BlendshapesIndex>();
+            _poseInterpolator = new();
+            _vrmExpressionInterpolator = new();
+            _perfectSyncExpressionInterpolator = new();
 
             // Initialize calibrator and subscribe to landmark updates.
             if (_isCalibrationEnabled)
             {
-                _armLengthCalibrator = new ArmLengthCalibrator(_animator, _calibrationSamples);
+                _armLengthCalibrator = new(_animator, _calibrationSamples);
                 _landmarkProvider.OnLandmarksReceived += OnLandmarksReceivedForCalibration;
             }
         }
