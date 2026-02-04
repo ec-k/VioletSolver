@@ -1,7 +1,7 @@
 using RootMotion.FinalIK;
 using UnityEngine;
 
-namespace VioletSolver
+namespace VioletSolver.Setup
 {
     public static class VRIKSetup
     {

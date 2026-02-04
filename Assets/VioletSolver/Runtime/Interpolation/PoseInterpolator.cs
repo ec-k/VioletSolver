@@ -2,7 +2,7 @@ using UnityEngine;
 using VioletSolver.Pose;
 
 
-namespace VioletSolver
+namespace VioletSolver.Interpolation
 {
     public class PoseInterpolator
     {

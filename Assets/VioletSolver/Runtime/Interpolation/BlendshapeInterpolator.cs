@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VioletSolver
+namespace VioletSolver.Interpolation
 {
     public class BlendshapeInterpolator<TKey>
     {

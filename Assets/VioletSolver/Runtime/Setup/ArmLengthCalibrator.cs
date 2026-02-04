@@ -3,7 +3,7 @@ using UnityEngine;
 using VioletSolver.Landmarks;
 using kinectIndex = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
 
-namespace VioletSolver
+namespace VioletSolver.Setup
 {
     /// <summary>
     /// Calibrates the scale ratio between user and avatar based on arm length.

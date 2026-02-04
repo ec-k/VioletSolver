@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VioletSolver.Pose
+namespace VioletSolver.Utils
 {
     public static class BodyPartsBones
     {

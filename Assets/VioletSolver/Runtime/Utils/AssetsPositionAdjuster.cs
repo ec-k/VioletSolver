@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VioletSolver
+namespace VioletSolver.Utils
 {
     /// <summary>
     /// This class prevents no-rendering problem that caused by positional difference of rig and its related renderers' bounds.
