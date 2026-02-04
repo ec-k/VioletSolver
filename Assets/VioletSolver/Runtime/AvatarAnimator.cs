@@ -4,6 +4,7 @@ using UnityEngine;
 using VioletSolver.Pose;
 using VioletSolver.Solvers.RestPose;
 using VioletSolver.Solver;
+using VioletSolver.FaceApplier;
 using VRM;
 using mpBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 

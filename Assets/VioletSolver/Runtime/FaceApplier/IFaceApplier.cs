@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using VRM;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.FaceApplier
 {
     /// <summary>
     /// Interface for applying blendshapes to avatar facial expressions.

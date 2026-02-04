@@ -4,7 +4,7 @@ using UniVRM10;
 using VRM;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.FaceApplier
 {
     /// <summary>
     /// Applies blendshapes to VRM 1.0 format avatars.

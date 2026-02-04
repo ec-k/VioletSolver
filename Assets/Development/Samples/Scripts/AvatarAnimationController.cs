@@ -1,5 +1,6 @@
 using UnityEngine;
 using VRM;
+using VioletSolver.FaceApplier;
 
 using mpBlendShapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 

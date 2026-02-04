@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using VRM;
 using MediaPipeBlendshapes = HumanLandmarks.Blendshapes.Types.BlendshapesIndex;
 
-namespace VioletSolver
+namespace VioletSolver.FaceApplier
 {
     /// <summary>
     /// Applies blendshapes to VRM 0.x format avatars.
