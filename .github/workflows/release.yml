@@ -17,8 +17,8 @@ jobs:
 
       - name: Copy Samples to package
         run: |
-          mkdir -p Assets/VioletSolver/Samples~/AvatarAnimation
-          cp -r Assets/Development/Samples/Scripts/* Assets/VioletSolver/Samples~/AvatarAnimation/
+          mkdir -p Assets/VioletSolver/Samples~
+          cp -r Assets/Development/Samples/Scripts/* Assets/VioletSolver/Samples~/
           # Remove asmdef from Samples~ (not needed when imported via Package Manager)
           rm -f Assets/VioletSolver/Samples~/AvatarAnimation/VioletSolver.Samples.asmdef
           rm -f Assets/VioletSolver/Samples~/AvatarAnimation/VioletSolver.Samples.asmdef.meta
