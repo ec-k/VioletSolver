@@ -58,6 +58,7 @@ namespace VioletSolver.Samples
             _assetsPositionSynchronizer.Adjust();
 
             _landmarkHandler = new LandmarkHandler(_landmarkProvider);
+            var poseHandler = new Pose.PoseHandler();
 
             IBlendshapeSolver blendshapeSolver = _isPerfectSyncEnabled
                 ? new PerfectSyncBlendshapeSolver()
@@ -68,6 +69,7 @@ namespace VioletSolver.Samples
                 _ikRigRoot,
                 _animator,
                 _landmarkHandler,
+                poseHandler,
                 blendshapeSolver,
                 faceApplier
             );

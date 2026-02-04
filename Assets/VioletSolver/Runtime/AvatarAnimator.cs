@@ -18,7 +18,7 @@ namespace VioletSolver
         readonly GameObject _ikRigRoot;
 
         readonly LandmarkHandler _landmarkHandler;
-        readonly PoseHandler _avatarPoseHandler;
+        readonly PoseHandler _poseHandler;
         readonly AvatarBones _restBones;
 
         readonly IBlendshapeSolver _blendshapeSolver;
@@ -32,18 +32,19 @@ namespace VioletSolver
         /// <param name="ikRigRoot">The root GameObject for the IK rig.</param>
         /// <param name="animator">The avatar's Animator component.</param>
         /// <param name="landmarkHandler">The handler that receives and filters landmarks.</param>
+        /// <param name="poseHandler">The handler that filters and stores pose data.</param>
         /// <param name="blendshapeSolver">The solver that resolves blendshapes.</param>
         /// <param name="faceApplier">The applier that applies facial expressions to the avatar.</param>
         public AvatarAnimator(
             GameObject ikRigRoot,
             Animator animator,
             LandmarkHandler landmarkHandler,
+            PoseHandler poseHandler,
             IBlendshapeSolver blendshapeSolver,
             IFaceApplier faceApplier)
         {
             _landmarkHandler = landmarkHandler;
-            _avatarPoseHandler = new();
-
+            _poseHandler = poseHandler;
             _blendshapeSolver = blendshapeSolver;
             _faceApplier = faceApplier;
 
@@ -67,7 +68,7 @@ namespace VioletSolver
         {
             UpdatePose(isIkEnabled);
 
-            Dictionary<BlendShapePreset, float> vrmBs = null;
+            IReadOnlyDictionary<BlendShapePreset, float> vrmBs = null;
             IReadOnlyDictionary<mpBlendshapes, float> mpBs = null;
 
             var bsResult = _blendshapeSolver.Solve(_landmarkHandler.MpBlendshapes);
@@ -75,23 +76,23 @@ namespace VioletSolver
             {
                 if (bsResult.VrmBlendshapes is not null)
                 {
-                    _avatarPoseHandler.Update(bsResult.VrmBlendshapes);
-                    vrmBs = _avatarPoseHandler.BlendshapeWeights;
+                    _poseHandler.Update(bsResult.VrmBlendshapes);
+                    vrmBs = _poseHandler.BlendshapeWeights;
                 }
 
                 if (bsResult.PerfectSyncBlendshapes is not null)
                 {
-                    _avatarPoseHandler.Update(bsResult.PerfectSyncBlendshapes);
-                    mpBs = _avatarPoseHandler.PerfectSyncWeights;
+                    _poseHandler.Update(bsResult.PerfectSyncBlendshapes);
+                    mpBs = _poseHandler.PerfectSyncWeights;
                 }
 
-                _avatarPoseHandler.Update(HumanBodyBones.LeftEye, bsResult.LeftEye);
-                _avatarPoseHandler.Update(HumanBodyBones.RightEye, bsResult.RightEye);
+                _poseHandler.Update(HumanBodyBones.LeftEye, bsResult.LeftEye);
+                _poseHandler.Update(HumanBodyBones.RightEye, bsResult.RightEye);
             }
 
             return new AnimationResultData
             {
-                PoseData = _avatarPoseHandler.PoseData,
+                PoseData = _poseHandler.PoseData,
                 VrmBlendshapes = vrmBs,
                 PerfectSyncBlendshapes = mpBs
             };
@@ -126,7 +127,7 @@ namespace VioletSolver
             var landmarks = _landmarkHandler.Landmarks;
             var pose = HolisticSolver.Solve(landmarks, _restBones, isIkEnabled, isKinectPose);
             pose.time = isKinectPose ? landmarks.KinectPose.Time : landmarks.MediaPipePose.Time;
-            _avatarPoseHandler.Update(pose);
+            _poseHandler.Update(pose);
         }
 
         void AnimateAvatar(Animator animator, AvatarPoseData pose, bool isIkEnabled, bool enableLeg, Transform? offset = null)
