@@ -24,10 +24,20 @@ jobs:
       - name: Create test branch
         run: |
           BRANCH="test/release-${{ github.event.inputs.test_name }}"
+          REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver"
+
+          # Update README URLs with branch name
+          for README in README.md README_jp.md; do
+            if [ -f "$README" ]; then
+              sed -i "s|${REPO_URL}\(#[^[:space:]|]*\)\?|${REPO_URL}#${BRANCH}|g" "$README"
+              echo "Updated ${README} URLs with #${BRANCH}"
+            fi
+          done
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "${BRANCH}"
-          git add Assets/VioletSolver/Samples~
+          git add Assets/VioletSolver/Samples~ README.md README_jp.md
           git commit -m "test: release workflow (${{ github.event.inputs.test_name }})"
           git push origin "${BRANCH}" --force
           echo ""

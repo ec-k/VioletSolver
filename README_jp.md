@@ -37,7 +37,7 @@ Violet Solver を使用するには、以下の依存関係をプロジェクト
 4.  以下の URL を入力し、`Add` をクリックします。
 
     ```
-    https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver#v0.2.1
+    https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver
     ```
 
 これで Violet Solver パッケージがプロジェクトに導入されます。
