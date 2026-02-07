@@ -8,12 +8,19 @@ namespace VioletSolver.Interpolation
         Dictionary<TKey, float> _prevBlendshapes = new();
         Dictionary<TKey, float> _nextBlendshapes = new();
         Dictionary<TKey, float> _result = new();
+        float _prevProcessedDataTime;
         float _lastProcessedDataTime; // Time of the _nextBlendshapes data
-        readonly float _dataInterval;
+        float _dataInterval;
+        readonly float _fixedDataInterval;
 
-        public BlendshapeInterpolator(int dataFrameRate = 30)
+        public bool UseVariableFrameRate { get; set; }
+
+        public BlendshapeInterpolator(bool useVariableFrameRate = false, int dataFrameRate = 30)
         {
-            _dataInterval = 1f / dataFrameRate;
+            UseVariableFrameRate = useVariableFrameRate;
+            _fixedDataInterval = 1f / dataFrameRate;
+            _dataInterval = _fixedDataInterval;
+            _prevProcessedDataTime = 0f;
             _lastProcessedDataTime = 0f;
         }
 
@@ -24,7 +31,21 @@ namespace VioletSolver.Interpolation
             {
                 DictionaryValueCopy(_nextBlendshapes, _prevBlendshapes);
                 DictionaryValueCopy(newBlendshapes, _nextBlendshapes);
+                _prevProcessedDataTime = _lastProcessedDataTime;
                 _lastProcessedDataTime = newDataTime;
+
+                if (UseVariableFrameRate && _prevProcessedDataTime > 0f)
+                {
+                    float measuredInterval = _lastProcessedDataTime - _prevProcessedDataTime;
+                    if (measuredInterval > 0f)
+                    {
+                        _dataInterval = measuredInterval;
+                    }
+                }
+                else
+                {
+                    _dataInterval = _fixedDataInterval;
+                }
             }
             catch (System.InvalidOperationException)
             {

@@ -8,14 +8,21 @@ namespace VioletSolver.Interpolation
     {
         AvatarPoseData _prevPoseData;
         AvatarPoseData _nextPoseData;
+        float _prevProcessedTime;
         float _lastProcessedTime;
-        readonly float _dataInterval;
+        float _dataInterval;
+        readonly float _fixedDataInterval;
 
-        public PoseInterpolator(int dataFrameRate = 30)
+        public bool UseVariableFrameRate { get; set; }
+
+        public PoseInterpolator(bool useVariableFrameRate = false, int dataFrameRate = 30)
         {
-            _dataInterval = 1f / dataFrameRate;
+            UseVariableFrameRate = useVariableFrameRate;
+            _fixedDataInterval = 1f / dataFrameRate;
+            _dataInterval = _fixedDataInterval;
             _prevPoseData = new AvatarPoseData();
             _nextPoseData = new AvatarPoseData();
+            _prevProcessedTime = 0f;
             _lastProcessedTime = 0f;
         }
 
@@ -25,7 +32,21 @@ namespace VioletSolver.Interpolation
             {
                 _prevPoseData = _nextPoseData.Copy();
                 _nextPoseData = newInputPose.Copy();
+                _prevProcessedTime = _lastProcessedTime;
                 _lastProcessedTime = newInputPose.time;
+
+                if (UseVariableFrameRate && _prevProcessedTime > 0f)
+                {
+                    float measuredInterval = _lastProcessedTime - _prevProcessedTime;
+                    if (measuredInterval > 0f)
+                    {
+                        _dataInterval = measuredInterval;
+                    }
+                }
+                else
+                {
+                    _dataInterval = _fixedDataInterval;
+                }
             }
 
             float interpolationAmount = Mathf.Clamp01((Time.time - _lastProcessedTime) / _dataInterval);
