@@ -20,8 +20,11 @@ fi
 # Remove 'v' prefix if present
 VERSION=${TAG#v}
 
-# Ensure tag has 'v' prefix for URL
+# Ensure tag has 'v' prefix
 TAG_WITH_V="v${VERSION}"
+
+# Release branch name
+BRANCH="release/${TAG_WITH_V}"
 
 PACKAGE_JSON="Assets/VioletSolver/package.json"
 
@@ -33,12 +36,12 @@ fi
 jq --arg v "$VERSION" '.version = $v' "$PACKAGE_JSON" > tmp.json && mv tmp.json "$PACKAGE_JSON"
 echo "Updated package.json version to ${VERSION}"
 
-# Update README URLs with version tag
+# Update README URLs with release branch name
 REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver"
 
 for README in README.md README_jp.md; do
   if [ -f "$README" ]; then
-    sed -i "s|${REPO_URL}\(#v[0-9.]*\)\?|${REPO_URL}#${TAG_WITH_V}|g" "$README"
-    echo "Updated ${README} URLs with #${TAG_WITH_V}"
+    sed -i "s|${REPO_URL}\(#[^[:space:]|]*\)\?|${REPO_URL}#${BRANCH}|g" "$README"
+    echo "Updated ${README} URLs with #${BRANCH}"
   fi
 done
