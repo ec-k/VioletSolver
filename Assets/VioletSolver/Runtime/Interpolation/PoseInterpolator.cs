@@ -9,10 +9,11 @@ namespace VioletSolver.Interpolation
         AvatarPoseData _prevPoseData;
         AvatarPoseData _nextPoseData;
         float _lastProcessedTime;
-        const float _dataInterval = 1f / 30f;
+        readonly float _dataInterval;
 
-        public PoseInterpolator()
+        public PoseInterpolator(int dataFrameRate = 30)
         {
+            _dataInterval = 1f / dataFrameRate;
             _prevPoseData = new AvatarPoseData();
             _nextPoseData = new AvatarPoseData();
             _lastProcessedTime = 0f;

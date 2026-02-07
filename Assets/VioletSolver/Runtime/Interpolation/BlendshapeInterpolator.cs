@@ -9,10 +9,11 @@ namespace VioletSolver.Interpolation
         Dictionary<TKey, float> _nextBlendshapes = new();
         Dictionary<TKey, float> _result = new();
         float _lastProcessedDataTime; // Time of the _nextBlendshapes data
-        const float _dataInterval = 1f / 30f; // Assuming 30Hz blendshape data
+        readonly float _dataInterval;
 
-        public BlendshapeInterpolator()
+        public BlendshapeInterpolator(int dataFrameRate = 30)
         {
+            _dataInterval = 1f / dataFrameRate;
             _lastProcessedDataTime = 0f;
         }
 
