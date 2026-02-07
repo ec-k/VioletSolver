@@ -10,7 +10,24 @@ on:
 
 jobs:
   test-release:
-    uses: ./.github/workflows/release-action.yml
-    with:
-      mode: test
-      test_name: ${{ github.event.inputs.test_name }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Prepare release
+        uses: ./.github/actions/prepare-release
+
+      - name: Create test branch
+        run: |
+          BRANCH="test/release-${{ github.event.inputs.test_name }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Assets/VioletSolver/Samples~
+          git commit -m "test: release workflow (${{ github.event.inputs.test_name }})"
+          git push origin "${BRANCH}" --force
+          echo ""
+          echo "=== Test branch created ==="
+          echo "Branch: ${BRANCH}"
+          echo "You can now test importing this package from the test branch."

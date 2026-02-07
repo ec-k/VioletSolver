@@ -7,6 +7,32 @@ on:
 
 jobs:
   release:
-    uses: ./.github/workflows/release-action.yml
-    with:
-      mode: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Prepare release
+        uses: ./.github/actions/prepare-release
+
+      - name: Update package.json version
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          chmod +x .github/scripts/update-version.sh
+          .github/scripts/update-version.sh "$TAG"
+
+      - name: Create release branch
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          BRANCH="release/${TAG}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Assets/VioletSolver/Samples~ Assets/VioletSolver/package.json
+          git commit -m "chore: release ${TAG}"
+          git push origin "${BRANCH}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
