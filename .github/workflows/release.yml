@@ -18,10 +18,8 @@ jobs:
       - name: Copy Samples to package
         run: |
           mkdir -p Assets/VioletSolver/Samples~
-          # Copy without .meta files (Package Manager generates new GUIDs on import)
-          rsync -av --exclude='*.meta' Assets/Development/Samples/ Assets/VioletSolver/Samples~/
-          # Remove asmdef from Samples~ (not needed when imported via Package Manager)
-          rm -f Assets/VioletSolver/Samples~/Scripts/VioletSolver.Samples.asmdef
+          # Copy only script files (without .meta and asmdef)
+          rsync -av --exclude='*.meta' --exclude='*.asmdef' Assets/Development/Samples/Scripts/ Assets/VioletSolver/Samples~/
 
       - name: Create release branch
         run: |
