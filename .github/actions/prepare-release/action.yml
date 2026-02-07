@@ -1,12 +1,9 @@
 name: Prepare Release
-description: Checkout and copy Samples to package
+description: Copy Samples to package
 
 runs:
   using: composite
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
     - name: Copy Samples to package
       shell: bash
       run: |
