@@ -1,0 +1,77 @@
+name: Release Action
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: "'release' or 'test'"
+        type: string
+        required: true
+      test_name:
+        description: "Test identifier (only for test mode)"
+        type: string
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy Samples to package
+        run: |
+          mkdir -p Assets/VioletSolver/Samples~
+          # Copy only script files (without .meta and asmdef)
+          rsync -av --exclude='*.meta' --exclude='*.asmdef' Assets/Development/Samples/Scripts/ Assets/VioletSolver/Samples~/
+
+      - name: Verify no .meta files copied
+        if: inputs.mode == 'test'
+        run: |
+          echo "=== Checking for .meta files in Samples~ ==="
+          META_COUNT=$(find Assets/VioletSolver/Samples~ -name "*.meta" | wc -l)
+          if [ "$META_COUNT" -gt 0 ]; then
+            echo "ERROR: Found $META_COUNT .meta files!"
+            find Assets/VioletSolver/Samples~ -name "*.meta"
+            exit 1
+          fi
+          echo "OK: No .meta files found"
+          echo ""
+          echo "=== Files in Samples~ ==="
+          find Assets/VioletSolver/Samples~ -type f | head -50
+
+      - name: Create release branch
+        if: inputs.mode == 'release'
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          BRANCH="release/${TAG}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Assets/VioletSolver/Samples~
+          git commit -m "chore: add Samples~ for ${TAG}"
+          git push origin "${BRANCH}"
+
+      - name: Create test branch
+        if: inputs.mode == 'test'
+        run: |
+          BRANCH="test/release-${{ inputs.test_name }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Assets/VioletSolver/Samples~
+          git commit -m "test: release workflow (${{ inputs.test_name }})"
+          git push origin "${BRANCH}" --force
+          echo ""
+          echo "=== Test branch created ==="
+          echo "Branch: ${BRANCH}"
+          echo "You can now test importing this package from the test branch."
+
+      - name: Create GitHub Release
+        if: inputs.mode == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
