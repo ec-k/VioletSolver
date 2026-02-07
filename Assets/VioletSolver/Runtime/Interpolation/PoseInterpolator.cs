@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 using VioletSolver.Pose;
 
@@ -8,9 +9,8 @@ namespace VioletSolver.Interpolation
     {
         AvatarPoseData _prevPoseData;
         AvatarPoseData _nextPoseData;
-        float _prevProcessedTime;
-        float _lastProcessedTime;
-        float _dataInterval;
+        float _prevDataTime;
+        float _lastDataTime;
         readonly float _fixedDataInterval;
 
         public bool UseVariableFrameRate { get; set; }
@@ -19,37 +19,27 @@ namespace VioletSolver.Interpolation
         {
             UseVariableFrameRate = useVariableFrameRate;
             _fixedDataInterval = 1f / dataFrameRate;
-            _dataInterval = _fixedDataInterval;
             _prevPoseData = new AvatarPoseData();
             _nextPoseData = new AvatarPoseData();
-            _prevProcessedTime = 0f;
-            _lastProcessedTime = 0f;
+            _prevDataTime = 0f;
+            _lastDataTime = 0f;
         }
 
         public AvatarPoseData UpdateAndInterpolate(AvatarPoseData newInputPose)
         {
-            if (newInputPose.time > _lastProcessedTime)
+            if (newInputPose.time > _lastDataTime)
             {
                 _prevPoseData = _nextPoseData.Copy();
                 _nextPoseData = newInputPose.Copy();
-                _prevProcessedTime = _lastProcessedTime;
-                _lastProcessedTime = newInputPose.time;
-
-                if (UseVariableFrameRate && _prevProcessedTime > 0f)
-                {
-                    float measuredInterval = _lastProcessedTime - _prevProcessedTime;
-                    if (measuredInterval > 0f)
-                    {
-                        _dataInterval = measuredInterval;
-                    }
-                }
-                else
-                {
-                    _dataInterval = _fixedDataInterval;
-                }
+                _prevDataTime = _lastDataTime;
+                _lastDataTime = newInputPose.time;
             }
 
-            float interpolationAmount = Mathf.Clamp01((Time.time - _lastProcessedTime) / _dataInterval);
+            float currentTime = (float)Stopwatch.GetTimestamp() / Stopwatch.Frequency;
+            float dataInterval = UseVariableFrameRate && _prevDataTime > 0f
+                ? _lastDataTime - _prevDataTime
+                : _fixedDataInterval;
+            float interpolationAmount = Mathf.Clamp01((currentTime - _prevDataTime) / dataInterval);
 
             AvatarPoseData result = new AvatarPoseData();
 

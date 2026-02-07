@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace VioletSolver.Interpolation
@@ -8,9 +9,8 @@ namespace VioletSolver.Interpolation
         Dictionary<TKey, float> _prevBlendshapes = new();
         Dictionary<TKey, float> _nextBlendshapes = new();
         Dictionary<TKey, float> _result = new();
-        float _prevProcessedDataTime;
-        float _lastProcessedDataTime; // Time of the _nextBlendshapes data
-        float _dataInterval;
+        float _prevDataTime;
+        float _lastDataTime;
         readonly float _fixedDataInterval;
 
         public bool UseVariableFrameRate { get; set; }
@@ -19,9 +19,8 @@ namespace VioletSolver.Interpolation
         {
             UseVariableFrameRate = useVariableFrameRate;
             _fixedDataInterval = 1f / dataFrameRate;
-            _dataInterval = _fixedDataInterval;
-            _prevProcessedDataTime = 0f;
-            _lastProcessedDataTime = 0f;
+            _prevDataTime = 0f;
+            _lastDataTime = 0f;
         }
 
         public Dictionary<TKey, float> UpdateAndInterpolate(IReadOnlyDictionary<TKey, float> newBlendshapes, float newDataTime)
@@ -31,30 +30,21 @@ namespace VioletSolver.Interpolation
             {
                 DictionaryValueCopy(_nextBlendshapes, _prevBlendshapes);
                 DictionaryValueCopy(newBlendshapes, _nextBlendshapes);
-                _prevProcessedDataTime = _lastProcessedDataTime;
-                _lastProcessedDataTime = newDataTime;
-
-                if (UseVariableFrameRate && _prevProcessedDataTime > 0f)
-                {
-                    float measuredInterval = _lastProcessedDataTime - _prevProcessedDataTime;
-                    if (measuredInterval > 0f)
-                    {
-                        _dataInterval = measuredInterval;
-                    }
-                }
-                else
-                {
-                    _dataInterval = _fixedDataInterval;
-                }
+                _prevDataTime = _lastDataTime;
+                _lastDataTime = newDataTime;
             }
             catch (System.InvalidOperationException)
             {
                 // Skip updating for this frame if a collection modification conflict occurred.
-                Debug.LogWarning("[BlendshapeInterpolator] Source collection was modified during copy. Skipping update until the next frame.");
+                UnityEngine.Debug.LogWarning("[BlendshapeInterpolator] Source collection was modified during copy. Skipping update until the next frame.");
                 return _result;
             }
 
-            float interpolationAmount = Mathf.Clamp01((Time.time - _lastProcessedDataTime) / _dataInterval);
+            float currentTime = (float)Stopwatch.GetTimestamp() / Stopwatch.Frequency;
+            float dataInterval = UseVariableFrameRate && _prevDataTime > 0f
+                ? _lastDataTime - _prevDataTime
+                : _fixedDataInterval;
+            float interpolationAmount = Mathf.Clamp01((currentTime - _prevDataTime) / dataInterval);
 
             _result.Clear();
 
