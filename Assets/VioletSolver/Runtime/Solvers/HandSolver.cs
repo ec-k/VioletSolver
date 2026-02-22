@@ -59,8 +59,8 @@ namespace VioletSolver.Solver
 				Vector3 handForwardDir = plane.normal;
 
 				var rot = new Quaternion();
-				if (handForwardDir != Vector3.zero && handUpDir != Vector3.zero) 
-					rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(0, 90, -90);
+				if (handForwardDir != Vector3.zero && handUpDir != Vector3.zero)
+					rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(180, 90, -90);
 				angles.Add(new((int)handIndex.Wrist, rot.eulerAngles));
 			}
 
@@ -83,7 +83,7 @@ namespace VioletSolver.Solver
 
                 var rot = new Quaternion();
                 if (handForwardDir != Vector3.zero && handUpDir != Vector3.zero)
-                    rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(0, 90, 90);
+                    rot = Quaternion.LookRotation(handForwardDir, handUpDir) * Quaternion.Euler(180, 90, 90);
 				angles.Add(new((int)handIndex.Wrist, rot.eulerAngles));
 			}
 

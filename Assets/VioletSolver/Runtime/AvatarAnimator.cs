@@ -130,7 +130,7 @@ namespace VioletSolver
             var isKinectPose = _landmarkHandler.IsKinectPose;
 
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBones, isIkEnabled, isKinectPose);
+            var pose = HolisticSolver.Solve(landmarks, _restBones, Animator, isIkEnabled, isKinectPose);
             pose.time = isKinectPose ? landmarks.KinectPose.Time : landmarks.MediaPipePose.Time;
             _poseHandler.Update(pose);
         }

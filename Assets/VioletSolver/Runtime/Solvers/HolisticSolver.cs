@@ -9,9 +9,7 @@ namespace VioletSolver.Solver
 {
     internal static class HolisticSolver
     {
-        // Probably, this class has PoseSolver, HandSolver and FaceSolver.
-        // Use them.Solve in a function below and solve pose holisticly.
-        internal static AvatarPoseData Solve(in HolisticLandmarks landmarks, in AvatarBones restBones, bool useIk, bool isKinectPose)
+        internal static AvatarPoseData Solve(in HolisticLandmarks landmarks, in AvatarBones restBones, Animator animator, bool useIk, bool isKinectPose)
         {
             var solvedPose = new AvatarPoseData();
 
@@ -21,14 +19,57 @@ namespace VioletSolver.Solver
                 solvedPose = MediaPipePoseSolver.SolvePose(landmarks.MediaPipePose.Landmarks, restBones, useIk);
             if (ExistLandmarks(landmarks.Face) && !isKinectPose)
                 solvedPose.Neck = MediaPipeHeadRotationSolver.Solve(landmarks.Face.Landmarks);
-            if(ExistLandmarks(landmarks.LeftHand))
-                solvedPose.SetLeftHandData(HandSolver.SolveLeftHand(landmarks.LeftHand));
+
+            // Solve hand rotations and apply fingertip alignment for IK wrist position
+            if (ExistLandmarks(landmarks.LeftHand))
+            {
+                var leftHandData = HandSolver.SolveLeftHand(landmarks.LeftHand);
+                solvedPose.SetLeftHandData(leftHandData);
+
+                if (useIk)
+                {
+                    var poseWristPos = solvedPose.LeftHandPosition;
+                    var avatarWristToDistal = GetAvatarWristToDistalVector(animator, HumanBodyBones.LeftHand, HumanBodyBones.LeftIndexDistal);
+                    solvedPose.LeftHandPosition = FingertipAlignmentSolver.SolveWristPosition(
+                        landmarks.LeftHand,
+                        poseWristPos,
+                        avatarWristToDistal);
+                }
+            }
+
             if (ExistLandmarks(landmarks.RightHand))
-                solvedPose.SetRightHandData(HandSolver.SolveRightHand(landmarks.RightHand));
-            
+            {
+                var rightHandData = HandSolver.SolveRightHand(landmarks.RightHand);
+                solvedPose.SetRightHandData(rightHandData);
+
+                if (useIk)
+                {
+                    var poseWristPos = solvedPose.RightHandPosition;
+                    var avatarWristToDistal = GetAvatarWristToDistalVector(animator, HumanBodyBones.RightHand, HumanBodyBones.RightIndexDistal);
+                    solvedPose.RightHandPosition = FingertipAlignmentSolver.SolveWristPosition(
+                        landmarks.RightHand,
+                        poseWristPos,
+                        avatarWristToDistal);
+                }
+            }
+
             solvedPose.time = landmarks.Pose.Time;
 
             return solvedPose;
+        }
+
+        /// <summary>
+        /// Gets the current vector from wrist to index finger distal on the avatar.
+        /// </summary>
+        static Vector3 GetAvatarWristToDistalVector(Animator animator, HumanBodyBones wristBone, HumanBodyBones indexDistalBone)
+        {
+            var wristTransform = animator.GetBoneTransform(wristBone);
+            var distalTransform = animator.GetBoneTransform(indexDistalBone);
+
+            if (wristTransform == null || distalTransform == null)
+                return Vector3.forward * 0.1f; // Fallback default
+
+            return distalTransform.position - wristTransform.position;
         }
 
         static bool ExistLandmarks(in ILandmarkList landmarks)
