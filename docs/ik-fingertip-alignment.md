@@ -1,10 +1,10 @@
 ---
 created: 2026-02-22T15:34
-updated: 2026-02-22T15:43
+updated: 2026-02-23T12:00
 ---
 # IK Target Adjustment: Fingertip Alignment Method
 
-This document describes the IK target adjustment method for correctly aligning the index fingertip during self-touch gestures.
+This document describes the IK target adjustment method for correctly aligning the index finger during self-touch gestures.
 
 ## Background and Challenges
 
@@ -18,11 +18,12 @@ The method described in this document is specifically designed to compensate for
 
 ### Constraints
 
-FinalIK's VRIK can only set the **wrist position and rotation**. It cannot directly specify the fingertip position.
+- FinalIK's VRIK can only set the **wrist position and rotation**. It cannot directly specify the fingertip position.
+- Unity Humanoid does not have Tip (fingertip) bones. Distal is the most distal bone available.
 
 ### Goal
 
-Align the avatar's index fingertip to match the index fingertip position obtained from MediaPipe.Hand.
+Align the avatar's index finger Distal to match the index finger DIP position obtained from MediaPipe.Hand.
 
 ## Input Data
 
@@ -35,15 +36,17 @@ Align the avatar's index fingertip to match the index fingertip position obtaine
 
 - Provides 21 hand landmark points
 - index 0: Wrist
-- index 8: Index fingertip (IndexFingerTip)
+- index 7: Index finger DIP (IndexFingerDip)
 
 ## Method
 
 ### Basic Concept
 
-Since VRIK can only control the wrist, we calculate the wrist position that would place the index fingertip at the target position (inverse calculation).
+Since VRIK can only control the wrist, we calculate the wrist position that would place the index finger Distal at the target position (inverse calculation).
 
-However, since Kinect's HandTip estimation accuracy is unstable, we use the more reliable results from MediaPipe.Hand.
+Since Kinect's HandTip estimation accuracy is unstable, we use the more reliable results from MediaPipe.Hand.
+
+Since Unity Humanoid does not have Tip bones, we use DIP on the MediaPipe.Hand side instead of Tip, corresponding to the avatar's Distal.
 
 ### Implementation Steps
 
@@ -55,31 +58,39 @@ Align the MediaPipe.Hand wrist (index 0) to the Kinect wrist position. This unif
 handWristWorld = kinectWristPosition
 ```
 
-#### Step 2: Calculate Offset Considering Wrist Rotation
+#### Step 2: Calculate Target DIP Position
 
-Calculate the avatar's "wrist to index fingertip offset" considering the current wrist rotation.
+Add the MediaPipe.Hand wrist-to-DIP offset to the Kinect wrist position to obtain the target DIP position.
 
 ```csharp
-// Offset in avatar's local space (bind pose or current pose)
-Vector3 localOffset = avatarIndexTip - avatarWrist;  // Local space
+// MediaPipe.Hand wrist-to-DIP offset
+Vector3 userWristToDip = handIndexDip - handWrist;
 
-// Transform to world space by applying current wrist rotation
-Vector3 rotatedOffset = wristRotation * localOffset;
+// Target DIP position (world coordinates)
+Vector3 targetIndexDip = poseWristPosition + userWristToDip;
 ```
 
-#### Step 3: Calculate IK Wrist Position
+#### Step 3: Get Avatar Wrist-to-Distal Vector
 
-Subtract the rotated offset from the MediaPipe.Hand index fingertip position to obtain the wrist position.
+Get the vector from the avatar's current wrist to Distal in world coordinates.
 
 ```csharp
-// MediaPipe.Hand index fingertip (converted to world coordinates)
-Vector3 targetIndexTip = TransformToWorld(mediaPipeHand.Landmarks[8]);
+// Avatar's current wrist-to-Distal vector in world coordinates
+Vector3 avatarWristToDistal = distalTransform.position - wristTransform.position;
+```
 
+Note: This value is based on the finger state from the previous frame. Since finger movements are relatively slow, this is not a practical issue.
+
+#### Step 4: Calculate IK Wrist Position
+
+Subtract the avatar's wrist-to-Distal vector from the target DIP position to obtain the wrist position.
+
+```csharp
 // Wrist position to pass to VRIK
-Vector3 ikWristPosition = targetIndexTip - rotatedOffset;
+Vector3 ikWristPosition = targetIndexDip - avatarWristToDistal;
 ```
 
-#### Step 4: Apply to VRIK
+#### Step 5: Apply to VRIK
 
 Pass the calculated wrist position and the wrist rotation derived from MediaPipe.Hand to VRIK.
 
@@ -90,40 +101,33 @@ vrik.solver.leftArm.target.rotation = wristRotation;
 
 ## Important Considerations
 
-### Use Pre-IK Values
+### One Frame Delay
 
-The calculation of `avatarIndexTip - avatarWrist` must use bone positions before IK is applied. Using post-IK values will cause a feedback loop.
-
-Countermeasures:
-- Calculate in VRIK's `OnPreUpdate`
-- Or cache the bone positions before IK application
+`avatarWristToDistal` is obtained via `animator.GetBoneTransform`, so it uses the state before the finger rotations calculated in the current frame are applied (one frame behind). Since finger movements are relatively slow, this is not a practical issue.
 
 ### Wrist Rotation Consistency
 
-The wrist rotation must also be set correctly, otherwise the index fingertip will not reach the target position. The wrist rotation needs to be calculated from MediaPipe.Hand and passed to VRIK.
-
-### Scale Correction
-
-When there are body proportion differences between the avatar and user, scale correction may be needed for the local offset.
-
-```csharp
-Vector3 scaledLocalOffset = localOffset * avatarScale;
-```
+The wrist rotation must also be set correctly, otherwise the index finger will not reach the target position. The wrist rotation needs to be calculated from MediaPipe.Hand and passed to VRIK.
 
 ## Formula Summary
 
 ```
-P_target    = World position of MediaPipe.Hand index fingertip
-R_wrist     = Wrist rotation (from MediaPipe.Hand or Kinect)
-O_local     = Local offset from avatar's wrist to index fingertip
-O_rotated   = R_wrist * O_local
+P_wrist_pose     = Kinect/Pose wrist world position
+P_dip_hand       = MediaPipe.Hand DIP position (relative to wrist)
+P_wrist_hand     = MediaPipe.Hand wrist position (= origin)
 
-P_ikWrist   = P_target - O_rotated
+O_user           = P_dip_hand - P_wrist_hand  (user's wrist-to-DIP offset)
+P_target_dip     = P_wrist_pose + O_user      (target DIP position)
+
+O_avatar         = Avatar's wrist-to-Distal vector (world coordinates, one frame behind)
+
+P_ik_wrist       = P_target_dip - O_avatar
 ```
 
 ## Related Files
 
-- `Assets/VioletSolver/Runtime/Solvers/KinectPoseSolver.cs`: Kinect pose solver
+- `Assets/VioletSolver/Runtime/Solvers/FingertipAlignmentSolver.cs`: Fingertip alignment solver
+- `Assets/VioletSolver/Runtime/Solvers/HolisticSolver.cs`: Holistic solver
 - `Assets/VioletSolver/Runtime/Solvers/HandSolver.cs`: Hand solver
 - `Assets/VioletSolver/Runtime/Setup/VRIKSetup.cs`: VRIK initialization
 
