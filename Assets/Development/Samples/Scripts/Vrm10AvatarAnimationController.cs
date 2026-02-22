@@ -63,7 +63,8 @@ namespace VioletSolver.Samples
             _assetsPositionSynchronizer.Adjust();
 
             _landmarkHandler = new LandmarkHandler(_landmarkProvider);
-            var poseHandler = new Pose.PoseHandler();
+            var poseFilters = new Pose.IAvatarPoseFilter[] { new Pose.HandPositionOneEuroFilter() };
+            var poseHandler = new Pose.PoseHandler(poseFilters);
 
             IBlendshapeSolver blendshapeSolver = _isPerfectSyncEnabled
                 ? new PerfectSyncBlendshapeSolver()
