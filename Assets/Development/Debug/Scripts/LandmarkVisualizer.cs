@@ -33,6 +33,10 @@ namespace VioletSolver.Debug
         [SerializeField] bool _isExternallyControlled = false;
         float _scale = 1f;
 
+        [Header("Hand-Pose Alignment")]
+        [SerializeField, Tooltip("Align MediaPipe.Hand wrist to Kinect Pose wrist position")]
+        bool _alignHandWristsToPose = false;
+
         void Reset()
         {
             _posePosOffset  = new(0, 0, 1f);
@@ -101,29 +105,46 @@ namespace VioletSolver.Debug
         /// </summary>
         public void UpdateVisualization()
         {
+            var poseLm = _landmarkHandler.Landmarks.Pose;
+            var leftHandLm = _landmarkHandler.Landmarks.LeftHand;
+            var rightHandLm = _landmarkHandler.Landmarks.RightHand;
+
             // Visualize Pose
+            if (poseLm != null)
             {
-                var lm = _landmarkHandler.Landmarks.Pose;
-                if (lm != null)
-                {
-                    _poseLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(lm, _scale), _posePosOffset);
-                }
+                _poseLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(poseLm, _scale), _posePosOffset);
             }
+
             // Visualize Left Hand
+            if (leftHandLm != null)
             {
-                var lm = _landmarkHandler.Landmarks.LeftHand;
-                if (lm != null)
+                Vector3 offset = _lHandPosOffset;
+                if (_alignHandWristsToPose && poseLm != null)
                 {
-                    _leftHandLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(lm), _lHandPosOffset);
+                    // Align MediaPipe.Hand wrist (index 0) to Kinect Pose wrist (WristLeft = 7)
+                    const int kinectWristLeftIndex = 7;
+                    const int handWristIndex = 0;
+                    var kinectWristPos = poseLm.Landmarks[kinectWristLeftIndex].Position * _scale;
+                    var handWristPos = leftHandLm.Landmarks[handWristIndex].Position;
+                    offset = kinectWristPos - handWristPos + _posePosOffset;
                 }
+                _leftHandLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(leftHandLm), offset);
             }
+
             // Visualize Right Hand
+            if (rightHandLm != null)
             {
-                var lm = _landmarkHandler.Landmarks.RightHand;
-                if (lm != null)
+                Vector3 offset = _rHandPosOffset;
+                if (_alignHandWristsToPose && poseLm != null)
                 {
-                    _rightHandLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(lm), _rHandPosOffset);
+                    // Align MediaPipe.Hand wrist (index 0) to Kinect Pose wrist (WristRight = 14)
+                    const int kinectWristRightIndex = 14;
+                    const int handWristIndex = 0;
+                    var kinectWristPos = poseLm.Landmarks[kinectWristRightIndex].Position * _scale;
+                    var handWristPos = rightHandLm.Landmarks[handWristIndex].Position;
+                    offset = kinectWristPos - handWristPos + _posePosOffset;
                 }
+                _rightHandLandmarkVisualizer.UpdateGraphVisual(ExtractPositions(rightHandLm), offset);
             }
         }
 
