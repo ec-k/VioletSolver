@@ -24,28 +24,24 @@ namespace VioletSolver.Setup
             HumanBodyBones.LeftUpperArm,
             HumanBodyBones.LeftLowerArm,
             HumanBodyBones.LeftHand,
-            //HumanBodyBones.LeftMiddleDistal
         };
         readonly HumanBodyBones[] _avatarRightArmBones = new HumanBodyBones[]
         {
             HumanBodyBones.RightUpperArm,
             HumanBodyBones.RightLowerArm,
             HumanBodyBones.RightHand,
-            //HumanBodyBones.RightMiddleDistal
         };
         readonly kinectIndex[] _userLeftArmBones = new kinectIndex[]
         {
             kinectIndex.ShoulderLeft,
             kinectIndex.ElbowLeft,
             kinectIndex.WristLeft,
-            //kinectIndex.HandtipLeft
         };
         readonly kinectIndex[] _userRightArmBones = new kinectIndex[]
         {
             kinectIndex.ShoulderRight,
             kinectIndex.ElbowRight,
             kinectIndex.WristRight,
-            //kinectIndex.HandtipRight
         };
 
         /// <summary>
