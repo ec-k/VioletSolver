@@ -69,7 +69,13 @@ namespace VioletSolver.Solver
             if (wristTransform == null || distalTransform == null)
                 return Vector3.forward * 0.1f; // Fallback default
 
-            return distalTransform.position - wristTransform.position;
+            var worldVector = distalTransform.position - wristTransform.position;
+
+            // Convert from world space to camera/local space by removing avatar rotation.
+            // This is necessary because FingertipAlignmentSolver calculates in camera space,
+            // and mixing world-space vectors with camera-space positions causes incorrect
+            // hand extension when the avatar has a rotation offset.
+            return Quaternion.Inverse(animator.transform.rotation) * worldVector;
         }
 
         static bool ExistLandmarks(in ILandmarkList landmarks)
