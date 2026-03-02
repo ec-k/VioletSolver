@@ -10,6 +10,7 @@ using System.Text;
 using JointId = HumanLandmarks.KinectPoseLandmarks.Types.LandmarkIndex;
 using VioletSolver.LandmarkProviders;
 using HumanLandmarks;
+using System.Threading;
 
 
 namespace VioletSolver.Debug
@@ -22,6 +23,8 @@ namespace VioletSolver.Debug
 
         Dictionary<JointId, Quaternion> _absoluteOffsetMap;
         readonly int _kinectJointIdCount = Enum.GetValues(typeof(JointId)).Length;
+
+        SynchronizationContext _mainThreadContext;
 
         static HumanBodyBones MapKinectJoint(JointId joint)
         {
@@ -71,6 +74,8 @@ namespace VioletSolver.Debug
                     _absoluteOffsetMap[(JointId)i] = absOffset;
                 }
             }
+
+            _mainThreadContext = SynchronizationContext.Current;
         }
 
         static SkeletonBone GetSkeletonBone(Animator animator, string boneName)
@@ -101,26 +106,33 @@ namespace VioletSolver.Debug
 
         void AnimateAvatar(HolisticLandmarks landmarks, float timestamp)
         {
-            for (int j = 0; j < _kinectJointIdCount; j++)
+            _mainThreadContext.Send(state =>
             {
-                if (MapKinectJoint((JointId)j) != HumanBodyBones.LastBone && _absoluteOffsetMap.ContainsKey((JointId)j))
+                if (!Application.isPlaying)
+                    return;
+
+                var lm = (HolisticLandmarks)state;
+                for (int j = 0; j < _kinectJointIdCount; j++)
                 {
-                    // get the absolute offset
-                    var absOffset = _absoluteOffsetMap[(JointId)j];
-                    var finalJoint = _animator.GetBoneTransform(MapKinectJoint((JointId)j));
-                    var kinectJointRotation = landmarks.KinectPoseLandmarks.Landmarks[j].Rotation;
-                    if (kinectJointRotation is null)
-                        continue;
+                    if (MapKinectJoint((JointId)j) != HumanBodyBones.LastBone && _absoluteOffsetMap.ContainsKey((JointId)j))
+                    {
+                        // get the absolute offset
+                        var absOffset = _absoluteOffsetMap[(JointId)j];
+                        var finalJoint = _animator.GetBoneTransform(MapKinectJoint((JointId)j));
+                        var kinectJointRotation = lm.KinectPoseLandmarks.Landmarks[j].Rotation;
+                        if (kinectJointRotation is null)
+                            continue;
 
-                    var jointQ = new Quaternion(
-                        kinectJointRotation.X,
-                        kinectJointRotation.Y,
-                        kinectJointRotation.Z,
-                        kinectJointRotation.W);
+                        var jointQ = new Quaternion(
+                            kinectJointRotation.X,
+                            kinectJointRotation.Y,
+                            kinectJointRotation.Z,
+                            kinectJointRotation.W);
 
-                    finalJoint.rotation = jointQ * absOffset;
+                        finalJoint.rotation = jointQ * absOffset;
+                    }
                 }
-            }
+            }, landmarks);
         }
 
     }
