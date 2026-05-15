@@ -18,7 +18,7 @@ namespace VioletSolver.Solver
             if(ExistLandmarks(landmarks.MediaPipePose) && !isKinectPose)
                 solvedPose = MediaPipePoseSolver.SolvePose(landmarks.MediaPipePose.Landmarks, restBones, useIk);
             if (ExistLandmarks(landmarks.Face) && !isKinectPose)
-                solvedPose.Neck = MediaPipeHeadRotationSolver.Solve(landmarks.Face.Landmarks);
+                solvedPose.Head = MediaPipeHeadRotationSolver.Solve(landmarks.Face.Landmarks);
 
             // Solve hand rotations and apply fingertip alignment for IK wrist position
             if (ExistLandmarks(landmarks.LeftHand))
