@@ -60,6 +60,7 @@ namespace VioletSolver.Setup
             vrik.solver.leftLeg.rotationWeight = 0f;
             vrik.solver.leftLeg.bendGoal = leftKneeTarget;
             vrik.solver.leftLeg.bendGoalWeight = 0f;
+            vrik.solver.leftLeg.bendToTargetWeight = 0f;
 
             // Right leg targets (weight controlled at runtime).
             vrik.solver.rightLeg.target = rightFootTarget;
@@ -67,6 +68,7 @@ namespace VioletSolver.Setup
             vrik.solver.rightLeg.rotationWeight = 0f;
             vrik.solver.rightLeg.bendGoal = rightKneeTarget;
             vrik.solver.rightLeg.bendGoalWeight = 0f;
+            vrik.solver.rightLeg.bendToTargetWeight = 0f;
 
             vrik.solver.plantFeet = false;
         }
