@@ -16,7 +16,7 @@ namespace VioletSolver.Solver
 {
 	internal class MediaPipePoseSolver
 	{
-		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, in AvatarBones restBones, bool useIk)
+		internal static AvatarPoseData SolvePose(in IReadOnlyList<Landmark> landmarks, in AvatarBones restBones, bool useIk, float scale = 1f)
 		{
             AvatarPoseData pose = new();
 
@@ -46,11 +46,11 @@ namespace VioletSolver.Solver
 						(rHip.x + lHip.x) * 0.5f * mul,
 						(rHip.y + lHip.y) * 0.5f * mul,
 						(rHip.z + lHip.z) * 0.5f * mul
-					);
+					) * scale;
 				}
 
 				if (useIk)
-					SolveIkTargets(landmarks, ref pose);
+					SolveIkTargets(landmarks, ref pose, scale);
 				else
 				{
 					// Arms
@@ -98,26 +98,25 @@ namespace VioletSolver.Solver
 			return (rootRot, midRot);
 		}
 
-        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose)
+        static void SolveIkTargets(in IReadOnlyList<Landmark> landmarks, ref AvatarPoseData pose, float scale)
         {
-			pose.HeadPosition = landmarks[(int)poseIndex.Nose].Position;
+			pose.HeadPosition = landmarks[(int)poseIndex.Nose].Position * scale;
 
-            pose.LeftHandPosition = landmarks[(int)poseIndex.LeftWrist].Position;
-            pose.LeftElbowPosition = landmarks[(int)poseIndex.LeftElbow].Position;
-            pose.LeftShoulderPosition = landmarks[(int)poseIndex.LeftShoulder].Position;
+            pose.LeftHandPosition = landmarks[(int)poseIndex.LeftWrist].Position * scale;
+            pose.LeftElbowPosition = landmarks[(int)poseIndex.LeftElbow].Position * scale;
+            pose.LeftShoulderPosition = landmarks[(int)poseIndex.LeftShoulder].Position * scale;
 
-            pose.RightHandPosition = landmarks[(int)poseIndex.RightWrist].Position;
-            pose.RightElbowPosition = landmarks[(int)poseIndex.RightElbow].Position;
-            pose.RightShoulderPosition = landmarks[(int)poseIndex.RightShoulder].Position;
+            pose.RightHandPosition = landmarks[(int)poseIndex.RightWrist].Position * scale;
+            pose.RightElbowPosition = landmarks[(int)poseIndex.RightElbow].Position * scale;
+            pose.RightShoulderPosition = landmarks[(int)poseIndex.RightShoulder].Position * scale;
 
-			pose.LeftThighPosition = landmarks[(int)poseIndex.LeftHip].Position;
-			pose.LeftKneePosition = landmarks[(int)poseIndex.LeftKnee].Position;
-			pose.LeftFootPosition = landmarks[(int)poseIndex.LeftAnkle].Position;
+			pose.LeftThighPosition = landmarks[(int)poseIndex.LeftHip].Position * scale;
+			pose.LeftKneePosition = landmarks[(int)poseIndex.LeftKnee].Position * scale;
+			pose.LeftFootPosition = landmarks[(int)poseIndex.LeftAnkle].Position * scale;
 
-            pose.RightThighPosition = landmarks[(int)poseIndex.RightHip].Position;
-            pose.RightKneePosition = landmarks[(int)poseIndex.RightKnee].Position;
-            pose.RightFootPosition = landmarks[(int)poseIndex.RightAnkle].Position;
+            pose.RightThighPosition = landmarks[(int)poseIndex.RightHip].Position * scale;
+            pose.RightKneePosition = landmarks[(int)poseIndex.RightKnee].Position * scale;
+            pose.RightFootPosition = landmarks[(int)poseIndex.RightAnkle].Position * scale;
         }
     }
 }
-
