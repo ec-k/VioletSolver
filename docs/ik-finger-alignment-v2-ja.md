@@ -49,9 +49,11 @@ Vector3 localDipOffset = indexDistalTransform.localPosition;        // intermedi
 
 > **注意**: スカラーの距離ではなく、各親ボーンのローカル座標系における**オフセットベクトル**が必要。スカラー距離だけでは指の向きが定まらない。
 
-### 毎フレーム：FK による avatarWristToDistal 計算
+### Solver 発火ごと：FK による avatarWristToDistal 計算
 
-HandSolver が当フレームに計算した関節ローカル回転と、当フレームの手首ワールド回転から FK を計算する。
+FK 計算は Unity の毎フレームではなく、`HolisticSolver.Solve` が呼ばれるたびに実行する。必要な入力（`handData.Wrist`、指関節回転）はすべて同一の `Solve` 呼び出し内で計算済みであるため、追加の遅延なく FK を適用できる。
+
+HandSolver が当 Solve で計算した関節ローカル回転と、当 Solve 時点の手首ワールド回転から FK を計算する。
 
 ```csharp
 // Joint rotations calculated by HandSolver in the current frame
@@ -69,7 +71,13 @@ Vector3 avatarWristToDistal =
   + pipWorldRot   * localDipOffset;
 ```
 
-`wristWorldRot` は MediaPipe.Hand から計算された当フレームの手首ワールド回転を使用する。
+`wristWorldRot` は IK ターゲットのワールド回転であり、次のように計算する。
+
+```csharp
+Quaternion wristWorldRot = ikRigRoot.transform.rotation * handData.Wrist;
+```
+
+HandSolver が出力する `handData.Wrist` は ikRigRoot のローカル空間における回転であるため、ikRigRoot のワールド回転を乗算してワールド回転に変換する必要がある。ikRigRoot に offset が適用されていない場合は identity になるが、offset がある場合はずれるため常にこの形で計算すること。
 
 ### IK 手首位置の計算（V1 と同じ）
 
@@ -86,10 +94,10 @@ L_mcp = IndexProximal.localPosition     (wrist local)
 L_pip = IndexIntermediate.localPosition  (proximal local)
 L_dip = IndexDistal.localPosition        (intermediate local)
 
-# 毎フレーム
-R_wrist = wrist world rotation          (from MediaPipe.Hand, current frame)
-R_mcp   = R_wrist * mcpLocalRot         (mcp world rotation)
-R_pip   = R_mcp   * pipLocalRot         (pip world rotation)
+# Solver 発火ごと（HolisticSolver.Solve 内）
+R_wrist = ikRigRoot.rotation * handData.Wrist  (wrist world rotation)
+R_mcp   = R_wrist * mcpLocalRot                (mcp world rotation)
+R_pip   = R_mcp   * pipLocalRot                (pip world rotation)
 
 O_avatar = R_wrist * L_mcp
          + R_mcp   * L_pip
@@ -101,11 +109,15 @@ P_ik_wrist   = P_target_dip - O_avatar
 
 ## 実装上の注意
 
+### 計算タイミング
+
+FK 計算は `HolisticSolver.Solve` 内で `HandSolver.SolveLeftHand` / `SolveRightHand` を呼んだ直後に実行する。Unity の毎フレーム（`Update`）ではなく、Solver が発火するたびに 1 回実行すれば十分。必要な入力はすべて同一 `Solve` 呼び出し内で揃うため、外部からの追加タイミング管理は不要。
+
 ### HandSolver からの回転取得
 
-FK 計算で使う関節回転は、HandSolver が**当フレームに計算した値**でなければならない。
+FK 計算で使う関節回転は、HandSolver が**当 Solve で計算した値**でなければならない。
 
-- HandSolver が `Transform.localRotation` を**直接セット**する場合：`transform.localRotation` を読めば当フレームの値が取れる
+- HandSolver が `Transform.localRotation` を**直接セット**する場合：`transform.localRotation` を読めば当 Solve の値が取れる
 - **Animator パラメータ経由**でセットする場合：`Transform.localRotation` もアニメータ評価後にならないと反映されない。この場合は HandSolver が計算した回転値を内部フィールドとして公開し、それを直接参照する必要がある
 
 ### DIP ボーンの回転は不要
@@ -114,7 +126,7 @@ FK 計算では DIP 関節の回転（`dipLocalRot`）は使用しない。Index
 
 ### 手首回転の整合性
 
-`wristWorldRot` は MediaPipe.Hand から計算した当フレームの値を用いる。VRIK に渡す手首回転と FK 計算で用いる手首回転は同一の値を使うこと。
+`wristWorldRot` は `ikRigRoot.transform.rotation * handData.Wrist` で計算したワールド回転を用いる。VRIK の IK ターゲットに設定する手首回転（`target.localRotation = handData.Wrist`）と FK 計算で用いる `wristWorldRot` は同一のワールド回転を表していなければならない。
 
 ## 関連ファイル
 
