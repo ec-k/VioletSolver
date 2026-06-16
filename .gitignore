@@ -76,6 +76,8 @@ crashlytics-build.properties
 /[Pp]ackages/*
 !manifest.json
 !packages-lock.json
+!/[Pp]ackages/com.ec-k.violet-solver/
+!/[Pp]ackages/com.ec-k.violet-solver/**
 
 # Plugins
 /[Aa]ssets/Plugins/

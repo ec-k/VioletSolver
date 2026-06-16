@@ -1,5 +1,5 @@
 {
-  "name": "com.ec2k.violetsolver",
+  "name": "com.ec-k.violet-solver",
   "version": "0.2.1",
   "displayName": "VioletSolver",
   "description": "An avatar pose solver that handles MediaPipe results.",

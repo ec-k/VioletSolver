@@ -14,6 +14,17 @@
       "dependencies": {},
       "hash": "cd8e34fa49762622593f89870c832c46d80b946f"
     },
+    "com.ec-k.violet-solver": {
+      "version": "file:com.ec-k.violet-solver",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.vrmc.univrm": "0.126.0",
+        "com.vrmc.vrm": "0.126.0",
+        "com.vrmc.gltf": "0.126.0",
+        "com.cysharp.unitask": "2.5.10"
+      }
+    },
     "com.github-glitchenzo.nugetforunity": {
       "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
       "depth": 0,
