@@ -24,7 +24,7 @@ jobs:
       - name: Create test branch
         run: |
           BRANCH="test/release-${{ github.event.inputs.test_name }}"
-          REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver"
+          REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Packages/com.ec-k.violet-solver"
 
           # Update README URLs with branch name
           for README in README.md README_jp.md; do
@@ -37,7 +37,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "${BRANCH}"
-          git add Assets/VioletSolver/Samples~ README.md README_jp.md
+          git add Packages/com.ec-k.violet-solver/Samples~ README.md README_jp.md
           git commit -m "test: release workflow (${{ github.event.inputs.test_name }})"
           git push origin "${BRANCH}" --force
           echo ""
