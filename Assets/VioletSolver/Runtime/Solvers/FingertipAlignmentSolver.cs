@@ -13,26 +13,26 @@ namespace VioletSolver.Solver
         /// Calculates the adjusted IK wrist position.
         /// </summary>
         /// <param name="handLandmarks">MediaPipe.Hand landmarks</param>
-        /// <param name="poseWristPosition">Wrist position from Kinect/Pose (world coordinates)</param>
+        /// <param name="kinectWristPos">Wrist position from Kinect/Pose landmarks</param>
         /// <param name="avatarWristToDistal">Current avatar's wrist to index distal vector (from current pose)</param>
         /// <returns>Adjusted wrist position for IK target</returns>
         internal static Vector3 SolveWristPosition(
             in ILandmarkList handLandmarks,
-            Vector3 poseWristPosition,
+            Vector3 kinectWristPos,
             Vector3 avatarWristToDistal)
         {
             // Get MediaPipe.Hand wrist and index finger DIP
-            Vector3 handWrist = handLandmarks.Landmarks[(int)handIndex.Wrist].Position;
-            Vector3 handIndexDip = handLandmarks.Landmarks[(int)handIndex.IndexFingerDip].Position;
+            var mpHandWrist = handLandmarks.Landmarks[(int)handIndex.Wrist].Position;
+            var mpHandIndexDip = handLandmarks.Landmarks[(int)handIndex.IndexFingerDip].Position;
 
             // User's wrist to DIP offset (in MediaPipe.Hand local space)
-            var userWristToDip = handIndexDip - handWrist;
+            var mpWristToDip = mpHandIndexDip - mpHandWrist;
 
-            // Target DIP position = Pose.Wrist + MediaPipe.Hand offset
-            Vector3 targetIndexDip = poseWristPosition + userWristToDip;
+            // Target DIP position = KinectPose.Wrist + (MediaPipe.Hand.DIP - MediaPipe.Hand.Wrist)
+            var targetIndexDip = kinectWristPos + mpWristToDip;
 
             // Avatar wrist position = target DIP - avatar's current wrist-to-distal vector
-            Vector3 ikWristPosition = targetIndexDip - avatarWristToDistal;
+            var ikWristPosition = targetIndexDip - avatarWristToDistal;
 
             return ikWristPosition;
         }
