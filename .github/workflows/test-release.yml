@@ -21,12 +21,17 @@ jobs:
       - name: Prepare release
         uses: ./.github/actions/prepare-release
 
+      - name: Update package.json version
+        run: |
+          chmod +x .github/scripts/update-version.sh
+          .github/scripts/update-version.sh "v0.0.0"
+
       - name: Create test branch
         run: |
           BRANCH="test/release-${{ github.event.inputs.test_name }}"
           REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Packages/com.ec-k.violet-solver"
 
-          # Update README URLs with branch name
+          # Override README URLs with actual test branch name
           for README in README.md README_jp.md; do
             if [ -f "$README" ]; then
               sed -i "s|${REPO_URL}\(#[^[:space:]|]*\)\?|${REPO_URL}#${BRANCH}|g" "$README"
@@ -37,7 +42,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "${BRANCH}"
-          git add Packages/com.ec-k.violet-solver/Samples~ README.md README_jp.md
+          git add Packages/com.ec-k.violet-solver/Samples~ Packages/com.ec-k.violet-solver/package.json README.md README_jp.md
           git commit -m "test: release workflow (${{ github.event.inputs.test_name }})"
           git push origin "${BRANCH}" --force
           echo ""
