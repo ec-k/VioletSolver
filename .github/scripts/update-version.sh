@@ -26,7 +26,7 @@ TAG_WITH_V="v${VERSION}"
 # Release branch name
 BRANCH="release/${TAG_WITH_V}"
 
-PACKAGE_JSON="Assets/VioletSolver/package.json"
+PACKAGE_JSON="Packages/com.ec-k.violet-solver/package.json"
 
 if [ ! -f "$PACKAGE_JSON" ]; then
   echo "::error::$PACKAGE_JSON not found"
@@ -37,7 +37,7 @@ jq --arg v "$VERSION" '.version = $v' "$PACKAGE_JSON" > tmp.json && mv tmp.json 
 echo "Updated package.json version to ${VERSION}"
 
 # Update README URLs with release branch name
-REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Assets/VioletSolver"
+REPO_URL="https://github.com/ec-k/VioletSolver.git?path=/Packages/com.ec-k.violet-solver"
 
 for README in README.md README_jp.md; do
   if [ -f "$README" ]; then

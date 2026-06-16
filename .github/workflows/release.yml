@@ -31,7 +31,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "${BRANCH}"
-          git add Assets/VioletSolver/Samples~ Assets/VioletSolver/package.json README.md README_jp.md
+          git add Packages/com.ec-k.violet-solver/Samples~ Packages/com.ec-k.violet-solver/package.json README.md README_jp.md
           git commit -m "chore: release ${TAG}"
           git push origin "${BRANCH}"
 
