@@ -69,9 +69,9 @@ namespace VioletSolver
         /// </summary>
         /// <param name="isIkEnabled">Whether to use IK.</param>
         /// <returns>The calculated animation result data.</returns>
-        public AnimationResultData CalculateAnimationData(bool isIkEnabled)
+        public AnimationResultData CalculateAnimationData(bool isIkEnabled, SolverContext context)
         {
-            UpdatePose(isIkEnabled);
+            UpdatePose(isIkEnabled, context);
 
             IReadOnlyDictionary<BlendShapePreset, float> vrmBs = null;
             IReadOnlyDictionary<mpBlendshapes, float> mpBs = null;
@@ -125,12 +125,12 @@ namespace VioletSolver
         /// <summary>
         /// </summary>
         /// <returns>Whether updating landmarks is processed properly or not.</returns>
-        void UpdatePose(bool isIkEnabled)
+        void UpdatePose(bool isIkEnabled, in SolverContext context)
         {
             var isKinectPose = _landmarkHandler.IsKinectPose;
 
             var landmarks = _landmarkHandler.Landmarks;
-            var pose = HolisticSolver.Solve(landmarks, _restBones, Animator, isIkEnabled, isKinectPose);
+            var pose = HolisticSolver.Solve(landmarks, _restBones, Animator, isIkEnabled, isKinectPose, context);
             pose.time = isKinectPose ? landmarks.KinectPose.Time : landmarks.MediaPipePose.Time;
             _poseHandler.Update(pose);
         }

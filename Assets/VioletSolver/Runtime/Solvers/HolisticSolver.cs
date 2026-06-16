@@ -9,14 +9,14 @@ namespace VioletSolver.Solver
 {
     internal static class HolisticSolver
     {
-        internal static AvatarPoseData Solve(in HolisticLandmarks landmarks, in AvatarBones restBones, Animator animator, bool useIk, bool isKinectPose)
+        internal static AvatarPoseData Solve(in HolisticLandmarks landmarks, in AvatarBones restBones, Animator animator, bool useIk, bool isKinectPose, in SolverContext context)
         {
             var solvedPose = new AvatarPoseData();
 
             if(ExistLandmarks(landmarks.KinectPose) && isKinectPose)
-                solvedPose = KinectPoseSolver.SolvePose(landmarks.KinectPose.Landmarks, restBones, useIk);
+                solvedPose = KinectPoseSolver.SolvePose(landmarks.KinectPose.Landmarks, restBones, useIk, context.PoseScale);
             if(ExistLandmarks(landmarks.MediaPipePose) && !isKinectPose)
-                solvedPose = MediaPipePoseSolver.SolvePose(landmarks.MediaPipePose.Landmarks, restBones, useIk);
+                solvedPose = MediaPipePoseSolver.SolvePose(landmarks.MediaPipePose.Landmarks, restBones, useIk, context.PoseScale);
             if (ExistLandmarks(landmarks.Face) && !isKinectPose)
                 solvedPose.Head = MediaPipeHeadRotationSolver.Solve(landmarks.Face.Landmarks);
 

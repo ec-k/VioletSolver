@@ -113,15 +113,9 @@ namespace VioletSolver.Samples
         {
             if (_isAnimationEnabled)
             {
-                var animationData = _avatarAnimator.CalculateAnimationData(_isIkEnabled);
-
-                // Apply calibration scale to position data.
-                var scale = 1f;
-                if (_armLengthCalibrator is { IsCalibrated: true })
-                {
-                    scale = _armLengthCalibrator.Scale;
-                    animationData.PoseData.ScalePositions(scale);
-                }
+                var scale = _armLengthCalibrator is { IsCalibrated: true } ? _armLengthCalibrator.Scale : 1f;
+                var context = new SolverContext(scale);
+                var animationData = _avatarAnimator.CalculateAnimationData(_isIkEnabled, context);
 
                 animationData.PoseData = _poseInterpolator.UpdateAndInterpolate(animationData.PoseData);
                 if (animationData.PerfectSyncBlendshapes is not null)
