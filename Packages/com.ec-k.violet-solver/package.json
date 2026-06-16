@@ -12,14 +12,13 @@
     "name": "EC-K",
     "url": "https://github.com/ec-k"
   },
-  "dependencies": {
-    "com.vrmc.univrm": "0.126.0",
-    "com.vrmc.vrm": "0.126.0",
-    "com.vrmc.gltf": "0.126.0",
-    "com.cysharp.unitask": "2.5.10"
-  },
+  "dependencies": {},
   "gitDependencies": {
-  "com.ec-k.humanlandmarks": "https://github.com/ec-k/HumanLandmarks.git"
+    "com.ec-k.humanlandmarks": "https://github.com/ec-k/HumanLandmarks.git",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.126.0",
+    "com.vrmc.univrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.126.0",
+    "com.vrmc.vrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.126.0"
   },
   "repository": {
     "type": "git",
