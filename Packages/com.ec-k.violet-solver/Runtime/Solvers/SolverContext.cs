@@ -8,9 +8,13 @@ namespace VioletSolver
         /// <summary>Scale factor to convert pose landmark positions to avatar world space.</summary>
         public float PoseScale { get; }
 
-        public SolverContext(float poseScale)
+        /// <summary>Scale factor to convert MediaPipe.Hand relative vectors to Kinect world space.</summary>
+        public float HandScaleFactor { get; }
+
+        public SolverContext(float poseScale, float handScaleFactor = 1f)
         {
             PoseScale = poseScale;
+            HandScaleFactor = handScaleFactor;
         }
     }
 }

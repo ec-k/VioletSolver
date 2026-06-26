@@ -33,7 +33,8 @@ namespace VioletSolver.Solver
                     solvedPose.LeftHandPosition = FingertipAlignmentSolver.SolveWristPosition(
                         landmarks.LeftHand,
                         poseWristPos,
-                        avatarWristToDistal);
+                        avatarWristToDistal,
+                        context.HandScaleFactor);
                 }
             }
 
@@ -49,7 +50,8 @@ namespace VioletSolver.Solver
                     solvedPose.RightHandPosition = FingertipAlignmentSolver.SolveWristPosition(
                         landmarks.RightHand,
                         poseWristPos,
-                        avatarWristToDistal);
+                        avatarWristToDistal,
+                        context.HandScaleFactor);
                 }
             }
 
