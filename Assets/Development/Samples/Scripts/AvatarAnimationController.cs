@@ -24,6 +24,8 @@ namespace VioletSolver.Samples
         [Header("Calibration Settings")]
         [SerializeField] bool _isCalibrationEnabled = true;
         [SerializeField] int _calibrationSamples = 30;
+        [Tooltip("Preset scale value to skip calibration (0 = disabled, use calibration instead)")]
+        [SerializeField] float _presetCalibrationScale = 0f;
 
         [Header("Misc")]
         [SerializeField] SkinnedMeshRenderer _faceAssetObject;
@@ -81,11 +83,14 @@ namespace VioletSolver.Samples
             _perfectSyncBlendshapeInterpolator = new();
 
             // Initialize calibrator and subscribe to landmark updates.
-            if (_isCalibrationEnabled)
+            if (_isCalibrationEnabled && _presetCalibrationScale <= 0f)
             {
                 _armLengthCalibrator = new(_animator, _calibrationSamples);
                 _landmarkProvider.OnLandmarksReceived += OnLandmarksReceivedForCalibration;
             }
+
+            if (_presetCalibrationScale > 0f)
+                Debug.Log($"Using preset calibration scale: {_presetCalibrationScale:F3}");
         }
 
         void OnLandmarksReceivedForCalibration(HumanLandmarks.HolisticLandmarks landmarks, float time)
@@ -110,7 +115,9 @@ namespace VioletSolver.Samples
         {
             if (_isAnimationEnabled)
             {
-                var scale = _armLengthCalibrator is { IsCalibrated: true } ? _armLengthCalibrator.Scale : 1f;
+                var scale = _presetCalibrationScale > 0f ? _presetCalibrationScale
+                    : _armLengthCalibrator is { IsCalibrated: true } ? _armLengthCalibrator.Scale
+                    : 1f;
                 var context = new SolverContext(scale);
                 var animationData = _avatarAnimator.CalculateAnimationData(_isIkEnabled, context);
 
