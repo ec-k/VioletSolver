@@ -112,11 +112,11 @@ namespace VioletSolver.Solver
 
 			pose.LeftThighPosition = landmarks[(int)poseIndex.LeftHip].Position * scale;
 			pose.LeftKneePosition = landmarks[(int)poseIndex.LeftKnee].Position * scale;
-			pose.LeftFootPosition = landmarks[(int)poseIndex.LeftAnkle].Position * scale;
+			pose.LeftFootPosition = landmarks[(int)poseIndex.LeftFootIndex].Position * scale;
 
             pose.RightThighPosition = landmarks[(int)poseIndex.RightHip].Position * scale;
             pose.RightKneePosition = landmarks[(int)poseIndex.RightKnee].Position * scale;
-            pose.RightFootPosition = landmarks[(int)poseIndex.RightAnkle].Position * scale;
+            pose.RightFootPosition = landmarks[(int)poseIndex.RightFootIndex].Position * scale;
         }
     }
 }
