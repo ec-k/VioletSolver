@@ -47,6 +47,7 @@ namespace VioletSolver.Interpolation
 
             // Hips Position
             result.HipsPosition = Vector3.Lerp(_prevPoseData.HipsPosition, _nextPoseData.HipsPosition, interpolationAmount);
+            result.ChestPosition = Vector3.Lerp(_prevPoseData.ChestPosition, _nextPoseData.ChestPosition, interpolationAmount);
             result.HeadPosition = Vector3.Lerp(_prevPoseData.HeadPosition, _nextPoseData.HeadPosition, interpolationAmount);
 
             // Left Arm IK Targets
